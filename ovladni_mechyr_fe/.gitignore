@@ -1,0 +1,22 @@
+.idea
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+package-lock.json
+/src/paraglide
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+__snapshots__/
+.pnpm-store
+
+# Sentry Config File
+.sentryclirc

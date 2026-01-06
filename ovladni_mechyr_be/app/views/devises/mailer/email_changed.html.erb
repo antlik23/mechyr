@@ -1,0 +1,7 @@
+<p>Hello <%= @email %>!</p>
+
+<% if @resource.try(:unconfirmed_email?) %>
+  <p><%= I18n.t('mailer.email_changed.message_unconfirmed') %> <%= @resource.unconfirmed_email %>.</p>
+<% else %>
+  <p><%= I18n.t('mailer.email_changed.message') %> <%= @resource.email %>.</p>
+<% end %>

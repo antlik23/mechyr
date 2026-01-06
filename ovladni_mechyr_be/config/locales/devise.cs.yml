@@ -1,0 +1,206 @@
+cs:
+  time:
+    formats:
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%d.%m.%Y %H:%M"
+  activerecord:
+    attributes:
+      user:
+        confirmation_sent_at: Potvrzení zasláno
+        confirmation_token: Potvrzovací token
+        confirmed_at: Potvrzeno
+        created_at: Vytvořeno
+        current_password: Současné heslo
+        current_sign_in_at: Současné přihlášení
+        current_sign_in_ip: Současné přihlášení z IP
+        email: E-mail
+        encrypted_password: Zašifrované heslo
+        failed_attempts: Chybných pokusů
+        last_sign_in_at: Poslední přihlášení
+        last_sign_in_ip: Poslední přihlášení z IP
+        locked_at: Uzamčeno
+        password: Heslo
+        password_confirmation: Potvrzení hesla
+        remember_created_at: Zapamatování vytvořeno
+        remember_me: Zapamatuj si mě
+        reset_password_sent_at: Obnova hesla poslána
+        reset_password_token: Token obnovy hesla
+        sign_in_count: Počet přihlášení
+        unconfirmed_email: Nepotvrzený e-mail
+        unlock_token: Odemykací token
+        updated_at: Upraveno
+      part:
+        supplier: Výrobce
+        suppliers: Výrobci
+    models:
+      user: Uživatel
+      supplier: Výrobce
+      notification: Notifikace
+      part: Dílo
+      machine: Stroj
+      vacation: Dovolená
+  devise:
+    api:
+      error_response:
+        expired_token: Časová platnost tokenu vypršela.
+        invalid_token: Neplatný token.
+        invalid_email: Špatné heslo, nebo e-mail.
+        invalid_authentication: Špatné heslo, nebo e-mail.
+        invalid_email_or_password: Špatné heslo, nebo e-mail.
+        revoked_token: "Token byl již odvolán"
+        confirmable:
+          unconfirmed: Musíte potvrdit svoji e-mailovou adresu, teprve poté budete moct pokračovat.
+    confirmations:
+      confirmed: Vaše e-mailová adresa byla úspěšně potvrzena.
+      new:
+        resend_confirmation_instructions: Opět poslat instrukce pro potvrzení
+      send_instructions: Za několik minut obdržíte e-mail s instrukcemi k potvrzení Vašeho účtu.
+      send_paranoid_instructions: Pokud Váš e-mail existuje v naší databázi, za několik minut obdržíte e-mail s pokyny o tom, jak potvrdit svůj účet.
+    failure:
+      already_authenticated: Jste již přihlášen(a).
+      inactive: Váš účet ještě nebyl aktivován.
+      invalid: Neplatné %{authentication_keys} nebo heslo.
+      last_attempt: Máte ještě jeden pokus než bude Váš účet uzamčen.
+      locked: Váš účet je uzamčen.
+      not_found_in_database: Neplatné %{authentication_keys} nebo heslo.
+      timeout: Vaše relace vypršela, přihlaste se znovu, pak budete moct pokračovat.
+      unauthenticated: Musíte se zaregistrovat nebo přihlásit, teprve poté budete moct pokračovat.
+    mailer:
+      confirmation_instructions:
+        action: Potvrdit můj účet
+        greeting: Vítejte, %{recipient}!
+        instruction: "Můžete potvrdit e-mailovou adresu pomocí níže uvedeného odkazu:"
+        subject: Instrukce k potvrzení
+      email_changed:
+        greeting: Ahoj, %{recipient}!
+        message: Kontaktovali jsme Vás, abychom Vás upozornili, že se Vaše e-mailová adresa mění na %{email}.
+        message_unconfirmed: Kontaktujeme vás, protože váš email byl změněn na %{email}.
+        subject: E-mail změněn
+      password_change:
+        greeting: Ahoj %{recipient}!
+        message: Dáváme vám vědět, že Vaše heslo bylo změněno.
+        subject: Heslo změněno
+      reset_password_instructions:
+        action: Změna hesla
+        greeting: Ahoj %{recipient}!
+        instruction: Někdo si vyžádal odkaz pro změnu Vašeho hesla. Změnu můžete provést pomocí odkazu níže.
+        instruction_2: Pokud jste si toto nevyžádali, ignorujte tento e-mail.
+        instruction_3: Vaše heslo se nezmění, dokud neotevřete výše uvedený odkaz a nevytvoříte si nové heslo.
+        subject: Instrukce k nastavení nového hesla
+      unlock_instructions:
+        action: Odblokovat můj účet
+        greeting: Ahoj %{recipient}!
+        instruction: "Účet odblokujete kliknutím na níže uvedený odkazu:"
+        message: Váš účet byl zablokován pro nadměrný počet neúspěšných pokusů o přihlášení.
+        subject: Instrukce k odemknutí účtu
+      registrations:
+        greeting: Ahoj, %{recipient}!
+        subject: Vítejte v UZIS
+        sign_in: Můžete se přihlásit
+        here: zde
+        destroyed: "Nashledanou! Váš účet byl úspěšně zrušen. Doufáme, že se brzy uvidíme."
+        signed_up: "Vítejte! Úspěšně jste se zaregistrovali."
+        signed_up_but_inactive: "Úspěšně jste se zaregistrovali. Nemůžeme vás však přihlásit, protože váš účet ještě není aktivován."
+        signed_up_but_locked: "Úspěšně jste se zaregistrovali. Nemůžeme vás však přihlásit, protože váš účet je uzamčen."
+        signed_up_but_unconfirmed: "Na vaši e-mailovou adresu byl odeslán e-mail s potvrzovacím odkazem. Pro aktivaci účtu prosím klikněte na odkaz."
+        update_needs_confirmation: "Účet byl úspěšně aktualizován, ale potřebujeme ověřit vaši novou e-mailovou adresu. Zkontrolujte prosím svůj e-mail a klikněte na potvrzovací odkaz."
+        updated: "Váš účet byl úspěšně aktualizován."
+        updated_but_not_signed_in: "Váš účet byl úspěšně aktualizován, ale protože jste změnili heslo, musíte se znovu přihlásit."
+    omniauth_callbacks:
+      failure: Není možné autorizovat z %{kind}, protože "%{reason}".
+      success: Úspěšná autorizace z účtu %{kind}.
+    passwords:
+      edit:
+        change_my_password: Změnit mé heslo
+        change_your_password: Změna Vašeho hesla
+        confirm_new_password: Potvrdit nové heslo
+        new_password: Nové heslo
+      new:
+        forgot_your_password: Zapomněli jste své heslo?
+        send_me_reset_password_instructions: Poslat instrukce pro obnovení hesla
+      no_token: Na tuto stránku se nelze dostat jinak než z e-mailu pro resetování hesla. Pokud jste přišli z takového e-mailu, přesvědčte se že jste použili celou URL adresu.
+      send_instructions: Za několik minut obdržíte e-mail s instrukcemi pro nastavení nového hesla.
+      send_paranoid_instructions: Pokud Vaše e-mailová adresa existuje v naší databázi, za několik minut obdržíte e-mail s instrukcemi pro nastavení nového hesla.
+      updated: Vaše heslo bylo změněno. Nyní jste přihlášen(a).
+      updated_not_active: Vaše heslo bylo změněno.
+    registrations:
+      destroyed: Mějte se! Váš účet byl úspěšně zrušen. Doufáme, že se brzy opět uvidíme.
+      edit:
+        are_you_sure: Jste si jist(á)?
+        cancel_my_account: Zrušit můj účet
+        currently_waiting_confirmation_for_email: "Momentálně čeká na potvrzení pro: %{email}"
+        leave_blank_if_you_don_t_want_to_change_it: nevyplňujte, pokud ho nechcete měnit
+        title: Upravit %{resource}
+        unhappy: Nejste zde šťastni?
+        update: Aktualizovat
+        we_need_your_current_password_to_confirm_your_changes: Vaše současné heslo je nutné pro potvrzení změn.
+      new:
+        sign_up: Zaregistrovat se
+      signed_up: Vítejte! Úspěšně jste se zaregistroval(a).
+      signed_up_but_inactive: Úspěšně jste se zaregistroval(a). Bohužel se nemůžete přihlásit, protože Váš účet ještě není aktivován.
+      signed_up_but_locked: Úspěšně jste se zaregistroval(a). Bohužel se nemůžete přihlásit, protože Váš účet je zamknutý.
+      signed_up_but_unconfirmed: Byl vám zaslán potvrzovací e-mail. Pro dokončení klikněte na aktivační odkaz zaslaný na Váš e-mail.
+      update_needs_confirmation: Úspěšně jste aktualizovali svůj účet, ale ještě musíte ověřit svou novou e-mailovou adresu. Zkontrolujte svou schránku a klikněte na odkaz pro dokončení ověření Vaší nové e-mailové adresy.
+      updated: Váš účet byl úspěšně aktualizován.
+      updated_but_not_signed_in: Váš účet byl úspěšně aktualizován. Protože došlo ke změně hesla, je nutné se znovu přihlásit.
+    sessions:
+      already_signed_out: Odhlášen(a).
+      new:
+        sign_in: Přihlásit se
+      signed_in: Přihlášen(a).
+      signed_out: Odhlášen(a).
+    shared:
+      links:
+        back: Zpět
+        didn_t_receive_confirmation_instructions: Nedostali jste informace pro potvrzení?
+        didn_t_receive_unlock_instructions: Nedostali jste instrukce pro odblokování?
+        forgot_your_password: Zapomněli jste heslo?
+        sign_in: Přihlásit se
+        sign_in_with_provider: Přihlásit se přes %{provider}
+        sign_up: Zaregistrovat se
+      minimum_password_length:
+        few: "(minimálně %{count} znaky)"
+        one: "(minimálně %{count} znak)"
+        other: "(minimálně %{count} znaků)"
+    unlocks:
+      new:
+        resend_unlock_instructions: Znovu odeslat instrukce pro odblokování
+      send_instructions: Za několik minut obdržíte e-mail s instrukcemi, jak odemknout svůj účet.
+      send_paranoid_instructions: Pokud Váš e-mail existuje v naší databázi, za několik minut obdržíte e-mail s instrukcemi pro odemknutí účtu.
+      unlocked: Váš účet byl úspěšně odblokován.
+  errors:
+    messages:
+      something_went_wrong_while_creating: "Něco se pokazilo při vytváření %{table}."
+      violates_foreign_key: "Nelze odstranit záznam, protože existují související záznamy v tabulce %{table}."
+      internal_server_error: interní serverová chyba
+      required: "je povinná položka"
+      record_invalid: "neplatný záznam"
+      invitation_token_invalid: "Invitační token je neplatný"
+      blank: "nesmí být prázdné"
+      taken: "již byl použit"
+      already_confirmed: Email byl již potvrzen, zkuste se přihlásit
+      confirmation_period_expired: Je potřeba potvrdit do %{period},  požádejte o novou
+      expired: vypršela, požádejte o nové
+      not_found: nenalezen
+      forbidden: "K provedení této akce nemáte oprávnění"
+      not_locked: nebyl uzamčen
+      not_enough: nedostatečné množství
+      already_in_use: "%{person} už pracuje na %{resource}"
+      start_date_bigger_end_date: "Datum začátku větší než datum konce."
+      creator_same_as_representative: "Pracovník nemůže být stejný jako náhradník."
+      should_be_bigger: "%{first_item} musí být větší než %{second_item}"
+      too_short: příliš krátké (minimálně %{count} znaků).
+      confirmation: musí být stejné jako heslo.
+      invalid: není platný
+      not_saved:
+        few: "%{resource} nebyl uložen kvůli %{count} chybám:"
+        one: "%{resource} nebyl uložen kvůli chybě:"
+        other: "%{resource} nebyl uložen kvůli %{count} chybám:"
+        not_found: "%{resource} nenalezen"
+  success:
+    messages:
+      created: "%{resource} byl úspěšně vytvořen."
+      updated: "%{resource} bylo úspěšně aktualizováno."
+      deleted: "%{resource} bylo úspěšně smazáno."

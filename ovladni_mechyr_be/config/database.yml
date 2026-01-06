@@ -1,0 +1,37 @@
+# for custom dev credentials create `database_dev.yml` file with following structure
+
+#development:
+#  username: dev_username
+#  password: dev_password
+
+#test:
+#  username: test_username
+#  password: test_password
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
+  database: ovladni_mechyr_development
+  username: <%= ENV.fetch("DATABASE_USERNAME") { (YAML.load_file('config/database_dev.yml')['development']['username'] rescue nil) || 'ovladni_mechyr_development' } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { (YAML.load_file('config/database_dev.yml')['development']['password'] rescue nil) || 'ovladni_mechyr_development' } %>
+
+test:
+  <<: *default
+  host: <%= ENV.fetch("DATABASE_HOST") { (ENV['CI'] ? 'postgres' : 'localhost') } %>
+  database: ovladni_mechyr_test
+  username: <%= ENV.fetch("DATABASE_USERNAME") { (YAML.load_file('config/database_dev.yml')['test']['username'] rescue nil) || 'ovladni_mechyr_test' } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { (YAML.load_file('config/database_dev.yml')['test']['password'] rescue nil) || 'ovladni_mechyr_test' } %>
+
+beta:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+
