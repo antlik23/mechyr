@@ -1,0 +1,80 @@
+require:
+  - rubocop-rails
+  - rubocop-capybara
+  - rubocop-factory_bot
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2.2
+  SuggestExtensions: false
+  Exclude:
+    - db/schema.rb
+    - db/**/*
+    #    - spec/**/*
+    #    - app/javascript/**/*
+    - vendor/**/*
+Layout/LineLength:
+  Max: 180
+Lint/MissingSuper:
+  Exclude:
+    - "app/components/**/*"
+FactoryBot:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 50
+Metrics/BlockLength:
+  Enabled: false
+Naming/VariableNumber:
+  Enabled: false
+Metrics/ClassLength:
+  Max: 512
+Metrics/ModuleLength:
+  Max: 230
+Rails/DynamicFindBy:
+  Enabled: false
+Rails/UnknownEnv:
+  Enabled: false
+Naming/FileName:
+  Enabled: true
+Rails/InverseOf:
+  Enabled: false
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+Rails/I18nLocaleTexts:
+  Enabled: false
+Naming/PredicateName:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
+Style/ExponentialNotation:
+  Enabled: true
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/OptionalBooleanParameter:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Style/RedundantReturn:
+  Enabled: false
+Style/WordArray:
+  EnforcedStyle: brackets
+Metrics/MethodLength:
+  Max: 100
+  CountAsOne: ["array", "hash", "heredoc"]
+  AllowedMethods: ["a", "b"]

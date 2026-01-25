@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 24%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    --primary: 240 100% 39%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 73 100% 50%;
+    --secondary-foreground: var(--primary);
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 300 100% 79%;
+    --accent-foreground: var(--primary);
+
+    --destructive: 350 70% 51%;
+    --destructive-foreground: 0 86% 97%;
+
+    --border: 240 6% 90%;
+    --input: 0 0% 91%;
+    --ring: 0 0% 76%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 300 4% 5%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 3% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 3% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 241 51% 53%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 2% 12%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 2% 18%;
+    --muted-foreground: 252 2% 49%;
+
+    --accent: 240 18% 12%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 2% 12%;
+    --input: 240 2% 18%;
+    --ring: 241 51% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  .uzis-border {
+    box-shadow: hsl(var(--secondary)) 0 0 0 5px !important;
+    @apply border-primary;
+  }
+  .uzis-title {
+    font-variation-settings: 'wdth' 62.5;
+  }
+  p {
+    @apply max-w-prose;
+    text-align: justify;
+  }
+}

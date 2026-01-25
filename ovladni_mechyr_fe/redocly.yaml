@@ -1,0 +1,6 @@
+resolve:
+  http:
+    headers:
+      - matches: https://**/swagger.json
+        name: Authorization
+        value: Basic dXppcy1hcGk6MTMwLXV6aXM=

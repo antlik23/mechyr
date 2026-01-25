@@ -1,0 +1,69 @@
+cs:
+  commands:
+    services:
+      service_worker:
+        timesheets_exists: "Pracovník ma vyplněn timesheet"
+        not_exists: "Pracovník neexistuje"
+        already_added: "Pracovník je už přidán"
+      service_part:
+        not_exists: "Součástka neexistuje"
+        amount_not_int: "Množství k objednání musí být celé číslo."
+    parts:
+      ean_exists: "EAN již existuje"
+      ean_invalid: "EAN je nevalidní"
+      ean_invalid_length: "EAN musí mít 13 znaků"
+      ean_only_numbers: "EAN musí obsahovat pouze číslice"
+    users:
+      machine_not_present: "Nelze zmazat. Stroj není přiřazen"
+  password_reset:
+    email_not_present: "Email je povinny"
+    email_not_found: "E-mailová adresa nebyla nalezena. Zkontrolujte ji prosím a zkuste to znovu."
+    token_not_present: "Token nebyl nalezen"
+    link_not_valid: "Odkaz není platný nebo jeho platnost vypršela. Zkuste vygenerovat nový odkaz."
+  invitation:
+    accepted: "Pozvánka přijata."
+  activerecord:
+    errors:
+      models:
+        entry_form:
+          attributes:
+            urinations_per_day:
+              greater_than_or_equal_to: "musí být větší nebo rovno 0"
+            :fluid_intake_volume:
+              greater_than_or_equal_to: "musí být větší nebo rovno 0"
+  errors:
+    messages:
+      duplicate: "Nemůžete vytvořit více než jeden formulář."
+      condition_not_met_anamnestic_forms: "Nesplňujete podmínky pro vytvoření dotazníku. Musíte splňovat podmínky v předchozích formulářích."
+      condition_not_met_ipss_forms: "Nesplňujete podmínky pro vytvoření dotazníku. Musíte splňovat podmínky v předchozích formulářích."
+      condition_not_met_iciq_forms: "Nesplňujete podmínky pro vytvoření dotazníku. Musíte splňovat podmínky v předchozích formulářích."
+      condition_not_met_voiding_diaries: "Nesplňujete podmínky pro vytvoření mikčního deníku. Musíte mít vyplněný anamnestický dotazník nebo jste již dotazník vyplnil/a."
+      must_agree: "Musíte souhlasit s podmínkami"
+      unable_to_complete: "Musíte vyplnit všechny požadované údaje před ukončením"
+      not_exist: "Záznam, který se snažíte najít neexistuje"
+      cannot_edit_completed: "Nemůžete editovat již ukončený mikční deník"
+      email_already_exists: "E-mail již byl použit"
+  mailer:
+    assignment:
+      request:
+        subject: Přišla Vám žádost od pacienta.
+      approve:
+        subject: Byl jste přijat doktorem.
+      reject:
+        subject: Byl jste odmítnut doktorem.
+  user_involvement:
+    not_registered_without_issues: Nema problem a nechce se ucastnit
+    not_registered_with_issues: Ma problem ale nechce se ucastnit
+    registered_without_issues: Nema problem ale chce se ucastnit
+    registered_with_issues: Ma problem a chce se ucastnit
+  exports:
+    model_names:
+      VoidingDiary: mikční_deník
+      EntryForm: vstupní_dotazník
+      IpssForm: ipss_dotazník
+      IciqForm: iciq_dotazník
+      OabForm: oab_dotazník
+      AnamnesticForm: anamnestický_dotazník
+      AppointmentInitial: vzdálená_schůzka
+      AppointmentFirst: první_schůzka
+      AppointmentSecond: druhá_schůzka

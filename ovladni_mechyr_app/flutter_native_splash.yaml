@@ -1,0 +1,12 @@
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/uzis_logo.png
+  branding: assets/images/eu-splufinancovano.png
+  branding_bottom_padding: 24
+  android: true
+  ios: true
+  web: false
+
+  android_12:
+    image: assets/images/uzis_logo_android.png
+    branding: assets/images/eu-splufinancovano_android.png
