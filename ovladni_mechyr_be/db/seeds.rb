@@ -23,6 +23,7 @@ unless Rails.env.production?
     User.find_or_create_by!(email: email) do |user|
       user.password = password
       user.password_confirmation = password
+      user.confirmed_at = Time.current
       patient = Patient.create!(full_name: full_name, user: user, gender: "male")
       UsersRole.create!(user_id: user.id, role_id: Role.find_by(name: 'patient').id)
       OabForm.create!(
@@ -213,6 +214,7 @@ unless Rails.env.production?
       user.password = password
       user.password_confirmation = password
       user.email = email
+      user.confirmed_at = Time.current
       patient = Patient.create!(full_name: full_name, user: user, gender: "female")
       UsersRole.create!(user_id: user.id, role_id: Role.find_by(name: 'patient').id)
       OabForm.create!(
@@ -369,11 +371,22 @@ unless Rails.env.production?
 
     end
   end
+
+  # Ensure dev seed users are always able to log in (Devise :confirmable)
+  (1..20).each do |i|
+    User.where(email: "patient#{i}@example.com", confirmed_at: nil).update_all(confirmed_at: Time.current)
+  end
 end
 
 
-User.find_or_create_by!(first_name: 'John', last_name: 'Doe', email: 'admin@test.com', role: :admin) do |user|
+admin_user = User.find_or_create_by!(email: 'admin@test.com') do |user|
+  user.first_name = 'John'
+  user.last_name = 'Doe'
   user.password = 'test123'
   user.password_confirmation = 'test123'
-  user.add_role(:admin)
+  user.confirmed_at = Time.current
+  user.add_role(Role::ADMIN)
 end
+
+admin_user.update!(confirmed_at: Time.current) if admin_user.confirmed_at.nil?
+admin_user.add_role(Role::ADMIN) unless admin_user.has_role?(Role::ADMIN)

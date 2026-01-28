@@ -10,6 +10,11 @@ Rswag::Ui.configure do |c|
   # correspond to the relative paths for those endpoints.
 
   c.openapi_endpoint '/api-docs/v1/swagger.json', 'API V1 Docs'
-  c.basic_auth_enabled = true
-  c.basic_auth_credentials Rails.application.credentials[:swagger_ui][:username], Rails.application.credentials[:swagger_ui][:password]
+  swagger_ui_credentials = Rails.application.credentials[:swagger_ui]
+  if swagger_ui_credentials.present?
+    c.basic_auth_enabled = true
+    c.basic_auth_credentials swagger_ui_credentials[:username], swagger_ui_credentials[:password]
+  else
+    c.basic_auth_enabled = false
+  end
 end

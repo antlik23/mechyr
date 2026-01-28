@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uzis_app/auth_notifier.dart';
 import 'package:uzis_app/core/constants/app_colors.dart';
+import 'package:uzis_app/core/constants/app_config.dart';
 import 'package:uzis_app/core/constants/app_styles.dart';
 import 'package:uzis_app/core/services/auth_service.dart';
 import 'package:uzis_app/core/services/voiding_service.dart';
@@ -135,7 +136,21 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordController.text = credentials.password;
         isChecked = true;
       });
+      return;
     }
+
+    final devEmail = AppConfig.testUserEmail;
+    final devPassword = AppConfig.testUserPassword;
+    if (devEmail.isEmpty && devPassword.isEmpty) return;
+
+    setState(() {
+      if (emailController.text.isEmpty && devEmail.isNotEmpty) {
+        emailController.text = devEmail;
+      }
+      if (passwordController.text.isEmpty && devPassword.isNotEmpty) {
+        passwordController.text = devPassword;
+      }
+    });
   }
 
   @override

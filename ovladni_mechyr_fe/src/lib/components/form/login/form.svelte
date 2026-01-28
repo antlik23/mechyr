@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { superForm, defaults } from 'sveltekit-superforms';
   import { zod, zodClient } from 'sveltekit-superforms/adapters';
   import { loginFormSchema } from './schema';
@@ -11,6 +12,9 @@
   import Button from '$lib/components/common/Button.svelte';
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
   import * as Form from '$lib/components/form';
+
+  const devEmail = import.meta.env.PUBLIC_TEST_USER_EMAIL || '';
+  const devPassword = import.meta.env.PUBLIC_TEST_USER_PASSWORD || '';
 
   const form = superForm(defaults(zod(loginFormSchema)), {
     SPA: true,
@@ -37,6 +41,18 @@
         }
       );
     },
+  });
+
+  let formData: typeof form.form;
+  $: ({ form: formData } = form);
+
+  onMount(() => {
+    if (devEmail && !$formData.email) {
+      $formData.email = devEmail;
+    }
+    if (devPassword && !$formData.password) {
+      $formData.password = devPassword;
+    }
   });
 
   const { enhance } = form;

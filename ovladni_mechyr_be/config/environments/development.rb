@@ -38,23 +38,30 @@ Rails.application.configure do
   # # Don't care if the mailer can't send.
   # config.action_mailer.raise_delivery_errors = false
   #
-  config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  host = Rails.application.credentials[:fe_url]
+    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.perform_deliveries = ENV.fetch('MAIL_DELIVERIES', 'false') == 'true'
+
+    # In Docker we don't have a GUI/browser for Launchy, which can crash seeds.
+    if File.exist?('/.dockerenv')
+      config.action_mailer.delivery_method = :test
+      config.action_mailer.perform_deliveries = false
+    end
+  host = Rails.application.credentials[:fe_url].presence || 'localhost:3000'
   config.action_mailer.default_url_options = { host: }
 
-  # SMTP settings for gmail
-  config.action_mailer.smtp_settings = {
-    address: Rails.application.credentials.smtp[:address],
-    port: Rails.application.credentials.smtp[:port],
-    user_name: Rails.application.credentials.smtp[:user_name],
-    password: Rails.application.credentials.smtp[:password],
-    from: Rails.application.credentials.smtp[:from],
-    authentication: Rails.application.credentials.smtp[:authentication],
-    enable_starttls_auto: Rails.application.credentials.smtp[:enable_starttls_auto],
-    ssl: Rails.application.credentials.smtp[:ssl]
-  }
+  smtp = Rails.application.credentials[:smtp] || Rails.application.credentials.smtp
+  if smtp.present?
+    config.action_mailer.smtp_settings = {
+      address: smtp[:address],
+      port: smtp[:port],
+      user_name: smtp[:user_name],
+      password: smtp[:password],
+      from: smtp[:from],
+      authentication: smtp[:authentication],
+      enable_starttls_auto: smtp[:enable_starttls_auto],
+      ssl: smtp[:ssl]
+    }
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
