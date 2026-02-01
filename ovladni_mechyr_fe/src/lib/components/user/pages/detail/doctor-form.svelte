@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { User } from './types';
+  import type { UpdatedPaths } from '$lib/api/api';
   import { defaults, superForm } from 'sveltekit-superforms';
   import { zod, zodClient } from 'sveltekit-superforms/adapters';
   import { doctorFormSchema, type DoctorFormSchemaTypes } from './doctor-form-schema';
@@ -13,6 +14,7 @@
   import TaintedFormAlertDialog from '$lib/components/dialogs/TaintedFormAlertDialog.svelte';
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
   import TextareaField from '$lib/components/forms/wrappers/TextareaField.svelte';
+  import SelectField from '$lib/components/forms/wrappers/SelectField.svelte';
   import * as Form from '$lib/components/form';
   import { goto } from '$app/navigation';
   import { localizeRoute } from '$lib/i18n';
@@ -28,11 +30,12 @@
     workplace: initialData.user.workplace ?? undefined,
     contact_email: initialData.user.contact_email ?? undefined,
     contact_phone: initialData.user.contact_phone ?? undefined,
-    web: initialData.user.web ?? undefined,
+    web: initialData.user.web,
     city: initialData.user.city ?? undefined,
     working_hours: initialData.user.working_hours ?? undefined,
     postal_code: initialData.user.postal_code ?? DEFAULT_STRING_VALUE,
     street_and_number: initialData.user.street_and_number ?? undefined,
+    specialization: ((initialData.user as any).specialization || 'general') as DoctorFormSchemaTypes['specialization'],
   });
 
   let taintedFormAlertDialogRef: TaintedFormAlertDialog;
@@ -49,7 +52,22 @@
         async () => {
           await apiClient.PATCH('/api/v1/users/{id}', {
             params: { path: { id: initialData.user.id } },
-            body: { user: { doctor_attributes: form.data } },
+            body: {
+              user: {
+                doctor_attributes: {
+                  full_name: form.data.full_name,
+                  workplace: form.data.workplace,
+                  contact_email: form.data.contact_email,
+                  contact_phone: form.data.contact_phone,
+                  city: form.data.city,
+                  working_hours: form.data.working_hours,
+                  postal_code: form.data.postal_code,
+                  street_and_number: form.data.street_and_number,
+                  web: form.data.web,
+                  specialization: form.data.specialization,
+                } as UpdatedPaths['/api/v1/users/{id}']['patch']['requestBody']['content']['application/json']['user']['doctor_attributes'],
+              },
+            },
           });
 
           queryClient.invalidateQueries({ queryKey: queries.users._def });
@@ -63,9 +81,16 @@
     },
   });
 
-  const { enhance } = form;
+  const { enhance, form: formData } = form;
 
   $: disabled = context === 'read';
+
+  const specializationOptions = [
+    { value: 'general', label: 'Všeobecný lékař' },
+    { value: 'urologist', label: 'Urolog' },
+    { value: 'gynecologist', label: 'Gynekolog' },
+    { value: 'urogynecologist', label: 'Urogynekolog' },
+  ];
 </script>
 
 <form class={columnsVariants({ number: 0, gap: 6 })} method="POST" use:enhance>
@@ -81,6 +106,14 @@
   <FormField name="workplace" {disabled} {form} label={'Pracoviště'} type="text" />
 
   <TextareaField name="working_hours" {disabled} {form} label={m.officeHours()} />
+
+  <SelectField
+    name="specialization"
+    {disabled}
+    {form}
+    label="Specializace"
+    data={specializationOptions}
+  />
 
   <FormField name="city" {disabled} {form} label={m.city()} type="text" />
 

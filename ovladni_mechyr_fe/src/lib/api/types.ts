@@ -753,15 +753,15 @@ export type paths = {
           'application/json': {
             appointment_first: {
               /** Format: date */
-              appointment_date?: string | null;
-              consent_signed?: boolean | null;
-              meets_project_criteria?: boolean | null;
-              clinical_assessment_completed?: boolean | null;
-              prolapse_present?: boolean | null;
-              stress_test_done?: boolean | null;
-              stress_test_result?: boolean | null;
-              uti_excluded?: boolean | null;
-              bladder_discomfort_vas?: number | null;
+              appointment_date?: string;
+              consent_signed?: boolean;
+              meets_project_criteria?: boolean;
+              clinical_assessment_completed?: boolean;
+              prolapse_present?: boolean;
+              stress_test_done?: boolean;
+              stress_test_result?: boolean;
+              uti_excluded?: boolean;
+              bladder_discomfort_vas?: number;
               /** @enum {string} */
               diagnosis?:
                 | 'without_oab'
@@ -769,10 +769,9 @@ export type paths = {
                 | 'oab_wet'
                 | 'oab_mixed_incontinence'
                 | 'unable_to_assess'
-                | 'other_diagnosis'
-                | null;
-              alternative_diagnosis?: string | null;
-              oab_treatment_criteria_met?: boolean | null;
+                | 'other_diagnosis';
+              alternative_diagnosis?: string;
+              oab_treatment_criteria_met?: boolean;
               /** @enum {string} */
               prescribed_medication?:
                 | 'oxybutynin'
@@ -783,24 +782,22 @@ export type paths = {
                 | 'fesoterodin'
                 | 'mirabegron'
                 | 'propiverin'
-                | 'other'
-                | null;
-              dosage?: number | null;
+                | 'other';
+              dosage?: number;
               /** @enum {string} */
-              dosage_unit?: 'mg' | 'ml' | 'other_unit' | null;
-              alternative_dosage_unit?: string | null;
+              dosage_unit?: 'mg' | 'ml' | 'other_unit';
+              alternative_dosage_unit?: string;
               /** @enum {string} */
               reason_treatment_not_started?:
                 | 'other_treatment'
                 | 'unable_to_propose_treatment'
                 | 'no_therapy_needed'
                 | 'contraindications_to_treatment'
-                | 'patient_refused_treatment'
-                | null;
-              alternative_treatment_details?: string | null;
-              treatment_contraindications?: string | null;
+                | 'patient_refused_treatment';
+              alternative_treatment_details?: string;
+              treatment_contraindications?: string;
               /** Format: date */
-              follow_up_date?: string | null;
+              follow_up_date?: string;
               notes?: string | null;
               blood_in_urine?: boolean | null;
               protein_in_urine?: boolean | null;
@@ -1353,9 +1350,8 @@ export type paths = {
                 | 'mirabegron'
                 | 'propiverin'
                 | 'multiple_medication'
-                | 'other'
-                | null;
-              dosage?: number | null;
+                | 'other';
+              dosage?: number;
               /** @enum {string} */
               dosage_unit?: 'mg' | 'ml' | 'other_unit';
               alternative_dosage_unit?: string;
@@ -1504,24 +1500,22 @@ export type paths = {
             appointment_second: {
               attended_appointment?: boolean;
               /** Format: date */
-              appointment_date?: string | null;
-              visual_analog_scale?: number | null;
+              appointment_date?: string;
+              visual_analog_scale?: number;
               /** @enum {string|null} */
               continuing_treatment?: 'false' | 'true' | 'without_oab' | null;
               /** @enum {string} */
               discontinuation_reason?:
                 | 'adverse_effects'
                 | 'treatment_ineffectiveness'
-                | 'other_reason'
-                | null;
-              alternative_reason?: string | null;
+                | 'other_reason';
+              alternative_reason?: string;
               /** @enum {string} */
               current_treatment?:
                 | 'same_dose'
                 | 'higher_dose'
                 | 'combination'
-                | 'change_of_medication'
-                | null;
+                | 'change_of_medication';
               /** @enum {string} */
               prescribed_medication?:
                 | 'oxybutynin'
@@ -1533,12 +1527,11 @@ export type paths = {
                 | 'mirabegron'
                 | 'propiverin'
                 | 'multiple_medication'
-                | 'other'
-                | null;
-              dosage?: number | null;
+                | 'other';
+              dosage?: number;
               /** @enum {string} */
-              dosage_unit?: 'mg' | 'ml' | 'other_unit' | null;
-              alternative_dosage_unit?: string | null;
+              dosage_unit?: 'mg' | 'ml' | 'other_unit';
+              alternative_dosage_unit?: string;
               notes?: string | null;
               multiple_medications?: string | null;
               multiple_medications_dosage?: string | null;
@@ -3853,6 +3846,13 @@ export type paths = {
                 latitude?: number | null;
                 longitude?: number | null;
                 web?: string | null;
+                /** @enum {string|null} */
+                specialization?:
+                  | 'general'
+                  | 'urologist'
+                  | 'gynecologist'
+                  | 'urogynecologist'
+                  | null;
                 is_contactable?: boolean | null;
                 entry_form_id?: number | null;
                 oab_form_ids?: number[] | null;
@@ -3962,6 +3962,13 @@ export type paths = {
                 /** Format: float */
                 longitude: number;
                 web: string | null;
+                /** @enum {string|null} */
+                specialization?:
+                  | 'general'
+                  | 'urologist'
+                  | 'gynecologist'
+                  | 'urogynecologist'
+                  | null;
               };
             };
           };
@@ -4338,6 +4345,9 @@ export type paths = {
               voiding_diary: {
                 /** @example 1 */
                 id: number;
+                completed?: boolean;
+                should_select_doctor?: boolean | null;
+                can_select_doctor?: boolean | null;
               };
             };
           };
@@ -4573,13 +4583,6 @@ export type paths = {
               };
             };
           };
-        };
-        /** @description not found */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content?: never;
         };
       };
     };

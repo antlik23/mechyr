@@ -19,6 +19,13 @@
 
   const DEFAULT_VALUE = '-';
 
+  const specializationLabels: Record<string, string> = {
+    general: 'Všeobecný lékař',
+    urologist: 'Urolog',
+    gynecologist: 'Gynekolog',
+    urogynecologist: 'Urogynekolog',
+  };
+
   let doctorData: { value: string; label: string; class?: string; isLink?: boolean }[] = [];
   $: if (response.data) {
     const doctor = response.data.user;
@@ -26,6 +33,13 @@
     doctorData = [
       { value: doctor.street_and_number || DEFAULT_VALUE, label: m.address() },
       { value: doctor.city || DEFAULT_VALUE, label: m.city() },
+      {
+        value:
+          doctor.specialization && doctor.specialization in specializationLabels
+            ? specializationLabels[doctor.specialization]
+            : DEFAULT_VALUE,
+        label: 'Specializace',
+      },
       {
         value: doctor.working_hours || DEFAULT_VALUE,
         label: m.officeHours(),

@@ -23,7 +23,7 @@
     "fix:eslint": "eslint --fix .",
     "fix": "pnpm run \"/^fix:.*/\"",
     "postinstall": "pnpm build:paraglide",
-    "generate:types": "openapi-typescript https://beta-be.uzis.rascasone.com/api-docs/v1/swagger.json -o ./src/lib/api/types.ts --t && prettier ./src/lib/api/types.ts --write",
+    "generate:types": "openapi-typescript http://localhost:3000/api-docs/v1/swagger.json -o ./src/lib/api/types.ts --t && prettier ./src/lib/api/types.ts --write",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",

@@ -6,6 +6,7 @@
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
   import Title from '$lib/components/common/Title.svelte';
   import TaintedFormAlertDialog from '$lib/components/dialogs/TaintedFormAlertDialog.svelte';
+  import VoidingDiaryInstructionsDialog from '$lib/components/voiding-diary/VoidingDiaryInstructionsDialog.svelte';
   import * as Form from '$lib/components/form';
   import DatePickerField from '$lib/components/form/form-fields/DatePickerField.svelte';
   import TimePickerField from '$lib/components/form/form-fields/TimePickerField.svelte';
@@ -55,6 +56,7 @@
   });
 
   let taintedFormAlertDialogRef: TaintedFormAlertDialog;
+  let showInstructionsDialog = false;
 
   const form = superForm(defaults(defaultFormData, zod(voidingDiaryFormSchema)), {
     SPA: true,
@@ -88,6 +90,7 @@
 
               diaryId = data?.voiding_diary.id;
               toastSuccessText.set(m.successfulVoidingDiaryCreate());
+              showInstructionsDialog = true; // Show instructions after creating new diary
               break;
             }
             case 'edit': {
@@ -268,3 +271,8 @@
 {#if allowTaintAlert}
   <TaintedFormAlertDialog bind:this={taintedFormAlertDialogRef} />
 {/if}
+
+<VoidingDiaryInstructionsDialog
+  bind:open={showInstructionsDialog}
+  on:close={() => (showInstructionsDialog = false)}
+/>

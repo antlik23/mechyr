@@ -17,7 +17,21 @@ class VoidingDiary < ApplicationRecord
   has_many :voiding_records
 
   validates :diary_start_date, presence: true
+  # Úkol 3: Povolit začátek dnes nebo v blízké budoucnosti (max 7 dní)
+  validate :diary_start_date_within_allowed_range
   validates :diary_duration_days, inclusion: { in: 1..2 }, presence: true
+
+  def diary_start_date_within_allowed_range
+    return if diary_start_date.blank?
+
+    days_from_today = (diary_start_date - Time.zone.today).to_i
+
+    if days_from_today < 0
+      errors.add(:diary_start_date, 'musí být dnes nebo v budoucnosti')
+    elsif days_from_today > 7
+      errors.add(:diary_start_date, 'může být maximálně 7 dní v budoucnosti')
+    end
+  end
 
   def fluid_intake_volume
     voiding_records.sum(:fluid_intake)

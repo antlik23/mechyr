@@ -53,14 +53,16 @@
       $persistedFormData?.attended_appointment ??
       DEFAULT_STRING_VALUE,
     appointment_date:
-      $persistedFormData?.appointment_date ??
       initialData.secondAppointment?.appointment_date ??
-      (initialData.firstAppointment?.appointment_date
-        ? format(
-            addMonths(new Date(initialData.firstAppointment.appointment_date), 3),
-            'yyyy-MM-dd'
-          )
-        : DEFAULT_STRING_VALUE),
+      $persistedFormData?.appointment_date ??
+      (initialData.firstAppointment?.follow_up_date
+        ? format(new Date(initialData.firstAppointment.follow_up_date), 'yyyy-MM-dd')
+        : initialData.firstAppointment?.appointment_date
+          ? format(
+              addMonths(new Date(initialData.firstAppointment.appointment_date), 3),
+              'yyyy-MM-dd'
+            )
+          : DEFAULT_STRING_VALUE),
     visual_analog_scale:
       initialData.secondAppointment?.visual_analog_scale ??
       $persistedFormData?.visual_analog_scale ??
@@ -99,7 +101,9 @@
     notes: initialData.secondAppointment?.notes ?? $persistedFormData?.notes,
   });
 
-  const minimumDate = addMonths(new Date(initialData.firstAppointment.appointment_date), 2);
+  // Úkol 2: Změna z 2 měsíců na 1 měsíc jako minimum
+  const minimumDate = addMonths(new Date(initialData.firstAppointment.appointment_date), 1);
+  const recommendedDate = addMonths(new Date(initialData.firstAppointment.appointment_date), 2);
 
   const form = superForm(defaults(defaultFormData, zod(secondAppointmentFormSchema)), {
     SPA: true,
@@ -116,13 +120,20 @@
       if (!form.valid) return;
 
       const minimumDateFormatted = minimumDate.toLocaleDateString(languageTag());
+      const recommendedDateFormatted = recommendedDate.toLocaleDateString(languageTag());
       const appointmentDate = new Date(form.data.appointment_date);
 
+      // Úkol 2: Flexibilní validace - minimum 1 měsíc, doporučeno 2 měsíce
       if (isBefore(appointmentDate, minimumDate)) {
         return setError(
           form,
           'appointment_date',
           m.dateMustBeMin({ minDate: minimumDateFormatted })
+        );
+      } else if (isBefore(appointmentDate, recommendedDate)) {
+        // Soft warning - mezi 1-2 měsíci
+        console.warn(
+          `Doporučený termín druhé návštěvy je ${recommendedDateFormatted} nebo později`
         );
       }
 

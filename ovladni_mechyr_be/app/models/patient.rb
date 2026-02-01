@@ -43,7 +43,9 @@ class Patient < ApplicationRecord
   end
 
   def allowed_to_create_voiding_diary
-    user.email == 'test@example.com' || (anamnestic_forms.find_by(completed: true).present? && voiding_diaries.blank?)
+    # Úkol 4: Povolit více deníků - nový deník lze vytvořit pouze pokud není žádný nedokončený
+    # Úkol 8: Odstranit požadavek na anamnestic_forms
+    user.email == 'test@example.com' || voiding_diaries.where(completed: false).count < 1
   end
 
   def allowed_to_create_iciq_form

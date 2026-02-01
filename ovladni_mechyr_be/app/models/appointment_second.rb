@@ -33,4 +33,12 @@ class AppointmentSecond < ApplicationRecord
   enum :continuing_treatment, Enums::CONTINUING_TREATMENT
 
   validates :visual_analog_scale, inclusion: { in: 0..10 }, allow_nil: true
+
+  after_save :update_next_appointment
+
+  private
+
+  def update_next_appointment
+    patient.update(next_appointment: appointment_date)
+  end
 end

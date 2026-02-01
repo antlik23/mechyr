@@ -3,12 +3,13 @@ services:
     image: postgres:15
     environment:
       POSTGRES_USER: ovladni_mechyr_development
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ovladni_mechyr_development
       POSTGRES_DB: ovladni_mechyr_development
     ports:
-      - "5432:5432"
+      - "5455:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
 
   backend:
     build:
@@ -27,7 +28,7 @@ services:
       RAILS_ENV: development
       DATABASE_HOST: db
       DATABASE_USERNAME: ovladni_mechyr_development
-      DATABASE_PASSWORD: password
+      DATABASE_PASSWORD: ovladni_mechyr_development
     ports:
       - "3000:3000"
     depends_on:

@@ -32,4 +32,52 @@ class UserMailer < ApplicationMailer
 
     mail(to: patient.user.email, subject: I18n.t('mailer.assignment.reject.subject'))
   end
+
+  # Úkol 11: Email notifikace pro stanovení termínu první návštěvy
+  def first_appointment_scheduled_email(doctor, patient, appointment_first)
+    @doctor_name = doctor.full_name
+    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @appointment_date = appointment_first.appointment_date
+    @follow_up_date = appointment_first.follow_up_date
+    @doctor_contact = doctor.contact_email || doctor.user.email
+    @doctor_phone = doctor.contact_phone
+
+    mail(to: patient.user.email, subject: 'Termín první návštěvy byl stanoven')
+  end
+
+  # Úkol 11: Email notifikace pro změnu termínu první návštěvy
+  def first_appointment_updated_email(doctor, patient, appointment_first, old_date)
+    @doctor_name = doctor.full_name
+    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @old_appointment_date = old_date
+    @new_appointment_date = appointment_first.appointment_date
+    @follow_up_date = appointment_first.follow_up_date
+    @doctor_contact = doctor.contact_email || doctor.user.email
+    @doctor_phone = doctor.contact_phone
+
+    mail(to: patient.user.email, subject: 'Termín první návštěvy byl změněn')
+  end
+
+  # Úkol 11: Email notifikace pro stanovení termínu druhé návštěvy
+  def second_appointment_scheduled_email(doctor, patient, appointment_second)
+    @doctor_name = doctor.full_name
+    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @appointment_date = appointment_second.appointment_date
+    @doctor_contact = doctor.contact_email || doctor.user.email
+    @doctor_phone = doctor.contact_phone
+
+    mail(to: patient.user.email, subject: 'Termín druhé návštěvy byl stanoven')
+  end
+
+  # Úkol 11: Email notifikace pro změnu termínu druhé návštěvy
+  def second_appointment_updated_email(doctor, patient, appointment_second, old_date)
+    @doctor_name = doctor.full_name
+    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @old_appointment_date = old_date
+    @new_appointment_date = appointment_second.appointment_date
+    @doctor_contact = doctor.contact_email || doctor.user.email
+    @doctor_phone = doctor.contact_phone
+
+    mail(to: patient.user.email, subject: 'Termín druhé návštěvy byl změněn')
+  end
 end

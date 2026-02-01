@@ -10,6 +10,10 @@
   import * as Card from '$lib/components/ui/card';
   import Columns, { columnsVariants } from '$lib/components/common/Columns.svelte';
   import { LoadingIndicator } from '$lib/components/loading';
+  import Button from '$lib/components/common/Button.svelte';
+  import { goto } from '$app/navigation';
+  import { localizeRoute } from '$lib/i18n';
+  import { route } from '$lib/ROUTES';
   import QuestionnairesTable from './questionnaires-table.svelte';
   import VoidingDiariesTable from './voiding-diaries-table.svelte';
 
@@ -76,10 +80,55 @@
       id,
     })) satisfies typeof tableResponseData;
   }
+
+  // Check if all questionnaires are completed
+  $: hasCompletedOab = oabResponse.data?.oab_forms?.some((form) => form.completion_timestamp);
+  $: hasCompletedIciq = iciqResponse.data?.iciq_forms?.some((form) => form.completion_timestamp);
+  $: hasCompletedIpss = ipssResponse.data?.ipss_forms?.some((form) => form.completion_timestamp);
+  $: hasCompletedAnamnestic = anamnesticResponse.data?.anamnestic_forms?.some(
+    (form) => form.completion_timestamp
+  );
+  $: hasCompletedDiary =
+    voidingDiariesResponse.data?.voiding_diaries?.some((diary) => diary.completed) || false;
+
+  $: allQuestionnairesCompleted = hasCompletedOab && hasCompletedIciq && hasCompletedAnamnestic;
+
+  $: canSelectDoctor = allQuestionnairesCompleted && hasCompletedDiary;
+
+  function handleDoctorSelection() {
+    if (canSelectDoctor) {
+      goto(localizeRoute(route('/doctors')));
+    } else if (allQuestionnairesCompleted && !hasCompletedDiary) {
+      goto(localizeRoute(route('/voiding-diary')));
+    }
+  }
 </script>
 
 <div class={columnsVariants({ number: 0, gap: 5 })}>
   <Title includeMeta={true} text={m.entries()} />
+
+  {#if allQuestionnairesCompleted}
+    <Card.Root class="border-primary bg-primary/5">
+      <Card.Header>
+        <Title level="h3" text="Další krok: Výběr lékaře" />
+      </Card.Header>
+      <Card.Content class={columnsVariants({ number: 0, gap: 4 })}>
+        {#if canSelectDoctor}
+          <p class="text-base">
+            Výborně! Dokončili jste všechny povinné dotazníky a mikční deník. Nyní můžete pokračovat
+            výběrem lékaře, který bude vaše záznamy vyhodnocovat a poskytne vám odbornou péči.
+          </p>
+          <Button on:click={handleDoctorSelection}>Vybrat lékaře</Button>
+        {:else}
+          <p class="text-base">
+            Dokončili jste všechny povinné dotazníky. Posledním krokem před výběrem lékaře je
+            vytvoření a dokončení mikčního deníku.
+          </p>
+          <Button on:click={handleDoctorSelection}>Vytvořit mikční deník</Button>
+        {/if}
+      </Card.Content>
+    </Card.Root>
+  {/if}
 
   <Columns number={2} verticalAlign="start">
     <Card.Root>

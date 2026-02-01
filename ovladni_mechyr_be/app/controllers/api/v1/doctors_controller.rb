@@ -7,7 +7,10 @@ module Api
         return if authorize_action(roles: %i[patient admin])
 
         doctors = if current_user_is_patient?
-                    Doctor.where(full_capacity: false)
+                    # Úkol 12: Filtrovat lékaře podle specializace a pohlaví pacienta
+                    patient = current_devise_api_user.patient
+                    Doctor.for_patient(patient)
+                          .where(full_capacity: false)
                           .where.not(full_name: nil)
                           .where.not(workplace: nil)
                           .where.not(contact_email: nil)

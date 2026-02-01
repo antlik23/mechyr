@@ -409,7 +409,10 @@ RSpec.describe 'api/v1/voiding_diaries', type: :request do
           voiding_diary: {
             type: :object,
             properties: {
-              id: { type: :integer, example: 1 }
+              id: { type: :integer, example: 1 },
+              completed: { type: :boolean },
+              should_select_doctor: { type: :boolean, nullable: true },
+              can_select_doctor: { type: :boolean, nullable: true }
             },
             required: ['id']
           }
@@ -430,7 +433,10 @@ RSpec.describe 'api/v1/voiding_diaries', type: :request do
           voiding_diary: {
             type: :object,
             properties: {
-              id: { type: :integer, example: 1 }
+              id: { type: :integer, example: 1 },
+              completed: { type: :boolean },
+              should_select_doctor: { type: :boolean, nullable: true },
+              can_select_doctor: { type: :boolean, nullable: true }
             },
             required: ['id']
           }
@@ -451,7 +457,10 @@ RSpec.describe 'api/v1/voiding_diaries', type: :request do
           voiding_diary: {
             type: :object,
             properties: {
-              id: { type: :integer, example: 1 }
+              id: { type: :integer, example: 1 },
+              completed: { type: :boolean },
+              should_select_doctor: { type: :boolean, nullable: true },
+              can_select_doctor: { type: :boolean, nullable: true }
             },
             required: ['id']
           }

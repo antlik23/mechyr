@@ -43,6 +43,7 @@ json.user do
     json.longitude @user.doctor.longitude
     json.is_contactable @user.doctor.is_contactable
     json.web @user.doctor.web
+    json.specialization @user.doctor.specialization
     if @current_user.patient&.can_be_assigned
       json.contact_status 'allowed'
     elsif @user.doctor == @current_user.patient&.doctor

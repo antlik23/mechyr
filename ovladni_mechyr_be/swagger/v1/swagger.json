@@ -7020,6 +7020,16 @@
                           "type": "string",
                           "nullable": true
                         },
+                        "specialization": {
+                          "type": "string",
+                          "enum": [
+                            "general",
+                            "urologist",
+                            "gynecologist",
+                            "urogynecologist"
+                          ],
+                          "nullable": true
+                        },
                         "is_contactable": {
                           "type": "boolean",
                           "nullable": true
@@ -7267,6 +7277,16 @@
                           },
                           "web": {
                             "type": "string",
+                            "nullable": true
+                          },
+                          "specialization": {
+                            "type": "string",
+                            "enum": [
+                              "general",
+                              "urologist",
+                              "gynecologist",
+                              "urogynecologist"
+                            ],
                             "nullable": true
                           }
                         },
@@ -7922,6 +7942,17 @@
                         "id": {
                           "type": "integer",
                           "example": 1
+                        },
+                        "completed": {
+                          "type": "boolean"
+                        },
+                        "should_select_doctor": {
+                          "type": "boolean",
+                          "nullable": true
+                        },
+                        "can_select_doctor": {
+                          "type": "boolean",
+                          "nullable": true
                         }
                       },
                       "required": [
@@ -8350,9 +8381,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "not found"
           }
         },
         "requestBody": {

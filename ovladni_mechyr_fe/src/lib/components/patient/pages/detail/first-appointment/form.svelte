@@ -62,14 +62,14 @@
       $persistedFormData?.meets_project_criteria ??
       DEFAULT_STRING_VALUE,
     blood_in_urine:
-      initialData.firstAppointment?.blood_in_urine ?? $persistedFormData?.blood_in_urine,
+      initialData.firstAppointment?.blood_in_urine ?? $persistedFormData?.blood_in_urine ?? undefined,
     protein_in_urine:
-      initialData.firstAppointment?.protein_in_urine ?? $persistedFormData?.protein_in_urine,
+      initialData.firstAppointment?.protein_in_urine ?? $persistedFormData?.protein_in_urine ?? undefined,
     sugar_in_urine:
-      initialData.firstAppointment?.sugar_in_urine ?? $persistedFormData?.sugar_in_urine,
+      initialData.firstAppointment?.sugar_in_urine ?? $persistedFormData?.sugar_in_urine ?? undefined,
     post_void_residual_over_100_ml:
       initialData.firstAppointment?.post_void_residual_over_100_ml ??
-      $persistedFormData?.post_void_residual_over_100_ml,
+      $persistedFormData?.post_void_residual_over_100_ml ?? undefined,
     clinical_assessment_completed:
       initialData.firstAppointment?.clinical_assessment_completed ??
       $persistedFormData?.clinical_assessment_completed ??
@@ -100,7 +100,7 @@
       DEFAULT_STRING_VALUE,
     alternative_diagnosis:
       initialData.firstAppointment?.alternative_diagnosis ??
-      $persistedFormData?.alternative_diagnosis,
+      $persistedFormData?.alternative_diagnosis ?? undefined,
     oab_treatment_criteria_met:
       initialData.firstAppointment?.oab_treatment_criteria_met ??
       $persistedFormData?.oab_treatment_criteria_met ??
@@ -115,20 +115,20 @@
       initialData.firstAppointment?.dosage_unit ?? $persistedFormData?.dosage_unit ?? 'mg',
     alternative_dosage_unit:
       initialData.firstAppointment?.alternative_dosage_unit ??
-      $persistedFormData?.alternative_dosage_unit,
+      $persistedFormData?.alternative_dosage_unit ?? undefined,
     reason_treatment_not_started:
       initialData.firstAppointment?.reason_treatment_not_started ??
       $persistedFormData?.reason_treatment_not_started ??
       DEFAULT_STRING_VALUE,
     alternative_treatment_details:
       initialData.firstAppointment?.alternative_treatment_details ??
-      $persistedFormData?.alternative_treatment_details,
+      $persistedFormData?.alternative_treatment_details ?? undefined,
     treatment_contraindications:
       initialData.firstAppointment?.treatment_contraindications ??
-      $persistedFormData?.treatment_contraindications,
+      $persistedFormData?.treatment_contraindications ?? undefined,
     follow_up_date:
-      initialData.firstAppointment?.follow_up_date ?? $persistedFormData?.follow_up_date,
-    notes: initialData.firstAppointment?.notes ?? $persistedFormData?.notes,
+      initialData.firstAppointment?.follow_up_date ?? $persistedFormData?.follow_up_date ?? undefined,
+    notes: initialData.firstAppointment?.notes ?? $persistedFormData?.notes ?? undefined,
   });
 
   const appointmentMinimumDate = new Date(initialData.initialAppointment.assessment_date);
@@ -150,7 +150,11 @@
       const minimumDateFormatted = appointmentMinimumDate.toLocaleDateString(languageTag());
       const appointmentDate = new Date(form.data.appointment_date);
 
-      const followUpMinimumDate = startOfDay(addMonths(appointmentDate, 3));
+      // Úkol 2: Flexibilní validace - doporučeno 3 měsíce, minimum 1 měsíc
+      const followUpRecommendedDate = startOfDay(addMonths(appointmentDate, 3));
+      const followUpMinimumDate = startOfDay(addMonths(appointmentDate, 1));
+      const followUpRecommendedDateFormatted =
+        followUpRecommendedDate?.toLocaleDateString(languageTag());
       const followUpMinimumDateFormatted = followUpMinimumDate?.toLocaleDateString(languageTag());
       const followUpDate = startOfDay(new Date(form.data.follow_up_date));
 
@@ -161,10 +165,17 @@
           m.dateMustBeMin({ minDate: minimumDateFormatted })
         );
       } else if (isBefore(followUpDate, followUpMinimumDate)) {
+        // Tvrdá chyba - méně než 1 měsíc
         return setError(
           form,
           'follow_up_date',
           m.dateMustBeMin({ minDate: followUpMinimumDateFormatted })
+        );
+      } else if (isBefore(followUpDate, followUpRecommendedDate)) {
+        // Soft warning - mezi 1-3 měsíci (pouze toast, formulář odešle)
+        // TODO: Přidat toast notification s upozorněním
+        console.warn(
+          `Doporučený termín kontroly je ${followUpRecommendedDateFormatted} nebo později`
         );
       }
 
@@ -335,83 +346,64 @@
                         : null,
                     bladder_discomfort_vas:
                       form.data.consent_signed && form.data.meets_project_criteria
-                        ? form.data.bladder_discomfort_vas !== ''
-                          ? Number(form.data.bladder_discomfort_vas)
-                          : null
+                        ? Number(form.data.bladder_discomfort_vas)
                         : null,
-                    diagnosis:
-                      form.data.consent_signed && form.data.meets_project_criteria
-                        ? form.data.diagnosis || undefined
-                        : null,
-                    alternative_diagnosis:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      form.data.diagnosis === 'other_diagnosis'
-                        ? (form.data.alternative_diagnosis ?? null)
-                        : null,
-                    oab_treatment_criteria_met:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      ['oab', 'oab_wet', 'oab_mixed_incontinence', 'unable_to_assess'].includes(
-                        form.data.diagnosis
-                      )
-                        ? Boolean(form.data.oab_treatment_criteria_met)
-                        : null,
-                    prescribed_medication:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      form.data.oab_treatment_criteria_met
-                        ? form.data.prescribed_medication || undefined
-                        : null,
-                    dosage:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      form.data.oab_treatment_criteria_met
-                        ? form.data.dosage !== ''
-                          ? Number(form.data.dosage)
-                          : null
-                        : null,
-                    dosage_unit:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      form.data.oab_treatment_criteria_met
-                        ? form.data.dosage_unit || undefined
-                        : null,
-                    alternative_dosage_unit:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      form.data.oab_treatment_criteria_met &&
-                      form.data.dosage_unit === 'other_unit'
-                        ? (form.data.alternative_dosage_unit ?? null)
-                        : null,
-                    reason_treatment_not_started:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      !form.data.oab_treatment_criteria_met
-                        ? form.data.reason_treatment_not_started || undefined
-                        : null,
-                    alternative_treatment_details:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      !form.data.oab_treatment_criteria_met &&
-                      form.data.reason_treatment_not_started === 'other_treatment'
-                        ? (form.data.alternative_treatment_details ?? null)
-                        : null,
-                    treatment_contraindications:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      !form.data.oab_treatment_criteria_met &&
-                      form.data.reason_treatment_not_started === 'contraindications_to_treatment'
-                        ? (form.data.treatment_contraindications ?? null)
-                        : null,
-                    follow_up_date:
-                      form.data.consent_signed &&
-                      form.data.meets_project_criteria &&
-                      ['oab', 'oab_wet', 'oab_mixed_incontinence', 'unable_to_assess'].includes(
-                        form.data.diagnosis
-                      )
-                        ? (form.data.follow_up_date ?? null)
-                        : null,
+                    ...(form.data.consent_signed &&
+                    form.data.meets_project_criteria &&
+                    form.data.uti_excluded
+                      ? {
+                          diagnosis: form.data.diagnosis || undefined,
+                          alternative_diagnosis: form.data.alternative_diagnosis || undefined,
+                          ...(form.data.diagnosis && form.data.diagnosis !== 'without_oab'
+                            ? {
+                                oab_treatment_criteria_met: Boolean(
+                                  form.data.oab_treatment_criteria_met
+                                ),
+                                ...(form.data.oab_treatment_criteria_met
+                                  ? {
+                                      initiate_pharmacological_treatment: {
+                                        patient_ready: true,
+                                        ...(form.data.oab_treatment_criteria_met
+                                          ? {
+                                              ...{
+                                                ...(form.data.oab_treatment_criteria_met
+                                                  ? {
+                                                      prescribed_medication:
+                                                        form.data.prescribed_medication || undefined,
+                                                      dosage: Number(form.data.dosage),
+                                                      dosage_unit: form.data.dosage_unit || undefined,
+                                                      alternative_dosage_unit:
+                                                        form.data.dosage_unit === 'other_unit'
+                                                          ? form.data.alternative_dosage_unit
+                                                          : undefined,
+                                                    }
+                                                  : {
+                                                      reason_treatment_not_started:
+                                                        form.data.reason_treatment_not_started ||
+                                                        undefined,
+                                                      alternative_treatment_details:
+                                                        form.data.reason_treatment_not_started ===
+                                                        'other_treatment'
+                                                          ? form.data.alternative_treatment_details
+                                                          : undefined,
+                                                      treatment_contraindications:
+                                                        form.data.reason_treatment_not_started ===
+                                                        'contraindications_to_treatment'
+                                                          ? form.data.treatment_contraindications
+                                                          : undefined,
+                                                    }),
+                                              },
+                                              follow_up_date: form.data.follow_up_date,
+                                            }
+                                          : {}),
+                                      },
+                                    }
+                                  : {}),
+                              }
+                            : {}),
+                        }
+                      : {}),
+                    user_id: initialData.patientId,
                     notes: form.data.notes,
                   },
                 },

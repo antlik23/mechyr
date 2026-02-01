@@ -199,19 +199,25 @@ class _CreateDiaryFormScreenState extends State<CreateDiaryFormScreen> {
                                 controller: startDate,
                                 labelText: "Kdy chcete deník začít vést",
                                 hintText: "Zadejte datum",
-                                helperText: "Nejdříve následující den",
-                                minDateTime: DateTime.now()
-                                    .add(const Duration(days: 1))
+                                helperText: "Dnes nebo v následujících 7 dnech",
+                                minDateTime: DateTime.now().copyWith(
+                                  hour: 0,
+                                  minute: 0,
+                                  second: 0,
+                                  millisecond: 0,
+                                  microsecond: 0,
+                                ),
+                                maxDateTime: DateTime.now()
+                                    .add(const Duration(days: 7))
                                     .copyWith(
-                                      hour: 0,
-                                      minute: 0,
-                                      second: 0,
-                                      millisecond: 0,
-                                      microsecond: 0,
+                                      hour: 23,
+                                      minute: 59,
+                                      second: 59,
+                                      millisecond: 999,
+                                      microsecond: 999,
                                     ),
                                 initialDateTime: startDateText.isEmpty
                                     ? DateTime.now()
-                                        .add(const Duration(days: 1))
                                     : DateFormat("dd. MM. yyyy")
                                         .parse(startDateText),
                                 onChanged: handleChangeStartDate,

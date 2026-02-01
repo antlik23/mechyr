@@ -49,6 +49,8 @@
     select: { date: string | undefined };
   }>();
 
+  let open = false;
+
   $: formattedValue = value?.toDate(getLocalTimeZone()).toLocaleDateString(languageTag());
 
   let minValue: ComponentProps<Calendar>['minValue'];
@@ -69,20 +71,23 @@
 
   function handleValueChange(newDate: $$Props['value']) {
     dispatch('select', { date: newDate?.toString() });
+    open = false; // Auto-close popover after selection
   }
 
   function handleClearClick() {
     value = undefined;
     handleValueChange(value);
+    open = false; // Close popover after clearing
   }
 
   function handleTodayClick() {
     value = parseDate(getDateString(new Date().toISOString()));
     handleValueChange(value);
+    open = false; // Close popover after selecting today
   }
 </script>
 
-<Popover.Root openFocus {...popoverProps}>
+<Popover.Root bind:open openFocus {...popoverProps}>
   <Popover.Trigger asChild let:builder>
     <Button
       class={cn('font-normal', !value && 'text-muted-foreground')}

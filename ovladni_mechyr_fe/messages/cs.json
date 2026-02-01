@@ -290,6 +290,7 @@
   "personWithProstate": "Osoba s prostatou",
   "fieldMustBeInPast": "Položka musí být v minulosti",
   "diaryMustEndInPast": "Deník musí končit v minulosti",
+  "fieldMustBeWithin7Days": "Datum musí být dnes nebo do 7 dní v budoucnosti",
   "successfulRemotePatientDiagnosticsFill": "Vzdálená diagnostika pacienta byla úspěšně vyplněna",
   "fieldMustBeAtLeastXMonthsInFuture": "Položka musí být minimálně {monthAmount} měsíce v budoucnosti",
   "successfulPersonalVisitDiagnosticsFill": "Diagnostika pacienta při první osobní návštěvě byla úspěšně vyplněna",

@@ -72,13 +72,50 @@ export type UpdatedPaths = MergeDeep<
         };
       };
     };
-    '/api/v1/users/{id}': {
-      /** update user */
-      patch: {
+    '/api/v1/appointment_firsts/{id}': {
+      /** update appointment_first */
+      put: {
         requestBody: {
           content: {
             'application/json': {
-              user: PartialDeep<RequestBodyJSON<paths['/api/v1/users/{id}']['patch']>['user']>;
+              appointment_first: {
+                meets_project_criteria?: boolean | null;
+                blood_in_urine?: boolean | null;
+                protein_in_urine?: boolean | null;
+                sugar_in_urine?: boolean | null;
+                post_void_residual_over_100_ml?: boolean | null;
+                clinical_assessment_completed?: boolean | null;
+                prolapse_present?: boolean | null;
+                stress_test_done?: boolean | null;
+                stress_test_result?: boolean | null;
+                uti_excluded?: boolean | null;
+                bladder_discomfort_vas?: number | null;
+              };
+            };
+          };
+        };
+      };
+    };
+    '/api/v1/appointment_seconds/{id}': {
+      /** update appointment_second */
+      put: {
+        requestBody: {
+          content: {
+            'application/json': {
+              appointment_second: {
+                appointment_date?: string | null;
+                visual_analog_scale?: number | null;
+                continuing_treatment?: string | null;
+                discontinuation_reason?: string | null;
+                alternative_reason?: string | null;
+                current_treatment?: string | null;
+                prescribed_medication?: string | null;
+                dosage?: number | null;
+                dosage_unit?: string | null;
+                alternative_dosage_unit?: string | null;
+                multiple_medications?: string | null;
+                multiple_medications_dosage?: string | null;
+              };
             };
           };
         };
@@ -104,6 +141,46 @@ export type UpdatedPaths = MergeDeep<
                 | 'reason_treatment_not_started'
                 | 'alternative_treatment_details'
               >;
+            };
+          };
+        };
+      };
+    };
+    '/api/v1/users/{id}': {
+      /** update user */
+      patch: {
+        requestBody: {
+          content: {
+            'application/json': {
+              user: {
+                id?: number;
+                email?: string;
+                roles?: ('patient' | 'doctor' | 'admin')[];
+                patient_attributes?: {
+                  full_name?: string;
+                  user_id?: number;
+                  gender?: 'male' | 'female' | 'other';
+                  other_gender?: 'with_prostate' | 'without_prostate';
+                  next_appointment?: string;
+                };
+                doctor_attributes?: {
+                  full_name?: string;
+                  workplace?: string;
+                  contact_email?: string;
+                  contact_phone?: string;
+                  city?: string;
+                  working_hours?: string;
+                  postal_code?: number;
+                  street_and_number?: string;
+                  web?: string | null;
+                  specialization?:
+                    | 'general'
+                    | 'urologist'
+                    | 'gynecologist'
+                    | 'urogynecologist'
+                    | null;
+                };
+              };
             };
           };
         };

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_01_154923) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -205,13 +205,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
     t.text "working_hours", default: "PO: 7:00 - 14:00\nUT: 7:00 - 12:00\nST: 9:00 - 17:00\nCT: 7:00 - 11:00 13:00 - 17:00\nPA: 9:00 - 12:00\nSO: Zavřeno\nNE: Zavřeno"
     t.integer "postal_code"
     t.string "street_and_number"
-    t.integer "user_id"
+    t.bigint "user_id", null: false
     t.boolean "full_capacity", default: false
     t.float "latitude"
     t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "web"
+    t.integer "specialization", default: 0, null: false
+    t.index ["specialization"], name: "index_doctors_on_specialization"
     t.index ["user_id"], name: "index_doctors_on_user_id", unique: true
   end
 
@@ -221,7 +223,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
     t.float "fluid_intake_volume"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "patient_id"
+    t.bigint "patient_id", null: false
     t.index ["patient_id"], name: "index_entry_forms_on_patient_id"
   end
 
@@ -258,7 +260,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
     t.integer "quality_of_life"
     t.boolean "completed", default: false
     t.datetime "completion_timestamp"
-    t.bigint "patient_id"
+    t.bigint "patient_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_ipss_forms_on_patient_id"
@@ -276,7 +278,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
     t.integer "total_score"
     t.boolean "completed", default: false
     t.datetime "completion_timestamp"
-    t.bigint "patient_id"
+    t.bigint "patient_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_oab_forms_on_patient_id"
@@ -284,11 +286,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
 
   create_table "patients", force: :cascade do |t|
     t.string "full_name"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.integer "gender", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "doctor_id"
+    t.bigint "doctor_id"
     t.boolean "approved"
     t.boolean "agreed_to_share_info", default: false
     t.datetime "next_appointment"
@@ -386,9 +388,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_091441) do
   add_foreign_key "appointment_initials", "patients"
   add_foreign_key "appointment_seconds", "doctors"
   add_foreign_key "appointment_seconds", "patients"
+  add_foreign_key "doctors", "users", on_delete: :cascade
+  add_foreign_key "entry_forms", "patients", on_delete: :cascade
   add_foreign_key "iciq_forms", "patients"
   add_foreign_key "ipss_forms", "patients"
   add_foreign_key "oab_forms", "patients"
+  add_foreign_key "patients", "doctors", on_delete: :nullify
+  add_foreign_key "patients", "users", on_delete: :cascade
+  add_foreign_key "users_roles", "roles", on_delete: :cascade
+  add_foreign_key "users_roles", "users", on_delete: :cascade
   add_foreign_key "voiding_diaries", "patients"
   add_foreign_key "voiding_records", "voiding_diaries"
 end

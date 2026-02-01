@@ -29,7 +29,7 @@ class StartDateDiaryDialog extends StatelessWidget {
           spacing: 16,
           children: [
             const Text(
-              "Váš mikční deník ještě nezačal",
+              "Mikční deník můžete začít vyplňovat okamžitě",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -55,7 +55,7 @@ class StartDateDiaryDialog extends StatelessWidget {
                     children: [
                       const Expanded(
                         child: Text(
-                          "Deník začněte vyplňovat dne",
+                          "Začněte deník vyplňovat od",
                           style: TextStyle(
                             fontSize: 18,
                             color: AppColors.gray900,
@@ -74,11 +74,11 @@ class StartDateDiaryDialog extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "záznamem o druhém ranním močení (první ranní močení se v tento den nepočítá). Deník ukončete dne $endDate ráno záznamem o prvním ranním močení.",
+                    "DŮLEŽITÉ: První záznam provádějte DRUHOU ranní mikcí (první ranní močení se NEPOČÍTÁ a patří k předchozímu dni). Deník ukončete dne $endDate ráno záznamem o prvním ranním močení.",
                     style: const TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF71717A),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.darkBlueBase,
                     ),
                   ),
                 ],

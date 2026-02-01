@@ -41,8 +41,7 @@ class AppointmentFirst < ApplicationRecord
   enum :dosage_unit, Enums::DOSAGE_UNIT
   enum :reason_treatment_not_started, Enums::REASON_TREATMENT_NOT_STARTED
 
-  # after_save :update_next_appointment
-  # customer changed her mind
+  after_save :update_next_appointment
 
   private
 

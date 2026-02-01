@@ -6,6 +6,7 @@
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
   import Title from '$lib/components/common/Title.svelte';
   import ConfirmEndDiaryDialog from '$lib/components/dialogs/ConfirmEndDiaryDialog.svelte';
+  import VoidingDiaryCompletedDialog from '$lib/components/voiding-diary/VoidingDiaryCompletedDialog.svelte';
   import { LoadingIndicator } from '$lib/components/loading';
   import Breadcrumbs from '$lib/components/ui-wrappers/Breadcrumbs.svelte';
   import * as Tooltip from '$lib/components/ui/tooltip';
@@ -29,6 +30,8 @@
   export let isAdmin = userContext === 'admin';
 
   let showDialog = false;
+  let showCompletedDialog = false;
+  let canSelectDoctor = false;
 
   function openDialog() {
     showDialog = true;
@@ -43,7 +46,7 @@
 
     await handleRequest(
       async () => {
-        await apiClient.PUT('/api/v1/voiding_diaries/{id}', {
+        const { data } = await apiClient.PUT('/api/v1/voiding_diaries/{id}', {
           params: { path: { id: diaryId } },
           body: {
             voiding_diary: {
@@ -53,13 +56,25 @@
         });
         queryClient.invalidateQueries();
         toastSuccessText.set(m.successfulVoidingDiaryEdit());
+
+        // Show completion dialog if backend indicates we should
+        if (data?.voiding_diary?.should_select_doctor) {
+          canSelectDoctor = data.voiding_diary.can_select_doctor || false;
+          showCompletedDialog = true;
+        }
       },
       {
         toastSuccessText,
       }
     );
     showDialog = false;
-    toastSuccessText.set(m.successfulVoidingDiaryEdit());
+  }
+
+  function handleSelectDoctor() {
+    showCompletedDialog = false;
+    if (userContext === 'patient') {
+      goto(localizeRoute(route('/doctors')));
+    }
   }
 </script>
 
@@ -164,3 +179,10 @@
 </div>
 
 <ConfirmEndDiaryDialog onCancel={handleCancel} onConfirm={handleConfirm} open={showDialog} />
+
+<VoidingDiaryCompletedDialog
+  bind:open={showCompletedDialog}
+  {canSelectDoctor}
+  on:selectDoctor={handleSelectDoctor}
+  on:close={() => (showCompletedDialog = false)}
+/>

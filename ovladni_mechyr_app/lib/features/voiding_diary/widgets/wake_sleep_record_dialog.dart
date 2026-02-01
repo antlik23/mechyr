@@ -98,7 +98,8 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
         await checkEndDiaryNotification();
         if (!mounted) return;
         context.pop();
-        context.go("/");
+        // Show dialog with option to open web for doctor selection
+        _showCompletionDialog();
       } else {
         context.pop(true);
       }
@@ -119,6 +120,70 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
 
     await NotificationService()
         .cancelNotification(NotificationService.endDiaryId);
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 16,
+              children: [
+                const Text(
+                  "Gratulujeme! Deník byl úspěšně dokončen",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.darkBlueBase,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Text(
+                  "Výborně! Dokončili jste vyplňování mikčního deníku. Vaše záznamy byly uloženy a jsou připraveny k vyhodnocení.\n\nPro výběr lékaře prosím použijte webovou aplikaci.",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.gray400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Column(
+                  spacing: 8,
+                  children: [
+                    Button(
+                      text: "Otevřít webovou aplikaci",
+                      onPressed: () {
+                        // TODO: Add URL launcher to open web app
+                        launchUrl(Uri.parse('http://localhost:5173/cs/doctors'));
+                        dialogContext.pop();
+                        context.go("/");
+                      },
+                    ),
+                    ButtonOutlined(
+                      text: "Zavřít",
+                      onPressed: () {
+                        dialogContext.pop();
+                        context.go("/");
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override

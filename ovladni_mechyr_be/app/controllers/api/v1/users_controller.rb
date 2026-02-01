@@ -94,7 +94,7 @@ module Api
         allowed_params = [:email, :password, :password_confirmation,
                           { patient_attributes: %i[id gender other_gender full_name assigned_doctor_id next_appointment],
                             doctor_attributes: %i[id full_name workplace working_hours contact_email contact_phone web
-                                                  city postal_code street_and_number full_capacity latitude longitude] }]
+                                                  city postal_code street_and_number full_capacity latitude longitude specialization] }]
         allowed_params += %i[password password_confirmation] if current_devise_api_user == user
 
         params.fetch(:user, {}).permit(allowed_params)

@@ -7,9 +7,16 @@ export const voidingDiaryFormSchema = z
     diary_start_date: z
       .string()
       .date(m.fieldIsRequired())
-      .refine((value) => differenceInDays(new Date(value), new Date()) < 0, {
-        message: m.fieldMustBeInPast(),
-      }),
+      .refine(
+        (value) => {
+          // Úkol 3: Povolit dnešní den + až 7 dní v budoucnosti
+          const daysFromToday = differenceInDays(new Date(value), new Date());
+          return daysFromToday >= 0 && daysFromToday <= 7;
+        },
+        {
+          message: m.fieldMustBeWithin7Days(),
+        }
+      ),
     diary_duration_days: z.number({ message: m.fieldIsRequired() }),
     bedtime_day_one: z.string().time({ message: m.fieldIsRequired() }),
     wake_up_time_day_one: z.string().time({ message: m.fieldIsRequired() }),
@@ -18,17 +25,18 @@ export const voidingDiaryFormSchema = z
     completed: z.boolean().default(false),
   })
   .superRefine((formData, ctx) => {
-    if (
-      formData.diary_start_date &&
-      formData.diary_duration_days &&
-      differenceInDays(new Date(formData.diary_start_date), new Date()) >
-        -1 * formData.diary_duration_days
-    ) {
-      ctx.addIssue({
-        path: ['diary_duration_days'] satisfies (keyof VoidingDiaryFormSchemaTypes)[],
-        message: m.diaryMustEndInPast(),
-        code: z.ZodIssueCode.custom,
-      });
+    // Úkol 3: Upravená logika - pokud je completed, deník musí být dokončený v minulosti
+    if (formData.completed && formData.diary_start_date && formData.diary_duration_days) {
+      const diaryEndDate = new Date(formData.diary_start_date);
+      diaryEndDate.setDate(diaryEndDate.getDate() + formData.diary_duration_days);
+
+      if (differenceInDays(diaryEndDate, new Date()) > 0) {
+        ctx.addIssue({
+          path: ['diary_duration_days'] satisfies (keyof VoidingDiaryFormSchemaTypes)[],
+          message: m.diaryMustEndInPast(),
+          code: z.ZodIssueCode.custom,
+        });
+      }
     }
   });
 

@@ -12,17 +12,18 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
+  port: <%= ENV['DATABASE_PORT'] || 5455 %>
 
 development:
   <<: *default
-  host: localhost
-  database: ovladni_mechyr_development
-  username: <%= (YAML.load_file('config/database_dev.yml')['development']['username'] rescue nil) || 'ovladni_mechyr_development' %>
-  password: <%= (YAML.load_file('config/database_dev.yml')['development']['password'] rescue nil) || 'ovladni_mechyr_development' %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  database: <%= ENV['DATABASE_NAME'] || 'ovladni_mechyr_development' %>
+  username: <%= ENV['DATABASE_USERNAME'] || (YAML.load_file('config/database_dev.yml')['development']['username'] rescue nil) || 'ovladni_mechyr_development' %>
+  password: <%= ENV['DATABASE_PASSWORD'] || (YAML.load_file('config/database_dev.yml')['development']['password'] rescue nil) || 'ovladni_mechyr_development' %>
 
 test:
   <<: *default
-  host: <%= ENV['CI'] ? 'postgres' : 'localhost' %>
+  host: <%= ENV['CI'] || 'localhost' %>
   database: ovladni_mechyr_test
   username: <%= (YAML.load_file('config/database_dev.yml')['test']['username'] rescue nil) || 'ovladni_mechyr_test' %>
   password: <%= (YAML.load_file('config/database_dev.yml')['test']['password'] rescue nil) || 'ovladni_mechyr_test' %>
@@ -34,4 +35,3 @@ beta:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
-
