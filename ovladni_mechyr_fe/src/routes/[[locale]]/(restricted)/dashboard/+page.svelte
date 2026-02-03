@@ -18,7 +18,7 @@
 <div class="grid gap-5">
   <!-- TODO: move to paraglide messages -->
   <Meta title={m.homePage()} />
-
+  <img class="w-full" alt="illustr" src={FooterImg} title="Chci vědět víc" />
   <div class="flex gap-4 max-md:flex-col">
     <div class="grid gap-4 md:w-1/2">
       <Title level="h1" text={'O projektu:'} />
@@ -47,6 +47,11 @@
       pečlivě zkontrolujte !!
     </strong>
   </p>
+  <ol>
+    <li>Vyplňte dotazníky.</li>
+    <li>Vyplňte mikční deník.</li>
+    <li>Kontaktujte lékaře.</li>
+  </ol>
 
   <p><strong>Vyplňujte dotazníky v následujícím pořadí:</strong></p>
 
@@ -90,6 +95,4 @@
     Podoby všech dotazníků a mikčního deníku byly schváleny zástupci Urogynekologické společnosti
     České republiky a zástupců předních odborníků zapojených do projektu.
   </p>
-
-  <img class="w-full" alt="illustr" src={FooterImg} title="Chci vědět víc" />
 </div>
