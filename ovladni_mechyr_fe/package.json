@@ -55,6 +55,7 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-svelte": "2.46.1",
     "globals": "15.14.0",
+    "svelte-eslint-parser": "0.43.0",
     "histoire": "0.17.17",
     "lucide-svelte": "0.468.0",
     "openapi-typescript": "7.4.4",

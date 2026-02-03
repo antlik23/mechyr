@@ -62,14 +62,21 @@
       $persistedFormData?.meets_project_criteria ??
       DEFAULT_STRING_VALUE,
     blood_in_urine:
-      initialData.firstAppointment?.blood_in_urine ?? $persistedFormData?.blood_in_urine ?? undefined,
+      initialData.firstAppointment?.blood_in_urine ??
+      $persistedFormData?.blood_in_urine ??
+      undefined,
     protein_in_urine:
-      initialData.firstAppointment?.protein_in_urine ?? $persistedFormData?.protein_in_urine ?? undefined,
+      initialData.firstAppointment?.protein_in_urine ??
+      $persistedFormData?.protein_in_urine ??
+      undefined,
     sugar_in_urine:
-      initialData.firstAppointment?.sugar_in_urine ?? $persistedFormData?.sugar_in_urine ?? undefined,
+      initialData.firstAppointment?.sugar_in_urine ??
+      $persistedFormData?.sugar_in_urine ??
+      undefined,
     post_void_residual_over_100_ml:
       initialData.firstAppointment?.post_void_residual_over_100_ml ??
-      $persistedFormData?.post_void_residual_over_100_ml ?? undefined,
+      $persistedFormData?.post_void_residual_over_100_ml ??
+      undefined,
     clinical_assessment_completed:
       initialData.firstAppointment?.clinical_assessment_completed ??
       $persistedFormData?.clinical_assessment_completed ??
@@ -100,7 +107,8 @@
       DEFAULT_STRING_VALUE,
     alternative_diagnosis:
       initialData.firstAppointment?.alternative_diagnosis ??
-      $persistedFormData?.alternative_diagnosis ?? undefined,
+      $persistedFormData?.alternative_diagnosis ??
+      undefined,
     oab_treatment_criteria_met:
       initialData.firstAppointment?.oab_treatment_criteria_met ??
       $persistedFormData?.oab_treatment_criteria_met ??
@@ -115,19 +123,24 @@
       initialData.firstAppointment?.dosage_unit ?? $persistedFormData?.dosage_unit ?? 'mg',
     alternative_dosage_unit:
       initialData.firstAppointment?.alternative_dosage_unit ??
-      $persistedFormData?.alternative_dosage_unit ?? undefined,
+      $persistedFormData?.alternative_dosage_unit ??
+      undefined,
     reason_treatment_not_started:
       initialData.firstAppointment?.reason_treatment_not_started ??
       $persistedFormData?.reason_treatment_not_started ??
       DEFAULT_STRING_VALUE,
     alternative_treatment_details:
       initialData.firstAppointment?.alternative_treatment_details ??
-      $persistedFormData?.alternative_treatment_details ?? undefined,
+      $persistedFormData?.alternative_treatment_details ??
+      undefined,
     treatment_contraindications:
       initialData.firstAppointment?.treatment_contraindications ??
-      $persistedFormData?.treatment_contraindications ?? undefined,
+      $persistedFormData?.treatment_contraindications ??
+      undefined,
     follow_up_date:
-      initialData.firstAppointment?.follow_up_date ?? $persistedFormData?.follow_up_date ?? undefined,
+      initialData.firstAppointment?.follow_up_date ??
+      $persistedFormData?.follow_up_date ??
+      undefined,
     notes: initialData.firstAppointment?.notes ?? $persistedFormData?.notes ?? undefined,
   });
 
@@ -369,9 +382,11 @@
                                                 ...(form.data.oab_treatment_criteria_met
                                                   ? {
                                                       prescribed_medication:
-                                                        form.data.prescribed_medication || undefined,
+                                                        form.data.prescribed_medication ||
+                                                        undefined,
                                                       dosage: Number(form.data.dosage),
-                                                      dosage_unit: form.data.dosage_unit || undefined,
+                                                      dosage_unit:
+                                                        form.data.dosage_unit || undefined,
                                                       alternative_dosage_unit:
                                                         form.data.dosage_unit === 'other_unit'
                                                           ? form.data.alternative_dosage_unit

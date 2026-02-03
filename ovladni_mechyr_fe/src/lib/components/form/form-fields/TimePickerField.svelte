@@ -99,7 +99,6 @@
 
   function handleKeyDown(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
-    const cursorPos = target.selectionStart || 0;
     const currentValue = target.value;
 
     // Allow navigation keys
@@ -184,19 +183,11 @@
         </FormsnapLabel>
       {/if}
 
-      <Popover.Root bind:open openFocus={false} closeOnOutsideClick={true} {...popoverProps}>
+      <Popover.Root closeOnOutsideClick={true} openFocus={false} bind:open {...popoverProps}>
         <div class="relative">
           <input
             bind:this={inputElement}
             {...attrs}
-            type="text"
-            value={displayValue}
-            on:focus={handleInputFocus}
-            on:click={handleInputClick}
-            on:keydown={handleKeyDown}
-            {placeholder}
-            readonly={open}
-            {disabled}
             class={cn(
               'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-normal ring-offset-background transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
@@ -204,16 +195,24 @@
               'placeholder:text-muted-foreground',
               displayValue === '--:--' && 'text-muted-foreground'
             )}
+            {disabled}
+            {placeholder}
+            readonly={open}
+            type="text"
+            value={displayValue}
+            on:focus={handleInputFocus}
+            on:click={handleInputClick}
+            on:keydown={handleKeyDown}
           />
           <Popover.Trigger asChild let:builder>
             <Button
+              class="absolute right-0 top-0 h-10 w-10"
               builders={[builder]}
               {disabled}
               size="icon"
-              variant="ghost"
-              class="absolute right-0 top-0 h-10 w-10"
-              on:mousedown={(e) => e.preventDefault()}
               tabindex={-1}
+              variant="ghost"
+              on:mousedown={(e) => e.preventDefault()}
             >
               {#if append}
                 <Icon class={cn('text-muted-foreground', appendClasses)} icon={append} />

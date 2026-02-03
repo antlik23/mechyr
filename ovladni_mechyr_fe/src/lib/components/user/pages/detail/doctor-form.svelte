@@ -25,6 +25,12 @@
   };
   export let context: 'read' | 'edit';
 
+  const userSpecialization = (
+    initialData.user as unknown as {
+      specialization?: DoctorFormSchemaTypes['specialization'];
+    }
+  ).specialization;
+
   const defaultFormData = prepareSuperFormDefaultFormData<DoctorFormSchemaTypes>({
     full_name: initialData.user.full_name ?? undefined,
     workplace: initialData.user.workplace ?? undefined,
@@ -35,7 +41,7 @@
     working_hours: initialData.user.working_hours ?? undefined,
     postal_code: initialData.user.postal_code ?? DEFAULT_STRING_VALUE,
     street_and_number: initialData.user.street_and_number ?? undefined,
-    specialization: ((initialData.user as any).specialization || 'general') as DoctorFormSchemaTypes['specialization'],
+    specialization: userSpecialization ?? 'general',
   });
 
   let taintedFormAlertDialogRef: TaintedFormAlertDialog;
@@ -81,7 +87,7 @@
     },
   });
 
-  const { enhance, form: formData } = form;
+  const { enhance } = form;
 
   $: disabled = context === 'read';
 
@@ -109,10 +115,10 @@
 
   <SelectField
     name="specialization"
+    data={specializationOptions}
     {disabled}
     {form}
     label="Specializace"
-    data={specializationOptions}
   />
 
   <FormField name="city" {disabled} {form} label={m.city()} type="text" />

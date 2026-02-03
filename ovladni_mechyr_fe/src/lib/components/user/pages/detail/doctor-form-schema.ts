@@ -18,4 +18,3 @@ export const doctorFormSchema = z.object({
 
 export type DoctorFormSchema = typeof doctorFormSchema;
 export type DoctorFormSchemaTypes = z.infer<DoctorFormSchema>;
-

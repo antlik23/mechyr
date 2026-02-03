@@ -181,8 +181,8 @@
 <ConfirmEndDiaryDialog onCancel={handleCancel} onConfirm={handleConfirm} open={showDialog} />
 
 <VoidingDiaryCompletedDialog
-  bind:open={showCompletedDialog}
   {canSelectDoctor}
+  bind:open={showCompletedDialog}
   on:selectDoctor={handleSelectDoctor}
   on:close={() => (showCompletedDialog = false)}
 />

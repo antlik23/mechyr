@@ -88,11 +88,7 @@
         popoverProps={{ portal: 'body' }}
       />
 
-      <TimePickerField
-        name="nextAppointmentTime"
-        {form}
-        label={m.time()}
-      />
+      <TimePickerField name="nextAppointmentTime" {form} label={m.time()} />
     </Card.Content>
   </Card.Root>
 

@@ -91,7 +91,8 @@
   $: hasCompletedDiary =
     voidingDiariesResponse.data?.voiding_diaries?.some((diary) => diary.completed) || false;
 
-  $: allQuestionnairesCompleted = hasCompletedOab && hasCompletedIciq && hasCompletedAnamnestic;
+  $: allQuestionnairesCompleted =
+    hasCompletedOab && hasCompletedIciq && hasCompletedIpss && hasCompletedAnamnestic;
 
   $: canSelectDoctor = allQuestionnairesCompleted && hasCompletedDiary;
 

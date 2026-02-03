@@ -78,8 +78,7 @@
       ],
     },
     video: {
-      mediaItems: [
-      ],
+      mediaItems: [],
     },
   };
 </script>

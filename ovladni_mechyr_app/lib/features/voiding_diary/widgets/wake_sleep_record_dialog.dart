@@ -164,7 +164,7 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
                       text: "Otevřít webovou aplikaci",
                       onPressed: () {
                         // TODO: Add URL launcher to open web app
-                        launchUrl(Uri.parse('http://localhost:5173/cs/doctors'));
+                        // launchUrl(Uri.parse('http://localhost:5173/cs/doctors'));
                         dialogContext.pop();
                         context.go("/");
                       },

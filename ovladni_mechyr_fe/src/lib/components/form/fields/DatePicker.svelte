@@ -82,7 +82,7 @@
 
   function handleTodayClick() {
     const today = parseDate(getDateString(new Date().toISOString()));
-    
+
     // Respect minValue and maxValue constraints
     if (minValue && today.compare(minValue) < 0) {
       value = minValue;
@@ -91,13 +91,13 @@
     } else {
       value = today;
     }
-    
+
     handleValueChange(value);
     open = false; // Close popover after selecting today
   }
 </script>
 
-<Popover.Root bind:open openFocus {...popoverProps}>
+<Popover.Root openFocus bind:open {...popoverProps}>
   <Popover.Trigger asChild let:builder>
     <Button
       class={cn('font-normal', !value && 'text-muted-foreground')}

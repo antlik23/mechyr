@@ -1,5 +1,5 @@
 import '$lib/polyfills';
-import type { MergeDeep, IsEqual, StringKeyOf, SetOptional, Except, PartialDeep } from 'type-fest';
+import type { MergeDeep, IsEqual, StringKeyOf, SetOptional, Except } from 'type-fest';
 import type { RequestBodyJSON } from 'openapi-typescript-helpers';
 import type { paths } from './types';
 import type { CurrentUser, User } from '$lib/components/user/types';

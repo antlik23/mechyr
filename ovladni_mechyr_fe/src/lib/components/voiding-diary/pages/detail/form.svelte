@@ -185,13 +185,13 @@
   <!-- TODO: move to paraglide messages -->
   <DatePickerField
     name="diary_start_date"
+    calendarProps={{
+      minValue: today(getLocalTimeZone()),
+      maxValue: today(getLocalTimeZone()).add({ days: 7 }),
+    }}
     {disabled}
     {form}
     label="Kdy chcete deník začít vést?"
-    calendarProps={{
-      minValue: today(getLocalTimeZone()),
-      maxValue: today(getLocalTimeZone()).add({ days: 7 })
-    }}
   />
 
   {#if $formData.diary_start_date}
