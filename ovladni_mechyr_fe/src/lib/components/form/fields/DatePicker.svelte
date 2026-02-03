@@ -81,7 +81,17 @@
   }
 
   function handleTodayClick() {
-    value = parseDate(getDateString(new Date().toISOString()));
+    const today = parseDate(getDateString(new Date().toISOString()));
+    
+    // Respect minValue and maxValue constraints
+    if (minValue && today.compare(minValue) < 0) {
+      value = minValue;
+    } else if (maxValue && today.compare(maxValue) > 0) {
+      value = maxValue;
+    } else {
+      value = today;
+    }
+    
     handleValueChange(value);
     open = false; // Close popover after selecting today
   }

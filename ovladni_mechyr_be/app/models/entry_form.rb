@@ -14,7 +14,7 @@ class EntryForm < ApplicationRecord
   validates :urinations_per_day, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :fluid_intake_volume, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
-  belongs_to :patient
+  belongs_to :patient, optional: true
   def issue_present
     urination_frequency_issue || urinations_per_day > 7
   end

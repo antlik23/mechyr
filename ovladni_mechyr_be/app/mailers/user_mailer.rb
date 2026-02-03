@@ -21,7 +21,7 @@ class UserMailer < ApplicationMailer
   def approve_email(doctor, patient)
     @doctor_name = doctor.full_name
     @next_appointment = patient.next_appointment
-    @user_url = "#{Rails.application.credentials[:fe_url]}/doctors/#{doctor.id}"
+    @user_url = "#{Rails.application.credentials[:fe_url]}/doctors/#{doctor.user_id}"
 
     mail(to: patient.user.email, subject: I18n.t('mailer.assignment.approve.subject'))
   end
@@ -36,7 +36,7 @@ class UserMailer < ApplicationMailer
   # Úkol 11: Email notifikace pro stanovení termínu první návštěvy
   def first_appointment_scheduled_email(doctor, patient, appointment_first)
     @doctor_name = doctor.full_name
-    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @patient_name = patient.full_name
     @appointment_date = appointment_first.appointment_date
     @follow_up_date = appointment_first.follow_up_date
     @doctor_contact = doctor.contact_email || doctor.user.email
@@ -48,7 +48,7 @@ class UserMailer < ApplicationMailer
   # Úkol 11: Email notifikace pro změnu termínu první návštěvy
   def first_appointment_updated_email(doctor, patient, appointment_first, old_date)
     @doctor_name = doctor.full_name
-    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @patient_name = patient.full_name
     @old_appointment_date = old_date
     @new_appointment_date = appointment_first.appointment_date
     @follow_up_date = appointment_first.follow_up_date
@@ -61,7 +61,7 @@ class UserMailer < ApplicationMailer
   # Úkol 11: Email notifikace pro stanovení termínu druhé návštěvy
   def second_appointment_scheduled_email(doctor, patient, appointment_second)
     @doctor_name = doctor.full_name
-    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @patient_name = patient.full_name
     @appointment_date = appointment_second.appointment_date
     @doctor_contact = doctor.contact_email || doctor.user.email
     @doctor_phone = doctor.contact_phone
@@ -72,7 +72,7 @@ class UserMailer < ApplicationMailer
   # Úkol 11: Email notifikace pro změnu termínu druhé návštěvy
   def second_appointment_updated_email(doctor, patient, appointment_second, old_date)
     @doctor_name = doctor.full_name
-    @patient_name = "#{patient.first_name} #{patient.last_name}"
+    @patient_name = patient.full_name
     @old_appointment_date = old_date
     @new_appointment_date = appointment_second.appointment_date
     @doctor_contact = doctor.contact_email || doctor.user.email

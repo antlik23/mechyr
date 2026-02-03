@@ -92,7 +92,6 @@
         name="nextAppointmentTime"
         {form}
         label={m.time()}
-        popoverProps={{ portal: 'body' }}
       />
     </Card.Content>
   </Card.Root>

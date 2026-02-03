@@ -40,7 +40,7 @@ RSpec.describe 'api/v1/patients', type: :request do
       }
 
       parameter name: :sort_by, in: :query, schema: {
-        type: :string, enum: ['next_appointment', 'email', 'patient_id', 'appointment_initial', 'appointment_second', 'appointment_first'],
+        type: :string, enum: ['next_appointment', 'email', 'patient_id', 'appointment_initial', 'appointment_second', 'appointment_first', 'appointment_first_date', 'appointment_second_date'],
         description: 'Sorting',
         example: 'patient_id'
       }
@@ -82,6 +82,8 @@ RSpec.describe 'api/v1/patients', type: :request do
                                       patient_public_id: { type: :string },
                                       email: { type: :string },
                                       next_appointment: { type: :string, format: 'date-time', nullable: true },
+                                      appointment_first_date: { type: :string, format: 'date', nullable: true },
+                                      appointment_second_date: { type: :string, format: 'date', nullable: true },
                                       appointment_initial: { type: :boolean, nullable: true },
                                       appointment_initial_id: { type: :integer, nullable: true },
                                       appointment_first: { type: :boolean, nullable: true },

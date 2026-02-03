@@ -34,11 +34,6 @@ class AppointmentSecond < ApplicationRecord
 
   validates :visual_analog_scale, inclusion: { in: 0..10 }, allow_nil: true
 
-  after_save :update_next_appointment
-
-  private
-
-  def update_next_appointment
-    patient.update(next_appointment: appointment_date)
-  end
+  # Callback removed - next_appointment is already set by AppointmentFirst.follow_up_date
+  # No need to update it again when the second appointment is recorded
 end

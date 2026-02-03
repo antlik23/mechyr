@@ -29,7 +29,7 @@ class IpssForm < ApplicationRecord
   validates :nocturnal_urination, inclusion: { in: 0..5 }, allow_nil: true
   validates :quality_of_life, inclusion: { in: 0..6 }, allow_nil: true
 
-  belongs_to :patient
+  belongs_to :patient, optional: true
 
   before_save :set_completed
 

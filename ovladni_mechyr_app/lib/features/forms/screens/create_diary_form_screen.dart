@@ -80,8 +80,9 @@ class _CreateDiaryFormScreenState extends State<CreateDiaryFormScreen> {
       NotificationService().scheduleNotification(
         id: NotificationService.startDiaryId,
         selectedTime: selectedDateAt8AM,
-        title: "Váš mikční deník začal!",
-        body: "Začněte s vašim prvním záznamem.",
+        title: "Čas začít mikční deník!",
+        body:
+            "Nezapomeňte: Začněte DRUHOU ranní mikcí (první ranní močení patří k předchozímu dni).",
       );
       final parsedEndDate = DateFormat("d. M. yyyy")
           .parse(startDate.text)

@@ -19,7 +19,8 @@
   const columnIds = {
     patient_id: 'patient_id',
     email: 'email',
-    next_appointment: 'next_appointment',
+    appointment_first_date: 'appointment_first_date',
+    appointment_second_date: 'appointment_second_date',
     appointment_initial: 'appointment_initial',
     appointment_first: 'appointment_first',
     appointment_second: 'appointment_second',
@@ -56,15 +57,26 @@
       header: m.email(),
     }),
     table.column({
-      id: columnIds.next_appointment,
-      accessor: (item) => item.next_appointment,
+      id: columnIds.appointment_first_date,
+      accessor: (item) => item.appointment_first_date,
       header: m.firstPersonalVisitDate(),
       cell: ({ value }) => {
         if (!value) return '-';
 
         return new Date(value).toLocaleString(languageTag(), {
           dateStyle: 'medium',
-          timeStyle: 'short',
+        });
+      },
+    }),
+    table.column({
+      id: columnIds.appointment_second_date,
+      accessor: (item) => item.appointment_second_date,
+      header: m.secondVisitDate(),
+      cell: ({ value }) => {
+        if (!value) return '-';
+
+        return new Date(value).toLocaleString(languageTag(), {
+          dateStyle: 'medium',
         });
       },
     }),
@@ -161,13 +173,14 @@
 
   const extraOptions: TableExtraOptions<keyof typeof columnIds> = {
     columns: {
-      patient_id: { width: '9%' },
-      email: { width: '20%' },
-      next_appointment: { width: '13%' },
-      appointment_initial: { width: '17%', textAlign: 'center' },
-      appointment_first: { width: '17%', textAlign: 'center' },
-      appointment_second: { width: '17%', textAlign: 'center' },
-      actions: { width: '7%', showHeaderText: false },
+      patient_id: { width: '8%' },
+      email: { width: '18%' },
+      appointment_first_date: { width: '12%' },
+      appointment_second_date: { width: '12%' },
+      appointment_initial: { width: '15%', textAlign: 'center' },
+      appointment_first: { width: '15%', textAlign: 'center' },
+      appointment_second: { width: '15%', textAlign: 'center' },
+      actions: { width: '5%', showHeaderText: false },
     },
   };
 </script>

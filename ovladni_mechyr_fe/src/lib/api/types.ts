@@ -3169,7 +3169,9 @@ export type paths = {
             | 'patient_id'
             | 'appointment_initial'
             | 'appointment_second'
-            | 'appointment_first';
+            | 'appointment_first'
+            | 'appointment_first_date'
+            | 'appointment_second_date';
           direction?: 'asc' | 'desc';
         };
         header?: never;
@@ -3199,6 +3201,10 @@ export type paths = {
                 email: string;
                 /** Format: date-time */
                 next_appointment?: string | null;
+                /** Format: date */
+                appointment_first_date?: string | null;
+                /** Format: date */
+                appointment_second_date?: string | null;
                 appointment_initial: boolean | null;
                 appointment_initial_id?: number | null;
                 appointment_first: boolean | null;

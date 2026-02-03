@@ -17,9 +17,15 @@ class PatientsQuery < BaseQuery
     when 'appointment_first'
       scope.order!(Arel.sql("appointment_firsts.id #{direction}"))
       @scope = scope.select(Arel.sql('distinct((appointment_firsts.id)), patients.*'))
+    when 'appointment_first_date'
+      scope.order!(Arel.sql("appointment_firsts.appointment_date #{direction}"))
+      @scope = scope.select(Arel.sql('distinct((appointment_firsts.appointment_date)), patients.*'))
     when 'appointment_second'
       scope.order!(Arel.sql("appointment_seconds.id #{direction}"))
       @scope = scope.select(Arel.sql('distinct((appointment_seconds.id)), patients.*'))
+    when 'appointment_second_date'
+      scope.order!(Arel.sql("appointment_seconds.appointment_date #{direction}"))
+      @scope = scope.select(Arel.sql('distinct((appointment_seconds.appointment_date)), patients.*'))
     when 'appointment_initial'
       scope.order!(Arel.sql("appointment_initials.id #{direction}"))
       @scope = scope.select(Arel.sql('distinct((appointment_initials.id)), patients.*'))

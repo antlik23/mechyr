@@ -223,7 +223,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_154923) do
     t.float "fluid_intake_volume"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "patient_id", null: false
+    t.bigint "patient_id"
     t.index ["patient_id"], name: "index_entry_forms_on_patient_id"
   end
 
@@ -260,7 +260,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_154923) do
     t.integer "quality_of_life"
     t.boolean "completed", default: false
     t.datetime "completion_timestamp"
-    t.bigint "patient_id", null: false
+    t.bigint "patient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_ipss_forms_on_patient_id"
@@ -278,7 +278,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_154923) do
     t.integer "total_score"
     t.boolean "completed", default: false
     t.datetime "completion_timestamp"
-    t.bigint "patient_id", null: false
+    t.bigint "patient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_oab_forms_on_patient_id"
@@ -391,8 +391,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_154923) do
   add_foreign_key "doctors", "users", on_delete: :cascade
   add_foreign_key "entry_forms", "patients", on_delete: :cascade
   add_foreign_key "iciq_forms", "patients"
-  add_foreign_key "ipss_forms", "patients"
-  add_foreign_key "oab_forms", "patients"
+  add_foreign_key "ipss_forms", "patients", on_delete: :cascade
+  add_foreign_key "oab_forms", "patients", on_delete: :cascade
   add_foreign_key "patients", "doctors", on_delete: :nullify
   add_foreign_key "patients", "users", on_delete: :cascade
   add_foreign_key "users_roles", "roles", on_delete: :cascade

@@ -19,6 +19,7 @@
   import { DEFAULT_STRING_VALUE, prepareSuperFormDefaultFormData } from '$lib/utils/superForm';
   import * as m from '$paraglide/messages';
   import { languageTag } from '$paraglide/runtime';
+  import { today, getLocalTimeZone } from '@internationalized/date';
   import { addDays } from 'date-fns';
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
@@ -182,7 +183,16 @@
 
 <form class={columnsVariants({ number: 0, gap: 6, useSpacing: true })} method="POST" use:enhance>
   <!-- TODO: move to paraglide messages -->
-  <DatePickerField name="diary_start_date" {disabled} {form} label="Kdy chcete deník začít vést?" />
+  <DatePickerField
+    name="diary_start_date"
+    {disabled}
+    {form}
+    label="Kdy chcete deník začít vést?"
+    calendarProps={{
+      minValue: today(getLocalTimeZone()),
+      maxValue: today(getLocalTimeZone()).add({ days: 7 })
+    }}
+  />
 
   {#if $formData.diary_start_date}
     <div transition:slide>

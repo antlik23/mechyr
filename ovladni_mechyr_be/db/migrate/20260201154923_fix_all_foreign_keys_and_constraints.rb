@@ -22,29 +22,31 @@ class FixAllForeignKeysAndConstraints < ActiveRecord::Migration[7.1]
     change_column :patients, :doctor_id, :bigint
     add_foreign_key :patients, :doctors, on_delete: :nullify unless foreign_key_exists?(:patients, :doctors)
 
-    # 5. Fix entry_forms.patient_id - change to bigint, make NOT NULL, add foreign key
-    # First, remove any orphaned records
+    # 5. Fix entry_forms.patient_id - change to bigint, allow NULL, add foreign key with cascade
+    # First, remove any orphaned records (keep NULL values for forms not yet assigned)
     execute <<-SQL
-      DELETE FROM entry_forms WHERE patient_id IS NULL OR patient_id NOT IN (SELECT id FROM patients)
+      DELETE FROM entry_forms WHERE patient_id IS NOT NULL AND patient_id NOT IN (SELECT id FROM patients)
     SQL
-    change_column :entry_forms, :patient_id, :bigint, null: false
+    change_column :entry_forms, :patient_id, :bigint, null: true
     add_foreign_key :entry_forms, :patients, on_delete: :cascade unless foreign_key_exists?(:entry_forms, :patients)
 
-    # 6. Fix ipss_forms.patient_id - make NOT NULL and add foreign key
-    # First, remove any orphaned records
+    # 6. Fix ipss_forms.patient_id - allow NULL and add foreign key with cascade
+    # First, remove any orphaned records (keep NULL values for forms not yet assigned)
     execute <<-SQL
-      DELETE FROM ipss_forms WHERE patient_id IS NULL OR patient_id NOT IN (SELECT id FROM patients)
+      DELETE FROM ipss_forms WHERE patient_id IS NOT NULL AND patient_id NOT IN (SELECT id FROM patients)
     SQL
-    change_column :ipss_forms, :patient_id, :bigint, null: false
-    add_foreign_key :ipss_forms, :patients, on_delete: :cascade unless foreign_key_exists?(:ipss_forms, :patients)
+    change_column :ipss_forms, :patient_id, :bigint, null: true
+    remove_foreign_key :ipss_forms, :patients if foreign_key_exists?(:ipss_forms, :patients)
+    add_foreign_key :ipss_forms, :patients, on_delete: :cascade
 
-    # 7. Fix oab_forms.patient_id - make NOT NULL and add foreign key
-    # First, remove any orphaned records
+    # 7. Fix oab_forms.patient_id - allow NULL and add foreign key with cascade
+    # First, remove any orphaned records (keep NULL values for forms not yet assigned)
     execute <<-SQL
-      DELETE FROM oab_forms WHERE patient_id IS NULL OR patient_id NOT IN (SELECT id FROM patients)
+      DELETE FROM oab_forms WHERE patient_id IS NOT NULL AND patient_id NOT IN (SELECT id FROM patients)
     SQL
-    change_column :oab_forms, :patient_id, :bigint, null: false
-    add_foreign_key :oab_forms, :patients, on_delete: :cascade unless foreign_key_exists?(:oab_forms, :patients)
+    change_column :oab_forms, :patient_id, :bigint, null: true
+    remove_foreign_key :oab_forms, :patients if foreign_key_exists?(:oab_forms, :patients)
+    add_foreign_key :oab_forms, :patients, on_delete: :cascade
   end
 
   def down

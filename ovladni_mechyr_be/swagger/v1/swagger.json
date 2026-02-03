@@ -5985,7 +5985,9 @@
                 "patient_id",
                 "appointment_initial",
                 "appointment_second",
-                "appointment_first"
+                "appointment_first",
+                "appointment_first_date",
+                "appointment_second_date"
               ],
               "description": "Sorting",
               "example": "patient_id"
@@ -6061,6 +6063,16 @@
                           "next_appointment": {
                             "type": "string",
                             "format": "date-time",
+                            "nullable": true
+                          },
+                          "appointment_first_date": {
+                            "type": "string",
+                            "format": "date",
+                            "nullable": true
+                          },
+                          "appointment_second_date": {
+                            "type": "string",
+                            "format": "date",
                             "nullable": true
                           },
                           "appointment_initial": {

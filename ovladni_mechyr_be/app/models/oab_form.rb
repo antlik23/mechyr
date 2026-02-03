@@ -29,7 +29,7 @@ class OabForm < ApplicationRecord
   validates :uncontrollable_urge, inclusion: { in: 0..5 }, allow_nil: true
   validates :leak_due_to_intense_urge, inclusion: { in: 0..5 }, allow_nil: true
 
-  belongs_to :patient
+  belongs_to :patient, optional: true
 
   before_save :set_completed
 
@@ -44,7 +44,7 @@ class OabForm < ApplicationRecord
                        waking_up_to_urinate.to_i +
                        uncontrollable_urge.to_i +
                        leak_due_to_intense_urge.to_i
-    self.total_score += 2 if patient.biological_gender == 'male'
+    self.total_score += 2 if patient&.biological_gender == 'male'
   end
 
   def set_completed

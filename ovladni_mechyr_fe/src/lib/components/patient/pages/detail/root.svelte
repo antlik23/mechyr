@@ -51,7 +51,7 @@
               timeStyle: 'short',
             })
           : EMPTY_VALUE_INDICATOR,
-        label: m.firstPersonalVisitDate(),
+        label: m.nextAppointmentDate(),
         isEditable: !!patient.next_appointment,
       },
       { value: patient.email, label: m.email() },

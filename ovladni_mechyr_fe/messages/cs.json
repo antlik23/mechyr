@@ -305,5 +305,7 @@
   "requiredFields": "povinné položky",
   "dateMustBeMin": "Datum musí být minimálně {minDate}",
   "dateMustBeMax": "Datum musí být maximálně {maxDate}",
-  "firstPersonalVisitDate": "Termín první osobní návštěvy"
+  "firstPersonalVisitDate": "Termín první osobní návštěvy",
+  "secondVisitDate": "Termín druhé návštěvy",
+  "nextAppointmentDate": "Termín další návštěvy"
 }

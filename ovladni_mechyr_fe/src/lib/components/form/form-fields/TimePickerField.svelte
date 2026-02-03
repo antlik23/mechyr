@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   import type { FormPath } from 'sveltekit-superforms';
 
   type T = Record<string, unknown>;
@@ -7,73 +6,63 @@
 </script>
 
 <script generics="T extends Record<string, unknown>, U extends FormPath<T>" lang="ts">
-  import type { ComponentEvents, ComponentProps } from 'svelte';
   import type { SuperForm } from 'sveltekit-superforms';
   import type { Merge } from 'type-fest';
-  import type { PopoverProps } from 'bits-ui';
   import { Field, type FieldProps, FieldErrors, Control, Label as FormsnapLabel } from 'formsnap';
-  import { getHours, getMinutes } from 'date-fns';
-  import { formatTime, getTimeValues } from '$lib/utils/dates';
+  import { formatTime } from '$lib/utils/dates';
   import { determineIsRequired, fieldErrorsVariants } from '../index';
-  import { cn } from '$lib/utils';
-  import * as m from '$paraglide/messages';
-  import { Button } from '$lib/components/ui/button';
   import { Label } from '$lib/components/ui/label';
-  import Time from '$lib/components/time/Time.svelte';
-  import * as Popover from '$lib/components/ui/popover';
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
-  import Input from '$lib/components/forms/fields/Input.svelte';
   import RequiredIndicator from '../required-indicator.svelte';
-  import Icon from '$lib/components/wrappers/Icon.svelte';
   import { ClockIcon } from 'lucide-svelte';
+  import { cn } from '$lib/utils';
 
   type $$Props = Merge<
     FieldProps<T, U>,
     {
-      placeholder?: ComponentProps<Input>['placeholder'];
       label?: string;
-      disabled?: ComponentProps<Input>['disabled'];
-      prepend?: ComponentProps<Icon>['icon'];
-      prependClasses?: ComponentProps<Icon>['class'];
-      append?: ComponentProps<Icon>['icon'];
-      appendClasses?: ComponentProps<Icon>['class'];
+      disabled?: boolean;
       showRequiredIndicator?: boolean;
-      popoverProps?: PopoverProps;
+      class?: string;
     }
   >;
 
   export let form: SuperForm<T>;
   export let name: U;
-  export let placeholder: $$Props['placeholder'] = undefined;
   export let label: $$Props['label'] = undefined;
   export let disabled: $$Props['disabled'] = undefined;
-  export let prepend: $$Props['prepend'] = undefined;
-  export let prependClasses: $$Props['prependClasses'] = undefined;
-  export let append: $$Props['append'] = ClockIcon;
-  export let appendClasses: $$Props['appendClasses'] = 'size-4 [&_svg]:size-[inherit]';
   export let showRequiredIndicator: $$Props['showRequiredIndicator'] = true;
-  export let popoverProps: $$Props['popoverProps'] = undefined;
+  let className: $$Props['class'] = undefined;
+  export { className as class };
 
   $: ({ form: formData } = form);
 
-  $: value = $formData[name]
-    ? getTimeValues($formData[name] as string)
-    : { hour: undefined, minute: undefined };
+  let inputElement: HTMLInputElement;
 
-  $: formattedValue = formatTime(value);
-  $: formattedValueWithoutSeconds = formattedValue.slice(0, 5);
+  // Convert stored value (HH:MM:SS) to display value (HH:MM)
+  $: timeValue = $formData[name]
+    ? ($formData[name] as string).slice(0, 5)
+    : '';
 
-  function handleValueChange(event: ComponentEvents<Time>['valueChange']) {
-    $formData[name] = formatTime(event.detail) as T[U];
+  // Handle time change from native time input
+  function handleTimeChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const time = target.value;
+    
+    if (time && time.length === 5) {
+      // Parse HH:MM and convert to HH:MM:SS format
+      const [hours, minutes] = time.split(':').map(Number);
+      $formData[name] = formatTime({ hour: hours, minute: minutes }) as T[U];
+    } else {
+      $formData[name] = '' as T[U];
+    }
   }
 
-  function handleClearClick() {
-    $formData[name] = '' as T[U];
-  }
-
-  function handleNowClick() {
-    const now = new Date();
-    $formData[name] = formatTime({ hour: getHours(now), minute: getMinutes(now) }) as T[U];
+  // Open time picker when icon is clicked
+  function handleIconClick() {
+    if (!disabled && inputElement) {
+      inputElement.showPicker?.();
+    }
   }
 </script>
 
@@ -91,50 +80,35 @@
         </FormsnapLabel>
       {/if}
 
-      <Popover.Root openFocus {...popoverProps}>
-        <Popover.Trigger asChild let:builder>
-          <Button
-            {...attrs}
-            class={cn('font-normal', !formattedValue && 'text-muted-foreground')}
-            builders={[builder]}
-            {disabled}
-            variant="input"
-          >
-            {#if prepend}
-              <Icon
-                class={cn('-ml-[1px] mr-[1px] text-muted-foreground', prependClasses)}
-                icon={prepend}
-              />
-            {/if}
-
-            <span class="truncate">
-              {#if formattedValueWithoutSeconds}
-                {formattedValueWithoutSeconds}
-              {:else if placeholder}
-                {placeholder}
-              {/if}
-            </span>
-
-            {#if append}
-              <Icon class={cn('ml-auto text-muted-foreground', appendClasses)} icon={append} />
-            {/if}
-          </Button>
-        </Popover.Trigger>
-        <Popover.Content class="w-64 p-0">
-          <Time
-            hourValue={value.hour}
-            minuteValue={value.minute}
-            on:valueChange={handleValueChange}
-          >
-            <div slot="append" class={columnsVariants({ number: 2, gap: 4 })}>
-              <Button variant="outline" on:click={handleClearClick}>{m.clear()}</Button>
-              <Button on:click={handleNowClick}>{m.now()}</Button>
-            </div>
-          </Time>
-        </Popover.Content>
-      </Popover.Root>
-
-      <input {name} type="hidden" value={formattedValue} />
+      <div class="relative">
+        <input
+          bind:this={inputElement}
+          {...attrs}
+          type="time"
+          value={timeValue}
+          on:change={handleTimeChange}
+          disabled={disabled}
+          class={cn(
+            'time-input',
+            'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background',
+            'file:border-0 file:bg-transparent file:text-sm file:font-medium',
+            'placeholder:text-muted-foreground',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+            'disabled:cursor-not-allowed disabled:opacity-50',
+            'pr-10', // Extra padding on right for icon
+            className
+          )}
+        />
+        <button
+          type="button"
+          on:click={handleIconClick}
+          disabled={disabled}
+          class="absolute right-0 top-0 flex h-10 w-10 items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
+          tabindex="-1"
+        >
+          <ClockIcon class="h-4 w-4 text-muted-foreground" />
+        </button>
+      </div>
     </Control>
 
     {#if errors.length > 0}
@@ -142,3 +116,22 @@
     {/if}
   </div>
 </Field>
+
+<style>
+  /* Hide native time picker icon in Chrome, Safari, Edge */
+  :global(.time-input::-webkit-calendar-picker-indicator) {
+    display: none;
+    -webkit-appearance: none;
+  }
+
+  /* Hide native time picker icon in Firefox */
+  :global(.time-input::-moz-calendar-picker-indicator) {
+    display: none;
+  }
+
+  /* Remove default clear button */
+  :global(.time-input::-webkit-clear-button) {
+    display: none;
+    -webkit-appearance: none;
+  }
+</style>

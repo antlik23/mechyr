@@ -434,7 +434,7 @@
   const { enhance, form: formData } = form;
 
   $: followUpMinimumDate = $formData.appointment_date
-    ? startOfDay(addMonths(new Date($formData.appointment_date), 3))
+    ? startOfDay(addMonths(new Date($formData.appointment_date), 1))
     : undefined;
 
   $: disabled = context == 'read';

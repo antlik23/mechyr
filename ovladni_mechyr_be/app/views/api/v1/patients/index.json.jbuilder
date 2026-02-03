@@ -10,6 +10,8 @@ json.patients @patients do |patient|
   json.patient_public_id patient.patient_public_id
   json.email patient.user.email
   json.next_appointment patient.next_appointment
+  json.appointment_first_date patient.appointment_first&.appointment_date
+  json.appointment_second_date patient.appointment_second&.appointment_date
   json.appointment_initial patient.appointment_initial.present?
   json.appointment_initial_id patient.appointment_initial&.id
   json.appointment_first patient.appointment_first.present?
