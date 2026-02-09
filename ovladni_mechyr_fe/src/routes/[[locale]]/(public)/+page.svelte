@@ -1,5 +1,5 @@
 <script lang="ts">
-  import HeroLeft from '$lib/assets/images/illustr2.png?url';
+  import HeroLeft from '$lib/assets/images/illustr2-2.png?url';
   import HeroRight from '$lib/assets/images/illustr4.png?url';
   import Title from '$lib/components/common/Title.svelte';
   import * as Form from '$lib/components/form';
@@ -146,7 +146,7 @@
 </script>
 
 <div class="-mt-8 mb-6 grid h-full w-full grid-cols-5 gap-6 lg:-mt-16">
-  <div class="col-span-3 grid h-full w-full gap-5">
+  <div class="col-span-3 mt-2 grid h-full w-full gap-5">
     <img
       class="h-full w-full rounded-sm object-cover"
       alt="illustr"
@@ -154,7 +154,7 @@
       title="Banner"
     />
   </div>
-  <div class="col-span-2 h-full w-full">
+  <div class="col-span-2 mt-2 h-full w-full">
     <img
       class="h-full w-full rounded-sm object-cover"
       alt="illustr"

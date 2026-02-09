@@ -42,6 +42,7 @@
     <Label for={filterIds.full_name}>{m.searchByName()}</Label>
 
     <Input
+      class="uzis-border"
       id={filterIds.full_name}
       prepend={SearchIcon}
       type="text"
@@ -55,6 +56,7 @@
 
     <Input
       id={filterIds.city}
+      class="uzis-border"
       prepend={SearchIcon}
       type="text"
       value={filters.city}
