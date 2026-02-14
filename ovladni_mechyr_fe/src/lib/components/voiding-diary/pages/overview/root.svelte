@@ -15,6 +15,7 @@
   import Table from './table.svelte';
   import type { AnamnesticQueryResponseProperties, QueryResponseProperties } from './types';
   import { FileDownIcon } from 'lucide-svelte';
+  import * as Alert from '$lib/components/ui/alert';
 
   export let response: QueryResponseProperties;
   export let anamnesticResponse: AnamnesticQueryResponseProperties;
@@ -35,36 +36,58 @@
       <!-- TODO: move to paraglide messages -->
       <p>
         Abyste se mohli objednat k lékaři v sekci
-        <strong class="text-primary">Výběr lékaře</strong>, prosíme o zaznamenávání močení a příjmu
-        tekutin minimálně 24 hodin. Mikční deník je speciální nástroj, kam zapisujete, kdy a kolik
-        jste pili a kdy jste šli na záchod. Zaznamenáváte frekvenci močení, množství vypité tekutiny
-        a případné epizody inkontinence.
-      </p>
-
-      <p>
-        <strong>
-          Po 48 hodinách od začátku zadávání bude mikční deník uzavřen bez možnosti další editace.
-        </strong>
+        <a class="font-bold text-primary underline" href={localizeRoute(route('/doctors'))}
+          >Výběr lékaře</a
+        >, prosíme o zaznamenávání močení a příjmu tekutin minimálně 24 hodin. Mikční deník je
+        speciální nástroj, kam zapisujete, kdy a kolik jste pili a kdy jste šli na záchod.
+        Zaznamenáváte frekvenci močení, množství vypité tekutiny a případné epizody inkontinence.
       </p>
 
       <div class="grid gap-3">
-        <p><strong class="text-primary">Jak na to:</strong></p>
-
-        <ol class="list-inside list-decimal space-y-2">
-          <li>Deník vyplňujete alespoň 1 den.</li>
-          <li>Když se napijete, zaznamenáte si, kolik jste vypil/a a čeho.</li>
-          <li>
-            Když jdete na záchod, zaznamenáte si, v kolik hodin to bylo a kolik jste vymočil/a.
-          </li>
-          <li>Pokud se vám stane nehoda a pomočíte se, uděláte záznam v deníku.</li>
-          <li>Deník začněte vyplňovat údaji o druhé ranní mikci.</li>
-        </ol>
+        <Alert.Root inverted={true} variant="destructive">
+          <Alert.Description class="flex items-center gap-4">
+            <div
+              class="float-left flex h-16 w-16 items-center justify-center rounded-full bg-white text-4xl font-extrabold text-primary"
+            >
+              !
+            </div>
+            Po uložení daného dotazníku nebude možné odpovědi upravit - proto si je před uložením pečlivě
+            zkontrolujte.
+          </Alert.Description>
+        </Alert.Root>
+        <div style="padding: 5px 10px;">
+          <ol class="list-inside list-decimal space-y-2">
+            <li>
+              Stáhněte si aplikaci pro <a
+                class="text-primary underline"
+                href="https://play.google.com/store/apps/details?id=com.uzis.ovladniMechyr"
+                target="_blank">Android</a
+              >
+              nebo
+              <a
+                class="text-primary underline"
+                href="https://apps.apple.com/us/app/ovl%C3%A1dni-m%C4%9Bch%C3%BD%C5%99/id6743172048"
+                target="_blank">iOS</a
+              >.
+            </li>
+            <li>Deník vyplňujete alespoň 1 den.</li>
+            <li>Když se napijete, zaznamenáte si, kolik jste vypil/a a čeho.</li>
+            <li>
+              Když jdete na záchod, zaznamenáte si, v kolik hodin to bylo a kolik jste vymočil/a.
+            </li>
+            <li>Pokud se vám stane nehoda a pomočíte se, uděláte záznam v deníku.</li>
+          </ol>
+        </div>
+        <p>
+          Zadávání informací probíhá výhradně prostřednictvím mobilní aplikace. Veškeré záznamy
+          prosím vkládejte přímo do aplikace, která je přehledná a jednoduchá na použití.
+        </p>
+        <p>
+          <strong>
+            Po 48 hodinách od začátku zadávání bude mikční deník uzavřen bez možnosti další editace.
+          </strong>
+        </p>
       </div>
-
-      <p>
-        Zadávání informací probíhá výhradně prostřednictvím mobilní aplikace. Veškeré záznamy prosím
-        vkládejte přímo do aplikace, která je přehledná a jednoduchá na použití.
-      </p>
 
       <div class="mb-4 flex flex-wrap gap-4">
         <Button

@@ -14,6 +14,10 @@
   export let inverted: $$Props['inverted'] = undefined;
 </script>
 
-<div class={cn(alertVariants({ variant, inverted }), className)} {...$$restProps} role="alert">
+<div
+  class={cn(alertVariants({ variant, inverted }), 'flex justify-center', className)}
+  {...$$restProps}
+  role="alert"
+>
   <slot />
 </div>

@@ -5,7 +5,7 @@
   import { menuLinks } from '$lib/stores/menuLinks';
   import { cn } from '$lib/utils';
   import * as m from '$paraglide/messages';
-  import { LogOutIcon, MailIcon, PhoneIcon } from 'lucide-svelte';
+  import { LogOutIcon, MailIcon, PhoneIcon, FileDownIcon } from 'lucide-svelte';
   import { mediaQuery } from 'svelte-legos';
   import type { HTMLAttributes } from 'svelte/elements';
   import Icon from '../wrappers/Icon.svelte';
@@ -72,6 +72,21 @@
           </Button>
         </li>
       {/if}
+      <li>
+        <Button
+          class={cn(
+            'relative justify-start gap-3 text-blue-light-800 hover:bg-blue-light-50 hover:text-primary'
+          )}
+          href="/OAB-krok-za-krokem_A5_1_0.pdf"
+          prependIconProps={{ class: 'size-4 [&_svg]:size-[inherit]' }}
+          prependIcon={FileDownIcon}
+          variant="none"
+          on:click={handleMenuLinkClick}
+          target="_blank"
+        >
+          Návod k použití (PDF)
+        </Button>
+      </li>
     </ul>
   </nav>
 
