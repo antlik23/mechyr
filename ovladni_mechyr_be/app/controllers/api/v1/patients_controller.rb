@@ -10,16 +10,24 @@ module Api
         patient = current_devise_api_user.patient
         doctor = Doctor.find_by(user_id: params[:patient][:doctor_id])
 
-        return render json: { error: I18n.t('errors.messages.condition_not_met') }.to_json, status: :forbidden unless patient.can_be_assigned && !doctor.full_capacity
+        return render json: { error: I18n.t('errors.messages.condition_not_met') }.to_json, status: :forbidden unless patient.can_be_assigned
+
+        return render json: { error: I18n.t('errors.messages.doctor_full_capacity') }.to_json, status: :forbidden if doctor.full_capacity
 
         return render json: { error: I18n.t('errors.messages.must_agree') }.to_json, status: :forbidden if params[:patient][:agreed_to_share_info] == false
 
         if patient.update(request_assignment_params.merge(approved: false, doctor_id: doctor.id))
           head :no_content
 
-          UserMailer.request_assignment_email(doctor,
-                                              patient,
-                                              params[:email][:custom_message]).deliver_later
+          # Rozšířené parametry pro email
+          email_params = params[:email] || {}
+          UserMailer.request_assignment_email(
+            doctor,
+            patient,
+            email_params[:custom_message],
+            email_params[:phone_number],
+            email_params[:preferred_contact]
+          ).deliver_later
         else
           respond_with_error(@form.errors.full_messages.join(', '), :unprocessable_entity)
         end
@@ -41,7 +49,8 @@ module Api
 
         if @patient.update(reject_params)
           head :no_content
-          UserMailer.reject_email(current_devise_api_user.doctor, @patient).deliver_later
+          # Odesílat email pouze pokud je volající doctor (admin nemá doctor objekt)
+          UserMailer.reject_email(current_devise_api_user.doctor, @patient).deliver_later if current_user_is_doctor?
         else
           respond_with_error(@patient.errors.full_messages.join(', '), :unprocessable_entity)
         end

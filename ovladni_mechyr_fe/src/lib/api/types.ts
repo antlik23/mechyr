@@ -105,7 +105,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
       };
     };
@@ -199,7 +201,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
       };
     };
@@ -1629,7 +1633,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
       };
     };
@@ -1665,7 +1671,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
       };
     };
@@ -1788,6 +1796,73 @@ export type paths = {
         };
       };
     };
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/doctors/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Doctor user ID */
+        id: number;
+      };
+      cookie?: never;
+    };
+    /** get doctor detail */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Doctor user ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description successful */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': {
+              doctor: {
+                id: number;
+                full_name: string | null;
+                workplace: string | null;
+                contact_email: string | null;
+                contact_phone: string | null;
+                postal_code: number | null;
+                city: string | null;
+                street_and_number: string | null;
+                latitude: number | null;
+                longitude: number | null;
+                web: string | null;
+                /** @enum {string|null} */
+                specialization: 'general' | 'urologist' | 'gynecologist' | 'urogynecologist' | null;
+                is_contactable: boolean;
+                working_hours: string | null;
+              };
+            };
+          };
+        };
+        /** @description not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content?: never;
+        };
+      };
+    };
+    put?: never;
     post?: never;
     delete?: never;
     options?: never;
@@ -1979,7 +2054,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
       };
     };
@@ -3432,7 +3509,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
         /** @description not found */
         404: {
@@ -3679,7 +3758,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
       };
     };
@@ -3910,7 +3991,9 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content?: never;
+          content: {
+            'application/json': unknown;
+          };
         };
         /** @description not found */
         404: {

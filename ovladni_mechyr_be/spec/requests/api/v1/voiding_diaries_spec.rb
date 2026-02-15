@@ -150,7 +150,7 @@ RSpec.describe 'api/v1/voiding_diaries', type: :request do
       let(:voiding_diary) do
         {
           voiding_diary: {
-            diary_start_date: '31.1.2025',
+            diary_start_date: Date.today.strftime('%d.%m.%Y'),
             diary_duration_days: 1,
             bedtime_day_one: '10',
             wake_up_time_day_one: '23',

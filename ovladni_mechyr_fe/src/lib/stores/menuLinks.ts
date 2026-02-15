@@ -21,6 +21,7 @@ type MenuLink = {
   icon: ComponentProps<Icon>['icon'];
   text: string;
   link: string;
+  highlight?: boolean;
 };
 
 type MenuLinkWithRoles = MenuLink & { roles: UserRole[] };
@@ -68,6 +69,7 @@ export const menuLinks = derived(persistedUser, (userData) => {
       text: isAdmin ? m.doctorsList() : m.doctorSelection(),
       link: localizeRoute(route('/doctors')),
       roles: ['admin', 'patient'],
+      highlight: !isAdmin,
     },
     {
       icon: HomeIcon,
@@ -92,7 +94,7 @@ export const menuLinks = derived(persistedUser, (userData) => {
   // Filter links based on user roles.
   return links
     .filter((link) => roles.some((role) => link.roles.includes(role)))
-    .map(({ icon, link, text }) => {
-      return { icon, link, text } satisfies MenuLink;
+    .map(({ icon, link, text, highlight }) => {
+      return { icon, link, text, highlight } satisfies MenuLink;
     });
 });

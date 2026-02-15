@@ -60,6 +60,7 @@
     | ((params: { items: NonNullable<unknown>; count: NonNullable<unknown> }) => string)
     | undefined = undefined;
   export let onRowClick: ((row: (typeof $pageRows)[number]) => void) | undefined = undefined;
+  export let rowClass: ((row: (typeof $pageRows)[number]) => string) | undefined = undefined;
 
   const dispatch = createEventDispatcher<{
     pagination: {
@@ -188,7 +189,7 @@
       {#each $pageRows as row (row.id)}
         <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
           <Table.Row
-            class={cn(onRowClick !== undefined && 'cursor-pointer')}
+            class={cn(onRowClick !== undefined && 'cursor-pointer', rowClass?.(row))}
             on:click={() => onRowClick?.(row)}
             {...rowAttrs}
           >

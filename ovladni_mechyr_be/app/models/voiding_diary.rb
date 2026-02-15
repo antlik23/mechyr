@@ -18,7 +18,8 @@ class VoidingDiary < ApplicationRecord
 
   validates :diary_start_date, presence: true
   # Úkol 3: Povolit začátek dnes nebo v blízké budoucnosti (max 7 dní)
-  validate :diary_start_date_within_allowed_range
+  # Validace se aplikuje pouze při vytváření, ne při ukončování deníku
+  validate :diary_start_date_within_allowed_range, on: :create
   validates :diary_duration_days, inclusion: { in: 1..2 }, presence: true
 
   def diary_start_date_within_allowed_range

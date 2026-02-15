@@ -8,9 +8,11 @@
   import { createRender, createTable } from 'svelte-headless-table';
   import { addPagination, addSortBy } from 'svelte-headless-table/plugins';
   import { writable } from 'svelte/store';
+
   import type { ResponseData } from './types';
 
   export let responseData: ResponseData;
+  export let assignedDoctorId: number | null = null;
 
   const columnIds = {
     full_name: 'full_name',
@@ -82,6 +84,11 @@
   {columns}
   {extraOptions}
   itemsCount={responseData.pagination.count}
+  rowClass={(row) => {
+    if (!row.isData()) return '';
+    const doctor = row.original;
+    return doctor.id === assignedDoctorId ? 'bg-green-50/50 hover:bg-green-50' : '';
+  }}
   {table}
   on:pagination
   on:sort

@@ -8,6 +8,7 @@ import 'package:uzis_app/auth_notifier.dart';
 import 'package:uzis_app/core/constants/app_colors.dart';
 import 'package:uzis_app/core/utils/custom_snackbar.dart';
 import 'package:uzis_app/features/auth/repositories/user_repository.dart';
+import 'package:uzis_app/shared/screens/menu_screen.dart';
 import 'package:uzis_app/shared/widgets/button.dart';
 import 'package:uzis_app/shared/widgets/button_outlined.dart';
 
@@ -222,41 +223,41 @@ class _AppLayoutState extends State<AppLayout>
                 ),
 
                 // Sidemenu
-                // Container(
-                //   decoration: const BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     color: Color(0xFFF3F8FA),
-                //   ),
-                //   child: IconButton(
-                //     icon: AnimatedIcon(
-                //       icon: AnimatedIcons.menu_close,
-                //       progress: _animationController,
-                //       color: AppColors.darkBlueBase,
-                //       size: 20,
-                //     ),
-                //     onPressed: toggleDrawer,
-                //   ),
-                // ),
-
-                // Logout Button
                 Container(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Color(0xFFF3F8FA),
                   ),
                   child: IconButton(
-                    icon: SvgPicture.asset(
-                      "assets/icons/Logout.svg",
-                      width: 20,
-                      height: 20,
-                      colorFilter: const ColorFilter.mode(
-                        AppColors.darkBlueBase,
-                        BlendMode.srcIn,
-                      ),
+                    icon: AnimatedIcon(
+                      icon: AnimatedIcons.menu_close,
+                      progress: _animationController,
+                      color: AppColors.darkBlueBase,
+                      size: 20,
                     ),
-                    onPressed: logout,
+                    onPressed: toggleDrawer,
                   ),
                 ),
+
+                // Logout Button - ZAKOMENTOVÁNO: Logout je dostupný v hamburger menu
+                // Container(
+                //   decoration: const BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     color: Color(0xFFF3F8FA),
+                //   ),
+                //   child: IconButton(
+                //     icon: SvgPicture.asset(
+                //       "assets/icons/Logout.svg",
+                //       width: 20,
+                //       height: 20,
+                //       colorFilter: const ColorFilter.mode(
+                //         AppColors.darkBlueBase,
+                //         BlendMode.srcIn,
+                //       ),
+                //     ),
+                //     onPressed: logout,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -265,15 +266,15 @@ class _AppLayoutState extends State<AppLayout>
       body: Scaffold(
         key: _scaffoldKey,
         body: widget.child,
-        // endDrawer: Drawer(
-        //   shape: const RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.zero,
-        //   ),
-        //   width: MediaQuery.of(context).size.width,
-        //   child: MenuScreen(
-        //     toggleDrawer: toggleDrawer,
-        //   ),
-        // ),
+        endDrawer: Drawer(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: MenuScreen(
+            toggleDrawer: toggleDrawer,
+          ),
+        ),
       ),
     );
   }

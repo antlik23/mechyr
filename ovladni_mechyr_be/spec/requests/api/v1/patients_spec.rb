@@ -310,7 +310,9 @@ RSpec.describe 'api/v1/patients', type: :request do
             email: {
               type: :object,
               properties: {
-                custom_message: { type: :string }
+                custom_message: { type: :string },
+                phone_number: { type: :string },
+                preferred_contact: { type: :string, enum: ['email', 'phone'] }
               },
               required: ['custom_message']
             }
@@ -322,11 +324,11 @@ RSpec.describe 'api/v1/patients', type: :request do
           {
             patient: {
               agreed_to_share_info: true,
-              doctor_id: user_doctor.id # Use the doctor's ID here as well
+              doctor_id: user_doctor.id
             },
             email: {
-              phone_number: '+15551234567',
-              custom_message: 'čus',
+              custom_message: 'Dobrý den, chtěl/a bych se objednat na vyšetření.',
+              phone_number: '+420123456789',
               preferred_contact: 'email'
             }
           }

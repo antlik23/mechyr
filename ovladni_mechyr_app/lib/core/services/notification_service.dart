@@ -70,6 +70,11 @@ class NotificationService {
     required String title,
     String? body,
   }) async {
+    // Don't schedule notifications for dates in the past
+    if (selectedTime.isBefore(DateTime.now())) {
+      return;
+    }
+
     final tz.TZDateTime scheduledTime =
         tz.TZDateTime.from(selectedTime, tz.local);
 
@@ -84,10 +89,8 @@ class NotificationService {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
       );
-
-      print('Notification scheduled successfully');
     } catch (e) {
-      print('Error scheduling notification: $e');
+      // Silently fail - notification scheduling is not critical
     }
   }
 

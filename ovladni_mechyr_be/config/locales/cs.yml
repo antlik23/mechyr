@@ -34,6 +34,8 @@ cs:
   errors:
     messages:
       duplicate: "Nemůžete vytvořit více než jeden formulář."
+      condition_not_met: "Nesplňujete podmínky pro přiřazení k lékaři. Musíte mít vyplněné všechny požadované formuláře (OAB, ICIQ, anamnestický dotazník, případně IPSS pro muže), nebo již máte přiřazeného lékaře."
+      doctor_full_capacity: "Tento lékař již nemá volnou kapacitu pro nové pacienty."
       condition_not_met_anamnestic_forms: "Nesplňujete podmínky pro vytvoření dotazníku. Musíte splňovat podmínky v předchozích formulářích."
       condition_not_met_ipss_forms: "Nesplňujete podmínky pro vytvoření dotazníku. Musíte splňovat podmínky v předchozích formulářích."
       condition_not_met_iciq_forms: "Nesplňujete podmínky pro vytvoření dotazníku. Musíte splňovat podmínky v předchozích formulářích."

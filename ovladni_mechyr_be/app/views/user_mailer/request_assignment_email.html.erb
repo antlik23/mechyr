@@ -133,7 +133,15 @@
       <a href="<%= @user_url %>" target="_blank">Zobrazit detail pacienta</a>
       <br />
       <br />
-      Pokud si nebude přát jinak, můžete ho kontaktovat na emailu: <%= @patient.user.email %>.
+      <% if @preferred_contact.present? %>
+        Pacient preferuje kontakt prostřednictvím: <%= @preferred_contact == 'email' ? 'emailu' : 'telefonu' %>.
+        <br />
+      <% end %>
+      <% if @phone_number.present? %>
+        Telefonní číslo: <%= @phone_number %>
+        <br />
+      <% end %>
+      Email: <%= @patient.user.email %>
       <br />
       <br />
       V návaznosti na výsledky dotazníkového šetření mi bylo doporučeno odborné vyšetření.

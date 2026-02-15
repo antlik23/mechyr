@@ -6,7 +6,18 @@ import { GENDERS } from '$lib/components/user/genders';
 
 export const firstAppointmentFormSchema = z
   .object({
-    appointment_date: z.string().date(m.fieldIsRequired()),
+    appointment_date: z
+      .string()
+      .date(m.fieldIsRequired())
+      .refine(
+        (dateStr) => {
+          const selectedDate = new Date(dateStr);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          return selectedDate >= today;
+        },
+        { message: 'Datum návštěvy nemůže být v minulosti' }
+      ),
     consent_signed: z.boolean({ message: m.fieldIsRequired() }),
     meets_project_criteria: z.union([z.boolean(), z.string()]),
     blood_in_urine: z.boolean().optional(),
@@ -29,7 +40,16 @@ export const firstAppointmentFormSchema = z
     reason_treatment_not_started: z.enum([...REASONS_TREATMENT_NOT_STARTED, ''] as const),
     alternative_treatment_details: z.string(),
     treatment_contraindications: z.string(),
-    follow_up_date: z.string(),
+    follow_up_date: z.string().refine(
+      (dateStr) => {
+        if (dateStr === '') return true;
+        const selectedDate = new Date(dateStr);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return selectedDate >= today;
+      },
+      { message: 'Datum kontroly nemůže být v minulosti' }
+    ),
     notes: z.string().optional(),
   })
   .extend({

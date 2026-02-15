@@ -107,7 +107,7 @@ class VoidingService {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: json.encode(body),
+        body: json.encode({'voiding_diary': body}),
       );
 
       if (response.statusCode == 200) {

@@ -12,12 +12,12 @@
 
 FactoryBot.define do
   factory :voiding_diary do
-    diary_start_date { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
+    diary_start_date { Date.today }
     diary_duration_days { Faker::Number.between(from: 1, to: 2) }
-    bedtime_day_one { Faker::Date.between(from: DateTime.now - 1, to: DateTime.now) }
-    wake_up_time_day_one { Faker::Date.between(from: DateTime.now - 1, to: DateTime.now) }
-    bedtime_day_two { Faker::Date.between(from: DateTime.now - 1, to: DateTime.now) }
-    wake_up_time_day_two { Faker::Date.between(from: DateTime.now - 1, to: DateTime.now) }
+    bedtime_day_one { Time.current }
+    wake_up_time_day_one { Time.current + 8.hours }
+    bedtime_day_two { Time.current + 1.day }
+    wake_up_time_day_two { Time.current + 1.day + 8.hours }
     patient { association :patient }
   end
 end

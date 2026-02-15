@@ -70,6 +70,8 @@ class _CreateDiaryFormScreenState extends State<CreateDiaryFormScreen> {
       });
       if (!mounted) return;
       CustomSnackbar.showSuccess("Mikční deník byl vytvořen.");
+
+      // Schedule start notification only if date is in the future
       final parsedDate = DateFormat("d. M. yyyy").parse(startDate.text);
       final selectedDateAt8AM = DateTime(
         parsedDate.year,
@@ -77,13 +79,18 @@ class _CreateDiaryFormScreenState extends State<CreateDiaryFormScreen> {
         parsedDate.day,
         8, // 8:00 AM
       );
-      NotificationService().scheduleNotification(
-        id: NotificationService.startDiaryId,
-        selectedTime: selectedDateAt8AM,
-        title: "Čas začít mikční deník!",
-        body:
-            "Nezapomeňte: Začněte DRUHOU ranní mikcí (první ranní močení patří k předchozímu dni).",
-      );
+
+      if (selectedDateAt8AM.isAfter(DateTime.now())) {
+        NotificationService().scheduleNotification(
+          id: NotificationService.startDiaryId,
+          selectedTime: selectedDateAt8AM,
+          title: "Čas začít mikční deník!",
+          body:
+              "Nezapomeňte: Začněte DRUHOU ranní mikcí (první ranní močení patří k předchozímu dni).",
+        );
+      }
+
+      // Schedule end notification only if date is in the future
       final parsedEndDate = DateFormat("d. M. yyyy")
           .parse(startDate.text)
           .add(Duration(days: duration!));
@@ -93,12 +100,15 @@ class _CreateDiaryFormScreenState extends State<CreateDiaryFormScreen> {
         parsedEndDate.day,
         12, // 12:00 PM
       );
-      NotificationService().scheduleNotification(
-        id: NotificationService.endDiaryId,
-        selectedTime: endDateAtNoon,
-        title: "Váš mikční deník končí!",
-        body: "Zkontrolujte si vaše záznamy a potvrdťe ukončení.",
-      );
+
+      if (endDateAtNoon.isAfter(DateTime.now())) {
+        NotificationService().scheduleNotification(
+          id: NotificationService.endDiaryId,
+          selectedTime: endDateAtNoon,
+          title: "Váš mikční deník končí!",
+          body: "Zkontrolujte si vaše záznamy a potvrdťe ukončení.",
+        );
+      }
       context.go("/voiding-diary/${response.id.toString()}");
     } catch (e) {
       CustomSnackbar.showError(e.toString());

@@ -33,16 +33,20 @@ class VoidingDiary {
             : null,
         // startDate: DateTime.parse("2025-02-17T00:00:00.000"),
         // duration: DurationTypeExtension.fromApiInt(2),
-        bedTimeDayOne: json["bedtime_day_one"] != null
-            ? DateFormat("HH:mm").parse(json["bedtime_day_one"])
-            : null,
-        wakeupTimeDayOne: json["wake_up_time_day_one"] != null
+        bedTimeDayOne:
+            json["bedtime_day_one"] != null && json["bedtime_day_one"] != ""
+                ? DateFormat("HH:mm").parse(json["bedtime_day_one"])
+                : null,
+        wakeupTimeDayOne: json["wake_up_time_day_one"] != null &&
+                json["wake_up_time_day_one"] != ""
             ? DateFormat("HH:mm").parse(json["wake_up_time_day_one"])
             : null,
-        bedTimeDayTwo: json["bedtime_day_two"] != null
-            ? DateFormat("HH:mm").parse(json["bedtime_day_two"])
-            : null,
-        wakeupTimeDayTwo: json["wake_up_time_day_two"] != null
+        bedTimeDayTwo:
+            json["bedtime_day_two"] != null && json["bedtime_day_two"] != ""
+                ? DateFormat("HH:mm").parse(json["bedtime_day_two"])
+                : null,
+        wakeupTimeDayTwo: json["wake_up_time_day_two"] != null &&
+                json["wake_up_time_day_two"] != ""
             ? DateFormat("HH:mm").parse(json["wake_up_time_day_two"])
             : null,
         completed: json["completed"],

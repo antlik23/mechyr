@@ -75,8 +75,9 @@ class Patient < ApplicationRecord
   end
 
   def can_be_assigned
+    # Umožnění kontaktování lékaře po vyplnění dotazníků (bez požadavku na dokončený mikční deník)
     sexless_criteria = doctor_id.nil? && oab_forms.find_by(completed: true).present? && iciq_forms.find_by(completed: true).present? &&
-                       anamnestic_forms.find_by(completed: true).present? && voiding_diaries&.find_by(completed: true).present?
+                       anamnestic_forms.find_by(completed: true).present?
     if biological_gender == 'male'
       sexless_criteria && ipss_forms.find_by(completed: true).present?
     else

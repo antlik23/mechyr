@@ -50,6 +50,22 @@ export const anamnesticFormSchema = z
       no_surgery: z.boolean().default(false),
       neurological_surgery_history: z.undefined(),
     }),
+    z.object({
+      gender: z.enum([GENDERS['2']]),
+      number_of_births: z.undefined(),
+      post_menopausal: z.undefined(),
+      prolapse_diagnosed: z.undefined(),
+      hysterectomy: z.undefined(),
+      cesarean_section: z.undefined(),
+      surgery_for_benign_prostate_enlargement: z.boolean().default(false),
+      surgery_for_prostate_cancer: z.boolean().default(false),
+      surgery_for_bladder_tumor: z.boolean().default(false),
+      surgery_for_urethral_stricture: z.boolean().default(false),
+      surgery_for_urine_leakage: z.boolean().default(false),
+      other_surgery: z.boolean().default(false),
+      no_surgery: z.boolean().default(false),
+      neurological_surgery_history: z.undefined(),
+    }),
   ])
   .and(
     z.object({

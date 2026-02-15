@@ -20,6 +20,7 @@ import 'package:uzis_app/features/forms/screens/record_input_detail_screen.dart'
 import 'package:uzis_app/features/forms/screens/record_output_create_screen.dart';
 import 'package:uzis_app/features/forms/screens/record_output_detail_screen.dart';
 import 'package:uzis_app/features/voiding_diary/screens/voiding_diary_screen.dart';
+import 'package:uzis_app/features/doctor/doctor.dart';
 import 'package:uzis_app/shared/screens/no_connection_screen.dart';
 import 'package:uzis_app/shared/screens/patient_only_screen.dart';
 
@@ -206,6 +207,28 @@ class _MyAppState extends State<MyApp> {
                   },
                 ),
               ],
+            ),
+            GoRoute(
+              path: '/doctor-list',
+              builder: (context, state) {
+                return const DoctorListScreen();
+              },
+            ),
+            GoRoute(
+              path: '/doctor-detail/:doctorId',
+              builder: (context, state) {
+                return DoctorDetailScreen(
+                  doctorId: state.pathParameters['doctorId']!,
+                );
+              },
+            ),
+            GoRoute(
+              path: '/doctor-contact/:doctorId',
+              builder: (context, state) {
+                return DoctorContactScreen(
+                  doctorId: state.pathParameters['doctorId']!,
+                );
+              },
             ),
           ],
         ),

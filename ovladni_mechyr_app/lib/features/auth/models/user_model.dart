@@ -7,6 +7,8 @@ class UserModel {
     required this.anamnesticFormIds,
     required this.roles,
     this.patientPublicId,
+    this.doctorId,
+    this.doctorName,
   });
 
   int id;
@@ -14,6 +16,8 @@ class UserModel {
   List<int> anamnesticFormIds;
   List<UserRole> roles;
   String? patientPublicId;
+  int? doctorId;
+  String? doctorName;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
@@ -22,6 +26,8 @@ class UserModel {
         roles: List<UserRole>.from(
             json["roles"]?.map((x) => UserRoleExtension.fromString(x)) ?? []),
         patientPublicId: json["patient_public_id"],
+        doctorId: json["doctor_id"],
+        doctorName: json["doctor_name"],
       );
 
   factory UserModel.fromRawJson(String str) =>
@@ -34,6 +40,8 @@ class UserModel {
         "roles":
             List<dynamic>.from(roles.map((x) => UserRoleExtension.toJson(x))),
         "patient_public_id": patientPublicId,
+        "doctor_id": doctorId,
+        "doctor_name": doctorName,
       };
 }
 

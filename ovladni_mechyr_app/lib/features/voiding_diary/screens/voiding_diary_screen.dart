@@ -555,6 +555,31 @@ class _VoidingDiaryScreenState extends State<VoidingDiaryScreen> {
     }
   }
 
+  /// Checks if the diary can be completed based on filled wake/sleep times
+  /// Same logic as web app (record-list/root.svelte:105-112)
+  bool _canCompleteDiary(VoidingDiary diary) {
+    final durationDays = diary.duration?.toApiInt() ?? 0;
+    final wakeupTimeDayOne = diary.wakeupTimeDayOne;
+    final bedTimeDayOne = diary.bedTimeDayOne;
+    final wakeupTimeDayTwo = diary.wakeupTimeDayTwo;
+    final bedTimeDayTwo = diary.bedTimeDayTwo;
+
+    // For 1-day diary: both day one times must be filled
+    if (durationDays == 1) {
+      return wakeupTimeDayOne != null && bedTimeDayOne != null;
+    }
+
+    // For 2-day diary: all four times must be filled
+    if (durationDays == 2) {
+      return wakeupTimeDayOne != null &&
+          bedTimeDayOne != null &&
+          wakeupTimeDayTwo != null &&
+          bedTimeDayTwo != null;
+    }
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -748,8 +773,8 @@ class _VoidingDiaryScreenState extends State<VoidingDiaryScreen> {
                             ),
                             Column(
                               children: [
-                                if (today.isAtSameMomentAs(endDate) ||
-                                    today.isAfter(endDate))
+                                if (!voidingDiary.completed! &&
+                                    _canCompleteDiary(voidingDiary))
                                   Button(
                                     text: "Ukončit mikční deník",
                                     onPressed: () {

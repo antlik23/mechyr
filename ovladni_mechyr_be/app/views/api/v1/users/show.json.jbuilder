@@ -13,7 +13,7 @@ json.user do
       json.gender 'other'
       json.other_gender @user.patient.gender
     end
-    json.doctor_id @user.patient.doctor_id
+    json.doctor_id @user.patient.doctor&.user_id
     json.patient_public_id @user.patient.patient_public_id
     json.patient_id @user.patient.id
     json.approved @user.patient.approved

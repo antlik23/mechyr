@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+json.doctor do
+  json.id @doctor.user_id
+  json.full_name @doctor.full_name
+  json.workplace @doctor.workplace
+  json.contact_email @doctor.contact_email
+  json.contact_phone @doctor.contact_phone
+  json.postal_code @doctor.postal_code
+  json.city @doctor.city
+  json.street_and_number @doctor.street_and_number
+  json.latitude @doctor.latitude
+  json.longitude @doctor.longitude
+  json.web @doctor.web
+  json.specialization @doctor.specialization
+  json.is_contactable @doctor.is_contactable
+  json.working_hours @doctor.working_hours
+end

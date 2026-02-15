@@ -9,7 +9,18 @@ import {
 
 export const initialAppointmentFormSchema = z
   .object({
-    assessment_date: z.string().date(m.fieldIsRequired()),
+    assessment_date: z
+      .string()
+      .date(m.fieldIsRequired())
+      .refine(
+        (dateStr) => {
+          const selectedDate = new Date(dateStr);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          return selectedDate >= today;
+        },
+        { message: 'Datum návštěvy nemůže být v minulosti' }
+      ),
     diagnosis: z.enum(DIAGNOSES, { message: m.fieldIsRequired() }),
     alternative_diagnosis: z.string(),
     oab_treatment_criteria_met: z.union([z.boolean(), z.string()]),

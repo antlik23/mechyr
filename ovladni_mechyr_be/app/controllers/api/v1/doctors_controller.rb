@@ -26,12 +26,19 @@ module Api
         @pagination = pagy_metadata(@pagy)
       end
 
+      def show
+        return if authorize_action(roles: %i[patient admin])
+
+        @doctor = Doctor.find_by(user_id: params[:id])
+        render json: { error: I18n.t('errors.messages.not_found') }, status: :not_found if @doctor.nil?
+      end
+
       def update_full_capacity
         return if authorize_action(roles: %i[doctor])
 
         doctor = current_devise_api_user.doctor
         doctor.update(capacity_params)
-        return unless (params[:doctor][:full_capacity] = true)
+        return unless params[:doctor][:full_capacity] == true
 
         patients_to_reject = doctor.patients.where(approved: false)
         patients_to_reject.each do |patient|

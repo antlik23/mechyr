@@ -6,11 +6,16 @@
   export let data;
   $: ({ pageParams } = data);
 
-  $: detailQuery = createQuery(queries.users.detail(pageParams.doctorId));
+  $: detailQuery = createQuery(queries.doctors.detail(pageParams.doctorId));
+  $: voidingDiariesQuery = createQuery(queries.voidingDiaries.list());
+
+  $: hasCompletedDiary =
+    $voidingDiariesQuery.data?.voiding_diaries?.some((diary) => diary.completed) || false;
 </script>
 
 <Doctor.Pages.DetailContact
   breadcrumbs={data.breadcrumbs}
+  {hasCompletedDiary}
   response={{
     data: $detailQuery.data,
     isLoading: $detailQuery.isLoading,

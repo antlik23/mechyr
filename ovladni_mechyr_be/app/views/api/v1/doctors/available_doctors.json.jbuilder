@@ -16,4 +16,7 @@ json.doctors @doctors do |doctor|
   json.latitude doctor.latitude
   json.longitude doctor.longitude
   json.web doctor.web
+  json.specialization doctor.specialization
+  json.is_contactable doctor.is_contactable
+  json.working_hours doctor.working_hours
 end

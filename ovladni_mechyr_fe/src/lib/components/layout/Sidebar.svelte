@@ -46,7 +46,8 @@
               'relative justify-start gap-3',
               isActive &&
                 'text-primary before:absolute before:bottom-0 before:left-0 before:top-0 before:block before:w-1 before:bg-accent',
-              !isActive && 'text-blue-light-800 hover:text-primary'
+              !isActive && 'text-blue-light-800 hover:text-primary',
+              menuLink.highlight && !isActive && 'bg-accent/10 font-semibold text-accent'
             )}
             href={menuLink.link}
             prependIcon={menuLink.icon}

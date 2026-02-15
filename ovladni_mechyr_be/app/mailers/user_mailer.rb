@@ -6,10 +6,12 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: I18n.t('devise.mailer.registrations.subject'))
   end
 
-  def request_assignment_email(doctor, patient, custom_message)
+  def request_assignment_email(doctor, patient, custom_message, phone_number = nil, preferred_contact = nil)
     @doctor = doctor
     @patient = patient
     @custom_message = custom_message
+    @phone_number = phone_number
+    @preferred_contact = preferred_contact
     @user_url = "#{Rails.application.credentials[:fe_url]}/patients/approved/#{patient.id}"
 
     email = doctor.contact_email

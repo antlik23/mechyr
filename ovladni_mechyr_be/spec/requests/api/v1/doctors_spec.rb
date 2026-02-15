@@ -193,4 +193,81 @@ RSpec.describe 'api/v1/doctors/available_doctors', type: :request do
       end
     end
   end
+
+  path '/api/v1/doctors/{id}' do
+    parameter name: :id, in: :path, type: :integer, description: 'Doctor user ID', required: true
+
+    get('get doctor detail') do
+      tags 'Patient and doctor'
+      produces 'application/json'
+      consumes 'application/json'
+      security [Bearer: []]
+
+      response(200, 'successful') do
+        authorization_as_patient
+        let(:id) { user_doctor.id }
+
+        schema type: :object, properties: {
+                                doctor: {
+                                  type: :object,
+                                  properties: {
+                                    id: { type: :integer },
+                                    full_name: { type: :string, nullable: true },
+                                    workplace: { type: :string, nullable: true },
+                                    contact_email: { type: :string, nullable: true },
+                                    contact_phone: { type: :string, nullable: true },
+                                    postal_code: { type: :integer, nullable: true },
+                                    city: { type: :string, nullable: true },
+                                    street_and_number: { type: :string, nullable: true },
+                                    latitude: { type: :number, nullable: true },
+                                    longitude: { type: :number, nullable: true },
+                                    web: { type: :string, nullable: true },
+                                    specialization: { type: :string, enum: ['general', 'urologist', 'gynecologist', 'urogynecologist'], nullable: true },
+                                    is_contactable: { type: :boolean },
+                                    working_hours: { type: :string, nullable: true }
+                                  },
+                                  required: ['id', 'full_name', 'workplace', 'contact_email', 'contact_phone', 'postal_code',
+                                             'city', 'street_and_number', 'latitude', 'longitude', 'web', 'specialization',
+                                             'is_contactable', 'working_hours']
+                                }
+                              },
+               required: ['doctor']
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
+      response(200, 'successful') do
+        authorization_as_admin
+        let(:id) { user_doctor.id }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
+      response(404, 'not found') do
+        authorization_as_doctor
+        let(:id) { user_doctor.id }
+        run_test!
+      end
+
+      response(404, 'not found') do
+        authorization_as_patient
+        let(:id) { 999999 }
+        run_test!
+      end
+    end
+  end
 end

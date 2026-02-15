@@ -48,6 +48,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "anamnestic_forms": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -326,7 +336,14 @@
             }
           },
           "404": {
-            "description": "not found"
+            "description": "not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "nenalezen"
+                }
+              }
+            }
           }
         }
       },
@@ -346,6 +363,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "anamnestic_form": {
+                    "id": 105
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -370,7 +392,14 @@
             }
           },
           "404": {
-            "description": "not found"
+            "description": "not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "nenalezen"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -612,6 +641,68 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "anamnestic_form": {
+                    "id": 108,
+                    "completion_timestamp": "2026-02-15T11:13:22.152Z",
+                    "age": 66,
+                    "height": 143,
+                    "weight": 147,
+                    "on_oab_medication_last_3_months": false,
+                    "number_of_births": 2,
+                    "post_menopausal": false,
+                    "prolapse_diagnosed": true,
+                    "hysterectomy": false,
+                    "cesarean_section": "true",
+                    "surgery_for_benign_prostate_enlargement": true,
+                    "surgery_for_prostate_cancer": true,
+                    "surgery_for_bladder_tumor": false,
+                    "surgery_for_urethral_stricture": true,
+                    "surgery_for_urine_leakage": false,
+                    "no_surgery": false,
+                    "other_surgery": true,
+                    "previous_surgery_details": "Eveniet qui aut deleniti.",
+                    "recurrent_infections": true,
+                    "neurological_surgery_history": false,
+                    "hypertension": false,
+                    "hypothyroidism": false,
+                    "high_cholesterol": false,
+                    "diabetes": false,
+                    "back_problems": true,
+                    "depression": false,
+                    "other_psychiatric_conditions": false,
+                    "reduced_immunity": true,
+                    "headaches": true,
+                    "hip_osteoarthritis": true,
+                    "knee_osteoarthritis": false,
+                    "cancer_treatment_history": true,
+                    "cervical_cancer": false,
+                    "endometrial_cancer": false,
+                    "ovarian_cancer": true,
+                    "breast_cancer": false,
+                    "intestinal_cancer": true,
+                    "other_cancer": true,
+                    "cancer_type_details": "Quod magnam et voluptas.",
+                    "drug_allergies": false,
+                    "drug_allergies_details": "Eum eaque nisi sint.",
+                    "glaucoma_or_eye_pressure_meds": false,
+                    "cardiac_conditions": false,
+                    "heart_attack": true,
+                    "arrhythmia": false,
+                    "stroke": true,
+                    "digestive_problems": true,
+                    "dry_mucous_membranes": true,
+                    "no_illness": true,
+                    "current_medications": false,
+                    "current_medications_details": "Molestiae ab magnam laboriosam.",
+                    "past_medications": false,
+                    "past_medications_details": "Voluptates odit quis at.",
+                    "completed": true,
+                    "patient_id": 300,
+                    "patient_public_id": "00000300",
+                    "gender": "male"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -891,6 +982,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "anamnestic_form": {
+                    "id": 111
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -1153,6 +1249,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "appointment_firsts": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -1378,6 +1484,15 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_first": {
+                    "id": 17
+                  },
+                  "appointment_initial": {
+                    "id": 17,
+                    "assessment_date": "2026-02-15"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -1591,6 +1706,43 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_first": {
+                    "id": 20,
+                    "appointment_date": "2026-02-15",
+                    "consent_signed": false,
+                    "meets_project_criteria": false,
+                    "clinical_assessment_completed": true,
+                    "prolapse_present": false,
+                    "stress_test_done": false,
+                    "stress_test_result": true,
+                    "uti_excluded": false,
+                    "bladder_discomfort_vas": 0,
+                    "diagnosis": "oab",
+                    "alternative_diagnosis": "Sunt quo quos.",
+                    "oab_treatment_criteria_met": false,
+                    "prescribed_medication": "solifenacin",
+                    "dosage": 6.73,
+                    "dosage_unit": "other_unit",
+                    "alternative_dosage_unit": "non",
+                    "reason_treatment_not_started": "patient_refused_treatment",
+                    "alternative_treatment_details": "Esse nostrum velit. Sapiente voluptatem optio. Quis sit repellat.",
+                    "treatment_contraindications": "Neque impedit omnis. Voluptatem dolores alias. Quas et sapiente.",
+                    "follow_up_date": "2026-10-11",
+                    "doctor_user_id": 805,
+                    "patient_id": 315,
+                    "patient_public_id": "00000315",
+                    "notes": "Iusto accusantium et. Cum aliquid eos. Expedita molestiae et.",
+                    "blood_in_urine": false,
+                    "protein_in_urine": false,
+                    "sugar_in_urine": false,
+                    "post_void_residual_over_100_ml": false
+                  },
+                  "appointment_initial": {
+                    "id": 22,
+                    "assessment_date": "2026-02-15"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -1810,6 +1962,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_first": {
+                    "id": 23
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2026,6 +2183,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "appointment_initials": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2184,6 +2351,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_initial": {
+                    "id": 23
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2330,6 +2502,25 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_initial": {
+                    "id": 26,
+                    "assessment_date": "2026-02-15",
+                    "diagnosis": "oab_mixed_incontinence",
+                    "alternative_diagnosis": "Sint quaerat eaque.",
+                    "oab_treatment_criteria_met": true,
+                    "initiate_pharmacological_treatment": false,
+                    "prescribed_medication": "mirabegron",
+                    "dosage": 1.29,
+                    "dosage_unit": "mg",
+                    "alternative_dosage_unit": "modi",
+                    "reason_treatment_not_started": "unable_to_propose_treatment",
+                    "alternative_treatment_details": "Ipsam harum error. Qui eligendi ratione. Id fuga nisi.",
+                    "doctor_user_id": 849,
+                    "patient_id": 330,
+                    "patient_public_id": "00000330"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2465,6 +2656,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_initial": {
+                    "id": 27
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2631,6 +2827,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "appointment_seconds": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2807,6 +3013,15 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_second": {
+                    "id": 11
+                  },
+                  "appointment_first": {
+                    "id": 27,
+                    "appointment_date": "2026-02-15"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -2986,6 +3201,32 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_second": {
+                    "id": 14,
+                    "attended_appointment": true,
+                    "appointment_date": "2026-02-15",
+                    "visual_analog_scale": 0,
+                    "continuing_treatment": "without_oab",
+                    "discontinuation_reason": "treatment_ineffectiveness",
+                    "alternative_reason": "Deleniti architecto quidem.",
+                    "current_treatment": "combination",
+                    "prescribed_medication": "darifenacin",
+                    "dosage": 1.65,
+                    "dosage_unit": "ml",
+                    "alternative_dosage_unit": "esse",
+                    "doctor_user_id": 899,
+                    "patient_id": 345,
+                    "patient_public_id": "00000345",
+                    "notes": "Ex et exercitationem. Odit esse modi. Et asperiores ipsam.",
+                    "multiple_medications": "Nam voluptate qui debitis.",
+                    "multiple_medications_dosage": "Assumenda reiciendis odio occaecati."
+                  },
+                  "appointment_first": {
+                    "id": 32,
+                    "appointment_date": "2026-02-15"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3156,6 +3397,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "appointment_second": {
+                    "id": 17
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3312,7 +3558,10 @@
         "parameters": [],
         "responses": {
           "204": {
-            "description": "successful"
+            "description": "successful",
+            "content": {
+              "application/json": {}
+            }
           }
         },
         "requestBody": {
@@ -3363,7 +3612,10 @@
         ],
         "responses": {
           "204": {
-            "description": "successful"
+            "description": "successful",
+            "content": {
+              "application/json": {}
+            }
           }
         }
       }
@@ -3449,6 +3701,33 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 1,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "doctors": [
+                    {
+                      "id": 924,
+                      "full_name": "Douglas",
+                      "workplace": "Block, Stamm and Mohr",
+                      "contact_email": "greg@batz.example",
+                      "contact_phone": "(282) 240 1642",
+                      "postal_code": 58127,
+                      "city": "Port Leoniaton",
+                      "street_and_number": "8929 Leroy Villages",
+                      "latitude": 55.61358489139502,
+                      "longitude": -122.85825564608982,
+                      "web": "http://koelpin.test/nora",
+                      "specialization": "general",
+                      "is_contactable": true,
+                      "working_hours": "PO: 7:00 - 14:00\nUT: 7:00 - 12:00\nST: 9:00 - 17:00\nCT: 7:00 - 11:00 13:00 - 17:00\nPA: 9:00 - 12:00\nSO: Zavřeno\nNE: Zavřeno"
+                    }
+                  ]
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3607,6 +3886,149 @@
         }
       }
     },
+    "/api/v1/doctors/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Doctor user ID",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "summary": "get doctor detail",
+        "tags": [
+          "Patient and doctor"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "doctor": {
+                    "id": 934,
+                    "full_name": "Kendall",
+                    "workplace": "Rohan and Sons",
+                    "contact_email": "marvin_lockman@satterfield.test",
+                    "contact_phone": "229-300-5423",
+                    "postal_code": 12654,
+                    "city": "Toyville",
+                    "street_and_number": "518 Flatley Streets",
+                    "latitude": -36.291653764402476,
+                    "longitude": 60.627548809835446,
+                    "web": "http://mertz.test/kasandra",
+                    "specialization": "general",
+                    "is_contactable": true,
+                    "working_hours": "PO: 7:00 - 14:00\nUT: 7:00 - 12:00\nST: 9:00 - 17:00\nCT: 7:00 - 11:00 13:00 - 17:00\nPA: 9:00 - 12:00\nSO: Zavřeno\nNE: Zavřeno"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "doctor": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "full_name": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "workplace": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "contact_email": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "contact_phone": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "postal_code": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "city": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "street_and_number": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "latitude": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "longitude": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "web": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "specialization": {
+                          "type": "string",
+                          "enum": [
+                            "general",
+                            "urologist",
+                            "gynecologist",
+                            "urogynecologist"
+                          ],
+                          "nullable": true
+                        },
+                        "is_contactable": {
+                          "type": "boolean"
+                        },
+                        "working_hours": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "full_name",
+                        "workplace",
+                        "contact_email",
+                        "contact_phone",
+                        "postal_code",
+                        "city",
+                        "street_and_number",
+                        "latitude",
+                        "longitude",
+                        "web",
+                        "specialization",
+                        "is_contactable",
+                        "working_hours"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "doctor"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
     "/api/v1/entry_forms": {
       "get": {
         "summary": "list entry_forms",
@@ -3643,6 +4065,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "entry_forms": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3734,6 +4166,12 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "entry_form": {
+                    "id": 17,
+                    "issue_present": true
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3825,6 +4263,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "entry_form": {
+                    "id": 20,
+                    "urination_frequency_issue": true,
+                    "urinations_per_day": 76,
+                    "fluid_intake_volume": 2.0,
+                    "patient_id": 360,
+                    "patient_public_id": "00000360"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3887,6 +4335,12 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "entry_form": {
+                    "id": 22,
+                    "issue_present": true
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -3911,7 +4365,14 @@
             }
           },
           "404": {
-            "description": "not found"
+            "description": "not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "nenalezen"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4049,6 +4510,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "iciq_forms": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4189,6 +4660,14 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "iciq_form": {
+                    "id": 24,
+                    "total_score": 8,
+                    "allowed_to_create_ipss_form": false,
+                    "allowed_to_create_anamnestic_form": true
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4324,6 +4803,29 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "iciq_form": {
+                    "id": 27,
+                    "leakage_frequency": 3,
+                    "leakage_assessment": 2,
+                    "leakage_severity": 3,
+                    "never_leaks": true,
+                    "leaks_before_reaching_toilet": true,
+                    "leaks_when_coughing_or_sneezing": false,
+                    "leaks_during_sleep": false,
+                    "leaks_during_physical_activity": true,
+                    "leaks_after_urinating_and_dressing": true,
+                    "leaks_for_unknown_reasons": false,
+                    "constant_leakage": false,
+                    "total_score": 10,
+                    "completed": true,
+                    "completion_timestamp": "2026-02-15T11:13:25.849Z",
+                    "patient_id": 375,
+                    "patient_public_id": "00000375",
+                    "allowed_to_create_ipss_form": false,
+                    "allowed_to_create_anamnestic_form": true
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4437,6 +4939,14 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "iciq_form": {
+                    "id": 29,
+                    "total_score": 18,
+                    "allowed_to_create_ipss_form": false,
+                    "allowed_to_create_anamnestic_form": true
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4568,6 +5078,12 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "user": {
+                    "id": 1014,
+                    "invitation_token": "9aqzbV3axWABLmzFvHsa"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4627,6 +5143,17 @@
             "description": "accepted",
             "content": {
               "application/json": {
+                "example": {
+                  "access_token": "JvaMyb8isq5fYzjQUMLWSEA3iYxBcJ_dgG8wybsSB32g53ZKPPsDbSgQhB71",
+                  "refresh_token": "bCvR99d4E4ucT_A2-LBQ44P_JHz_4pss9BZyjgDHFj4YgtEC5S_iuzDVmJLZ",
+                  "expires_in": 3600,
+                  "user": {
+                    "id": 1016,
+                    "email": "invited@user.com",
+                    "gender": null,
+                    "roles": []
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4763,6 +5290,12 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "user": {
+                    "id": 1019,
+                    "invitation_token": "H_bNNx9UiqzkytQ9LtmZ"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4852,6 +5385,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "ipss_forms": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -4980,6 +5523,14 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "ipss_form": {
+                    "id": 21,
+                    "total_score": 16,
+                    "life_quality_index": 4,
+                    "allowed_to_create_anamnestic_form": false
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -5104,6 +5655,26 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "ipss_form": {
+                    "id": 24,
+                    "incomplete_emptying": 2,
+                    "frequency": 1,
+                    "intermittent_urination": 3,
+                    "urgency": 1,
+                    "weak_stream": 3,
+                    "straining": 0,
+                    "nocturnal_urination": 0,
+                    "total_score": 10,
+                    "quality_of_life": 2,
+                    "life_quality_index": 2,
+                    "completed": true,
+                    "completion_timestamp": "2026-02-15T11:13:26.570Z",
+                    "patient_id": 390,
+                    "patient_public_id": "00000390",
+                    "allowed_to_create_anamnestic_form": false
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -5205,6 +5776,14 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "ipss_form": {
+                    "id": 26,
+                    "total_score": 14,
+                    "life_quality_index": 6,
+                    "allowed_to_create_anamnestic_form": false
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -5469,6 +6048,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "oab_forms": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -5593,6 +6182,14 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "oab_form": {
+                    "id": 21,
+                    "total_score": 20,
+                    "allowed_to_create_iciq_form": true,
+                    "gender": "female"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -5720,6 +6317,26 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "oab_form": {
+                    "id": 24,
+                    "daytime_urination_frequency": 1,
+                    "unpleasant_urination_urge": 1,
+                    "sudden_urination_urge": 5,
+                    "occasional_leak": 0,
+                    "nighttime_urination": 0,
+                    "waking_up_to_urinate": 1,
+                    "uncontrollable_urge": 1,
+                    "leak_due_to_intense_urge": 3,
+                    "total_score": 14,
+                    "completed": true,
+                    "completion_timestamp": "2026-02-15T11:13:27.194Z",
+                    "patient_id": 405,
+                    "patient_public_id": "00000405",
+                    "allowed_to_create_iciq_form": true,
+                    "gender": "male"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -5825,6 +6442,13 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "oab_form": {
+                    "id": 26,
+                    "total_score": 24,
+                    "allowed_to_create_iciq_form": true
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6012,6 +6636,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "patients": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6188,6 +6822,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "patients": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6408,7 +7052,10 @@
         ],
         "responses": {
           "204": {
-            "description": "no_content"
+            "description": "no_content",
+            "content": {
+              "application/json": {}
+            }
           },
           "404": {
             "description": "not found"
@@ -6432,6 +7079,20 @@
             "description": "access token refreshed",
             "content": {
               "application/json": {
+                "example": {
+                  "access_token": "Uyi8iVuaEKDFBM-wqJULoLN7Dxczstn_MqpwQ5tP46qy6AzkznZ-qBUFys2r",
+                  "refresh_token": "HaGR8DaEH9x93x3fmrMXg8nCHqJdxX18yYkJ3-zvpbNg47-z6KZFcoHCdp7z",
+                  "expires_in": 3600,
+                  "user": {
+                    "id": 1135,
+                    "email": "admin@example.com",
+                    "gender": null,
+                    "patient_public_id": null,
+                    "roles": [
+                      "admin"
+                    ]
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6530,6 +7191,9 @@
             "description": "unprocessable entity",
             "content": {
               "application/json": {
+                "example": {
+                  "error": "Email již byl použit"
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6634,6 +7298,13 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "user": {
+                    "id": 748,
+                    "email": "test@uzis.com",
+                    "reset_password_token": "xfh1U2bsbmPDRwNUpxgy"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6698,7 +7369,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "successful"
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "ok"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -6773,6 +7451,53 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 6,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 20
+                  },
+                  "users": [
+                    {
+                      "id": 748,
+                      "email": "test@uzis.com",
+                      "roles": []
+                    },
+                    {
+                      "id": 749,
+                      "email": "inviter@h2pime.com",
+                      "roles": []
+                    },
+                    {
+                      "id": 750,
+                      "email": "invite8@testh2.com",
+                      "roles": []
+                    },
+                    {
+                      "id": 1138,
+                      "email": "test376@test.com",
+                      "roles": [
+                        "doctor"
+                      ]
+                    },
+                    {
+                      "id": 1139,
+                      "email": "test377@test.com",
+                      "roles": [
+                        "patient"
+                      ]
+                    },
+                    {
+                      "id": 1140,
+                      "email": "test378@test.com",
+                      "roles": [
+                        "admin"
+                      ]
+                    }
+                  ]
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6872,6 +7597,12 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "user": {
+                    "id": 750,
+                    "email": "invite8@testh2.com"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -6930,6 +7661,48 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "user": {
+                    "id": 1159,
+                    "email": "test397@test.com",
+                    "roles": [
+                      "doctor"
+                    ],
+                    "full_name": "Anton",
+                    "gender": "female",
+                    "other_gender": null,
+                    "doctor_id": 1154,
+                    "patient_public_id": "00000440",
+                    "patient_id": 440,
+                    "approved": null,
+                    "entry_form_id": null,
+                    "oab_form_ids": [],
+                    "ipss_form_ids": [],
+                    "iciq_form_ids": [],
+                    "anamnestic_form_ids": [],
+                    "appointment_initial_id": null,
+                    "appointment_first_id": null,
+                    "appointment_second_id": null,
+                    "voiding_diary_ids": [],
+                    "next_appointment": null,
+                    "allowed_to_create_second_appointment": false,
+                    "doctor_name": "Hollis",
+                    "workplace": "Stokes, Bailey and Schiller",
+                    "contact_email": "isaiah@quigley-medhurst.test",
+                    "contact_phone": "797.864.4267",
+                    "city": "Gerlachland",
+                    "working_hours": "PO: 7:00 - 14:00\nUT: 7:00 - 12:00\nST: 9:00 - 17:00\nCT: 7:00 - 11:00 13:00 - 17:00\nPA: 9:00 - 12:00\nSO: Zavřeno\nNE: Zavřeno",
+                    "postal_code": 46136,
+                    "street_and_number": "815 Fidel Harbor",
+                    "full_capacity": false,
+                    "latitude": -75.99957612681774,
+                    "longitude": -20.1650693534406,
+                    "is_contactable": true,
+                    "web": "http://hermiston.example/soraya_braun",
+                    "specialization": "general",
+                    "contact_status": "forbidden"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7158,6 +7931,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "user": {
+                    "id": 1173
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7347,7 +8125,10 @@
         ],
         "responses": {
           "204": {
-            "description": "no content"
+            "description": "no content",
+            "content": {
+              "application/json": {}
+            }
           },
           "404": {
             "description": "not found"
@@ -7382,6 +8163,38 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "forms": {
+                    "oab_forms": [
+                      {
+                        "id": 32,
+                        "completion_timestamp": "2026-02-15T11:13:28Z",
+                        "total_score": 16
+                      }
+                    ],
+                    "ipss_forms": [
+                      {
+                        "id": 32,
+                        "completion_timestamp": "2026-02-15T11:13:28Z",
+                        "total_score": 12
+                      }
+                    ],
+                    "iciq_forms": [
+                      {
+                        "id": 38,
+                        "completion_timestamp": "2026-02-15T11:13:28Z",
+                        "total_score": 9
+                      }
+                    ],
+                    "anamnestic_forms": [
+                      {
+                        "id": 116,
+                        "completion_timestamp": "2026-02-15T11:13:28Z",
+                        "total_score": null
+                      }
+                    ]
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7526,6 +8339,14 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_diaries": [
+                    {
+                      "id": 48,
+                      "diary_start_date": "2026-02-15"
+                    }
+                  ]
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7595,6 +8416,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "voiding_diaries": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7701,6 +8532,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_diary": {
+                    "id": 50
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7814,6 +8650,33 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_diary": {
+                    "id": 53,
+                    "diary_start_date": "2026-02-15",
+                    "diary_duration_days": 1,
+                    "bedtime_day_one": "11:13",
+                    "wake_up_time_day_one": "19:13",
+                    "bedtime_day_two": "11:13",
+                    "wake_up_time_day_two": "19:13",
+                    "completed": false,
+                    "patient_public_id": "00000462",
+                    "patient_id": 462,
+                    "fluid_intake_volume": 39,
+                    "voided_volume": 46,
+                    "nocturnal_voided_volume": 0,
+                    "polyuria": false,
+                    "nocturnal_polyuria_index": 0,
+                    "frequency": 1,
+                    "nocturnal_voids": 0,
+                    "urgencies": 0,
+                    "urgent_incontinence": 1,
+                    "incontinence_episodes": 0,
+                    "max_voided_volume": 46,
+                    "median_voided_volume": 46,
+                    "average_voided_volume": 46
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -7945,6 +8808,12 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_diary": {
+                    "id": 56,
+                    "completed": false
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -8063,6 +8932,33 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_diary": {
+                    "id": 60,
+                    "diary_start_date": "2026-02-15",
+                    "diary_duration_days": 1,
+                    "bedtime_day_one": "11:13",
+                    "wake_up_time_day_one": "19:13",
+                    "bedtime_day_two": "11:13",
+                    "wake_up_time_day_two": "19:13",
+                    "completed": false,
+                    "patient_id": "00000469",
+                    "fluid_intake_volume": 44,
+                    "voided_volume": 34,
+                    "nocturnal_voided_volume": 34,
+                    "polyuria": false,
+                    "nocturnal_polyuria_index": 100,
+                    "frequency": 1,
+                    "nocturnal_voids": 1,
+                    "urgencies": 0,
+                    "urgent_incontinence": 0,
+                    "incontinence_episodes": 1,
+                    "max_voided_volume": 34,
+                    "median_voided_volume": 34,
+                    "average_voided_volume": 34
+                  },
+                  "allowed_to_create_voiding_diary": false
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -8241,6 +9137,16 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "pagination": {
+                    "count": 0,
+                    "page": 1,
+                    "next": null,
+                    "pages": 1,
+                    "items": 30
+                  },
+                  "voiding_records": []
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -8371,6 +9277,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_record": {
+                    "id": 25
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -8495,6 +9406,21 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_record": {
+                    "id": 28,
+                    "recorded_at": "2026-02-14T19:43:28.940Z",
+                    "slept_before_and_after": true,
+                    "urine_leakage": true,
+                    "urine_leakage_type": "stressful",
+                    "urge_strength": 3,
+                    "urine_volume": 29,
+                    "beverage_type": "hot_beverage",
+                    "fluid_intake": 5,
+                    "voiding_diary_id": 69,
+                    "record_type": "output"
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -8593,6 +9519,11 @@
             "description": "successful",
             "content": {
               "application/json": {
+                "example": {
+                  "voiding_record": {
+                    "id": 31
+                  }
+                },
                 "schema": {
                   "type": "object",
                   "properties": {

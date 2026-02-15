@@ -7,8 +7,10 @@
   import TaintedFormAlertDialog from '$lib/components/dialogs/TaintedFormAlertDialog.svelte';
   import * as Form from '$lib/components/form';
   import FormField from '$lib/components/forms/wrappers/FormField.svelte';
+  import RadioGroupField from '$lib/components/forms/wrappers/RadioGroupField.svelte';
   import TextareaField from '$lib/components/forms/wrappers/TextareaField.svelte';
   import * as Tooltip from '$lib/components/ui/tooltip';
+  import * as Card from '$lib/components/ui/card';
   import { localizeRoute } from '$lib/i18n';
   import { route } from '$lib/ROUTES';
   import { handleRequest } from '$lib/utils/request';
@@ -22,8 +24,11 @@
     doctorId: number;
   };
 
+  export let hasCompletedDiary: boolean;
+
   const defaultFormData: Partial<ContactDoctorFormSchemaTypes> = {
-    custom_message: `Jméno a příjmení: \nTelefon: \nZpráva: Dobrý den, chtěl/a bych se objednat na vyšetření.`,
+    custom_message: `Dobrý den, chtěl/a bych se objednat na vyšetření.`,
+    preferred_contact: 'email',
   };
 
   let taintedFormAlertDialogRef: TaintedFormAlertDialog;
@@ -45,6 +50,8 @@
               },
               email: {
                 custom_message: form.data.custom_message,
+                phone_number: form.data.phone_number,
+                preferred_contact: form.data.preferred_contact,
               },
             },
           });
@@ -66,20 +73,52 @@
 </script>
 
 <form class={columnsVariants({ number: 0, gap: 6 })} method="POST" use:enhance>
+  {#if !hasCompletedDiary}
+    <Card.Root class="border-amber-500 bg-amber-50">
+      <Card.Content class="pt-6">
+        <p class="text-sm text-amber-900">
+          <strong>Upozornění:</strong> Pro stanovení léčby je nezbytný vyplněný mikční deník – bez toho
+          lékař nedokáže stanovit léčbu. Doporučujeme nejprve vytvořit a dokončit mikční deník.
+        </p>
+      </Card.Content>
+    </Card.Root>
+  {/if}
+
   <div class="flex flex-col gap-2">
     <TextareaField
       name="custom_message"
       description={'Vážený pane doktore / Vážená paní doktorko,<br/><br/>v návaznosti na výsledky dotazníkového šetření mi bylo doporučeno odborné vyšetření.<br/>Dovoluji si Vás proto požádat o provedení tohoto vyšetření.'}
       {form}
       label={m.message()}
-      placeholder={`Jméno a příjmení:\nTelefon:\nZpráva: Dobrý den, chtěl/a bych se objednat na vyšetření.`}
+      placeholder={`Dobrý den, chtěl/a bych se objednat na vyšetření.`}
       rows={8}
     />
-    <p class="text-sm italic text-gray-600">
-      Vyplnění jména a kontaktu je zcela dobrovolné. Údaje nejsou nikde ukládány, slouží pouze pro
-      účely této zprávy a pro usnadnění administrace ze strany lékaře.
-    </p>
   </div>
+
+  <FormField
+    name="phone_number"
+    {form}
+    label={m.phoneNumber()}
+    placeholder="+420 123 456 789"
+    type="text"
+  />
+
+  <RadioGroupField
+    name="preferred_contact"
+    data={[
+      { value: 'email', label: m.email() },
+      { value: 'phone', label: m.phone() },
+    ]}
+    {form}
+    label={m.preferredMethodOfContact()}
+    showRequiredIndicator={false}
+  />
+
+  <p class="text-sm italic text-gray-600">
+    Vyplnění telefonního čísla a preferovaného způsobu kontaktu je zcela dobrovolné. Údaje nejsou
+    nikde ukládány, slouží pouze pro účely této zprávy a pro usnadnění administrace ze strany
+    lékaře.
+  </p>
 
   <div class="flex items-center gap-2">
     <FormField

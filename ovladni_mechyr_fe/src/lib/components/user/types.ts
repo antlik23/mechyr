@@ -3,9 +3,10 @@ import type { RequestBodyJSON, SuccessResponseJSON } from 'openapi-typescript-he
 import type { Merge } from 'type-fest';
 
 export type LoginResponse = SuccessResponseJSON<UpdatedPaths['/api/v1/login']['post']>;
+export type FullUserResponse = SuccessResponseJSON<UpdatedPaths['/api/v1/users/{id}']['get']>;
 
 export type UserRole = LoginResponse['user']['roles'][number];
-export type UserGender = NonNullable<LoginResponse['user']['gender']>;
+export type UserGender = NonNullable<LoginResponse['user']['gender']> | 'other';
 export type UserGenderWithOther = NonNullable<UserGender | 'other'>;
 export type UserProstate = NonNullable<
   RequestBodyJSON<
@@ -13,7 +14,11 @@ export type UserProstate = NonNullable<
   >['user']['patient_attributes']['other_gender']
 >;
 
-export type User = LoginResponse | null;
+// User can be either basic login response or full user data
+export type User =
+  | LoginResponse
+  | (Omit<LoginResponse, 'user'> & { user: FullUserResponse['user'] })
+  | null;
 export type CurrentUser = NonNullable<User>;
 export type CurrentUserData = Merge<
   CurrentUser['user'],

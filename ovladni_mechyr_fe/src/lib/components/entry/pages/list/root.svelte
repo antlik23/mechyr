@@ -94,14 +94,12 @@
   $: allQuestionnairesCompleted =
     hasCompletedOab && hasCompletedIciq && hasCompletedIpss && hasCompletedAnamnestic;
 
-  $: canSelectDoctor = allQuestionnairesCompleted && hasCompletedDiary;
-
   function handleDoctorSelection() {
-    if (canSelectDoctor) {
-      goto(localizeRoute(route('/doctors')));
-    } else if (allQuestionnairesCompleted && !hasCompletedDiary) {
-      goto(localizeRoute(route('/voiding-diary')));
-    }
+    goto(localizeRoute(route('/doctors')));
+  }
+
+  function handleCreateDiary() {
+    goto(localizeRoute(route('/voiding-diary')));
   }
 </script>
 
@@ -114,19 +112,27 @@
         <Title level="h3" text="Další krok: Výběr lékaře" />
       </Card.Header>
       <Card.Content class={columnsVariants({ number: 0, gap: 4 })}>
-        {#if canSelectDoctor}
-          <p class="text-base">
-            Výborně! Dokončili jste všechny povinné dotazníky a mikční deník. Nyní můžete pokračovat
-            výběrem lékaře, který bude vaše záznamy vyhodnocovat a poskytne vám odbornou péči.
-          </p>
-          <Button on:click={handleDoctorSelection}>Vybrat lékaře</Button>
-        {:else}
-          <p class="text-base">
-            Dokončili jste všechny povinné dotazníky. Posledním krokem před výběrem lékaře je
-            vytvoření a dokončení mikčního deníku.
-          </p>
-          <Button on:click={handleDoctorSelection}>Vytvořit mikční deník</Button>
+        <p class="text-base">
+          Výborně! Dokončili jste všechny povinné dotazníky. Nyní můžete pokračovat výběrem lékaře,
+          který bude vaše záznamy vyhodnocovat a poskytne vám odbornou péči.
+        </p>
+        {#if !hasCompletedDiary}
+          <Card.Root class="border-amber-500 bg-amber-50">
+            <Card.Content class="pt-6">
+              <p class="text-sm text-amber-900">
+                <strong>Upozornění:</strong> Pro stanovení léčby je nezbytný vyplněný mikční deník –
+                bez toho lékař nedokáže stanovit léčbu. Doporučujeme nejprve vytvořit a dokončit mikční
+                deník.
+              </p>
+            </Card.Content>
+          </Card.Root>
         {/if}
+        <div class="flex flex-wrap gap-3">
+          <Button on:click={handleDoctorSelection}>Vybrat lékaře</Button>
+          {#if !hasCompletedDiary}
+            <Button variant="outline" on:click={handleCreateDiary}>Vytvořit mikční deník</Button>
+          {/if}
+        </div>
       </Card.Content>
     </Card.Root>
   {/if}

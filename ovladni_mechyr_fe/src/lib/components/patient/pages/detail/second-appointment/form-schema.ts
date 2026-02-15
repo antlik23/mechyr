@@ -6,7 +6,16 @@ import { CURRENT_TREATMENTS, DISCONTINUATION_REASONS, PRESCRIBED_MEDICATIONS } f
 export const secondAppointmentFormSchema = z
   .object({
     attended_appointment: z.boolean({ message: m.fieldIsRequired() }),
-    appointment_date: z.union([z.literal(''), z.string().date(m.fieldIsRequired())]),
+    appointment_date: z.union([z.literal(''), z.string().date(m.fieldIsRequired())]).refine(
+      (value) => {
+        if (value === '') return true;
+        const selectedDate = new Date(value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return selectedDate >= today;
+      },
+      { message: 'Datum návštěvy nemůže být v minulosti' }
+    ),
     visual_analog_scale: z.union([z.number(), z.string()]),
     continuing_treatment: z.enum([...['without_oab', 'true', 'false'], ''] as const),
     discontinuation_reason: z.enum([...DISCONTINUATION_REASONS, ''] as const),

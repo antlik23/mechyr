@@ -85,6 +85,7 @@
         name="next_appointment"
         {form}
         label={m.date()}
+        minimumDate={new Date()}
         popoverProps={{ portal: 'body' }}
       />
 

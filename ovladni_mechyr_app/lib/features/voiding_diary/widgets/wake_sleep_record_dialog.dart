@@ -62,9 +62,13 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
     return dateTime != null ? DateFormat("HH:mm").format(dateTime) : "";
   }
 
-  String? formatTimeToIso(String timeText) {
+  String? formatTimeToString(String timeText) {
     if (timeText.isEmpty) return null;
-    return DateFormat("HH:mm").parse(timeText).toIso8601String();
+    // Backend očekává čas ve formátu "HH:mm" nebo "HH:mm:ss"
+    // TimeField vrací "HH:mm", přidáme sekundy pro konzistenci s webem
+    return timeText.contains(':') && timeText.split(':').length == 2
+        ? '$timeText:00'
+        : timeText;
   }
 
   Future<void> updateVoidingDiary() async {
@@ -80,10 +84,10 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
         widget.voidingDiary.id,
         {
           "completed": widget.isEnd,
-          "bedtime_day_one": formatTimeToIso(sleepTimeDayOne.text),
-          "wake_up_time_day_one": formatTimeToIso(wakeupTimeDayOne.text),
-          "bedtime_day_two": formatTimeToIso(sleepTimeDayTwo.text),
-          "wake_up_time_day_two": formatTimeToIso(wakeupTimeDayTwo.text),
+          "bedtime_day_one": formatTimeToString(sleepTimeDayOne.text),
+          "wake_up_time_day_one": formatTimeToString(wakeupTimeDayOne.text),
+          "bedtime_day_two": formatTimeToString(sleepTimeDayTwo.text),
+          "wake_up_time_day_two": formatTimeToString(wakeupTimeDayTwo.text),
         },
       );
 
@@ -97,9 +101,41 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
         await context.read<AuthNotifier>().setUncompletedDiaryId(null);
         await checkEndDiaryNotification();
         if (!mounted) return;
+
+        // Refresh doctor assignment data before showing dialog
+        await context.read<AuthNotifier>().refreshDoctorAssignment();
+        if (!mounted) return;
+
+        // Store navigation callback and state before popping
+        final navigator = Navigator.of(context);
+        final goRouter = GoRouter.of(context);
+        final hasAssignedDoctor =
+            context.read<AuthNotifier>().hasAssignedDoctor;
+        final doctorName = context.read<AuthNotifier>().assignedDoctorName;
+
         context.pop();
-        // Show dialog with option to open web for doctor selection
-        _showCompletionDialog();
+
+        // Show appropriate completion dialog based on doctor assignment
+        if (!mounted) return;
+
+        if (hasAssignedDoctor) {
+          _showAlreadyAssignedDialog(
+            navigator: navigator,
+            goRouter: goRouter,
+            doctorName: doctorName,
+          );
+        } else {
+          _showCompletionDialog(
+            onSelectDoctor: () {
+              navigator.pop(); // Close completion dialog
+              goRouter.go("/doctor-list");
+            },
+            onClose: () {
+              navigator.pop(); // Close completion dialog
+              goRouter.go("/");
+            },
+          );
+        }
       } else {
         context.pop(true);
       }
@@ -122,7 +158,10 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
         .cancelNotification(NotificationService.endDiaryId);
   }
 
-  void _showCompletionDialog() {
+  void _showCompletionDialog({
+    required VoidCallback onSelectDoctor,
+    required VoidCallback onClose,
+  }) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -149,7 +188,7 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
                   textAlign: TextAlign.center,
                 ),
                 const Text(
-                  "Výborně! Dokončili jste vyplňování mikčního deníku. Vaše záznamy byly uloženy a jsou připraveny k vyhodnocení.\n\nPro výběr lékaře prosím použijte webovou aplikaci.",
+                  "Výborně! Dokončili jste vyplňování mikčního deníku. Vaše záznamy byly uloženy a jsou připraveny k vyhodnocení.\n\nNyní můžete pokračovat výběrem lékaře, který bude vaše záznamy vyhodnocovat a poskytne vám odbornou péči.",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -161,22 +200,73 @@ class _WakeSleepRecordDialogState extends State<WakeSleepRecordDialog> {
                   spacing: 8,
                   children: [
                     Button(
-                      text: "Otevřít webovou aplikaci",
-                      onPressed: () {
-                        // TODO: Add URL launcher to open web app
-                        // launchUrl(Uri.parse('http://localhost:5173/cs/doctors'));
-                        dialogContext.pop();
-                        context.go("/");
-                      },
+                      text: "Vybrat lékaře",
+                      onPressed: onSelectDoctor,
                     ),
                     ButtonOutlined(
                       text: "Zavřít",
-                      onPressed: () {
-                        dialogContext.pop();
-                        context.go("/");
-                      },
+                      onPressed: onClose,
                     ),
                   ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showAlreadyAssignedDialog({
+    required NavigatorState navigator,
+    required GoRouter goRouter,
+    required String? doctorName,
+  }) {
+    showDialog(
+      context: navigator.context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 16,
+              children: [
+                const Icon(
+                  Icons.check_circle_outline,
+                  size: 64,
+                  color: AppColors.green,
+                ),
+                const Text(
+                  "Mikční deník dokončen",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.darkBlueBase,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "Váš přiřazený lékař: ${doctorName ?? 'Neznámý lékař'}\n\nLékař Vás bude kontaktovat s vyhodnocením deníku.",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.gray400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Button(
+                  text: "Rozumím",
+                  onPressed: () {
+                    navigator.pop(); // Close the dialog
+                    goRouter.go('/'); // Navigate to home
+                  },
                 ),
               ],
             ),

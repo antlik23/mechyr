@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte';
-  import type { QueryResponseProperties } from '../types';
+  import type { QueryResponseProperties } from './types';
   import * as m from '$paraglide/messages';
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
   import Title from '$lib/components/common/Title.svelte';
@@ -11,6 +11,7 @@
 
   export let response: QueryResponseProperties;
   export let breadcrumbs: ComponentProps<Breadcrumbs>['breadcrumbs'];
+  export let hasCompletedDiary: boolean;
 </script>
 
 <Breadcrumbs {breadcrumbs} />
@@ -20,7 +21,7 @@
     <LoadingIndicator />
   {:else if response.isSuccess}
     {#if response.data}
-      {@const doctor = response.data.user}
+      {@const doctor = response.data.doctor}
 
       <Title
         includeMeta={true}
@@ -32,7 +33,7 @@
 
       <Card.Root class="uzis-border max-w-prose">
         <Card.Content>
-          <Form initialData={{ doctorId: doctor.id }} />
+          <Form {hasCompletedDiary} initialData={{ doctorId: doctor.id }} />
         </Card.Content>
       </Card.Root>
     {/if}

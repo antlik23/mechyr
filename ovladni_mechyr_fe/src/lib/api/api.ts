@@ -16,6 +16,54 @@ import { redirectAfterSessionExpired } from '$lib/utils/routing';
 export type UpdatedPaths = MergeDeep<
   paths,
   {
+    '/api/v1/doctors/{id}': {
+      /** get doctor detail */
+      get: {
+        parameters: {
+          query?: never;
+          header?: never;
+          path: {
+            id: number;
+          };
+          cookie?: never;
+        };
+        responses: {
+          /** @description successful */
+          200: {
+            headers: {
+              [name: string]: unknown;
+            };
+            content: {
+              'application/json': {
+                doctor: {
+                  id: number;
+                  full_name: string;
+                  workplace?: string | null;
+                  contact_email?: string | null;
+                  contact_phone?: string | null;
+                  postal_code?: number | null;
+                  city?: string | null;
+                  street_and_number?: string | null;
+                  latitude?: number | null;
+                  longitude?: number | null;
+                  web?: string | null;
+                  specialization?: string | null;
+                  is_contactable?: boolean | null;
+                  working_hours?: string | null;
+                };
+              };
+            };
+          };
+          /** @description not found */
+          404: {
+            headers: {
+              [name: string]: unknown;
+            };
+            content?: never;
+          };
+        };
+      };
+    };
     '/api/v1/invitation': {
       /** accept invitation */
       put: {

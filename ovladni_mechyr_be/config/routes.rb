@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         end
       end
       get 'doctors/available_doctors', to: 'doctors#available_doctors'
+      get 'doctors/:id', to: 'doctors#show'
       put 'doctors/update_full_capacity', to: 'doctors#update_full_capacity'
       resources :entry_forms
       resources :oab_forms
@@ -85,7 +86,9 @@ Rails.application.routes.draw do
   # root "posts#index"
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
-  match '*unmatched', to: 'application#route_not_found', via: :all, constraints: lambda { |req|
-    req.path.exclude? 'rails/active_storage'
-  } unless Rails.env.development?
+  unless Rails.env.development?
+    match '*unmatched', to: 'application#route_not_found', via: :all, constraints: lambda { |req|
+      req.path.exclude? 'rails/active_storage'
+    }
+  end
 end

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uzis_app/auth_notifier.dart';
 import 'package:uzis_app/core/constants/app_colors.dart';
 import 'package:uzis_app/core/constants/app_styles.dart';
 import 'package:uzis_app/core/utils/custom_snackbar.dart';
@@ -41,15 +43,17 @@ class MenuScreen extends StatelessWidget {
                       Expanded(
                         child: ListView(
                           children: [
-                            MenuItem(
-                              title: "Hlavní stránka",
-                              iconPath: "assets/icons/Home.svg",
-                              isActive: path == "/",
-                              onTap: () {
-                                context.go("/");
-                                toggleDrawer();
-                              },
-                            ),
+                            // POZNÁMKA: "Hlavní stránka" a "Mikční deník" jsou stejná stránka (/)
+                            // Ponecháno pouze "Mikční deník" pro lepší srozumitelnost
+                            // MenuItem(
+                            //   title: "Hlavní stránka",
+                            //   iconPath: "assets/icons/Home.svg",
+                            //   isActive: path == "/",
+                            //   onTap: () {
+                            //     context.go("/");
+                            //     toggleDrawer();
+                            //   },
+                            // ),
                             // MenuItem(
                             //   title: "Urologické dotazníky",
                             //   iconPath: "assets/icons/File.svg",
@@ -65,24 +69,30 @@ class MenuScreen extends StatelessWidget {
                             MenuItem(
                               title: "Mikční deník",
                               iconPath: "assets/icons/LineChart.svg",
-                              isActive: path == "/urination",
+                              isActive: path == "/",
                               onTap: () {
-                                context.go("/urination");
+                                context.go("/");
                                 toggleDrawer();
                               },
                             ),
-                            MenuItem(
-                              title: "Záznamy",
-                              iconPath: "assets/icons/AppWindow.svg",
-                              isActive: false,
-                              onTap: () {},
-                            ),
+                            // MenuItem - ZAKOMENTOVÁNO: "Záznamy" nejsou v mobile app implementované
+                            // Ve webové verzi zobrazují přehled všech formulářů a deníků
                             // MenuItem(
-                            //   title: "Výběr lékaře",
-                            //   iconPath: "assets/icons/BriefcaseMedical.svg",
+                            //   title: "Záznamy",
+                            //   iconPath: "assets/icons/AppWindow.svg",
                             //   isActive: false,
                             //   onTap: () {},
                             // ),
+                            MenuItem(
+                              title: "Výběr lékaře",
+                              iconPath: "assets/icons/BriefcaseMedical.svg",
+                              isActive: path == "/doctor-list",
+                              // isHighlighted: true, // ZAKOMENTOVÁNO: V mobile menu jsou jen 2 položky, zvýraznění není potřeba
+                              onTap: () {
+                                context.go("/doctor-list");
+                                toggleDrawer();
+                              },
+                            ),
                             // MenuItem(
                             //   title: "Technická podpora",
                             //   iconPath:
@@ -136,10 +146,20 @@ class MenuScreen extends StatelessWidget {
                                           Expanded(
                                             child: Button(
                                               text: "Potvrdit",
-                                              onPressed: () {
+                                              onPressed: () async {
+                                                Future.wait([
+                                                  context
+                                                      .read<AuthNotifier>()
+                                                      .setIsLogged(false),
+                                                  context
+                                                      .read<AuthNotifier>()
+                                                      .setUncompletedDiaryId(
+                                                          null),
+                                                ]);
                                                 cleanUserData();
                                                 CustomSnackbar.showSuccess(
                                                     "Byli jste úspěšně odhlášeni!");
+                                                if (!context.mounted) return;
                                                 context.go("/login");
                                               },
                                             ),
@@ -173,19 +193,33 @@ class MenuItem extends StatelessWidget {
     required this.iconPath,
     required this.isActive,
     required this.onTap,
+    this.isHighlighted = false,
   });
 
   final String title;
   final String iconPath;
   final bool isActive;
+  final bool isHighlighted;
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
-    Color bgColor = isActive ? const Color(0xFFEDF2FF) : AppColors.transparent;
-    Color iconColor =
-        isActive ? AppColors.darkBlueBase : const Color(0xFF506083);
-    Color textColor =
-        isActive ? AppColors.darkBlueBase : const Color(0xFF506083);
+    Color bgColor = isActive
+        ? const Color(0xFFEDF2FF)
+        : isHighlighted
+            ? const Color(0xFFFFF7ED)
+            : AppColors.transparent;
+    Color iconColor = isActive
+        ? AppColors.darkBlueBase
+        : isHighlighted
+            ? const Color(0xFFD97706)
+            : const Color(0xFF506083);
+    Color textColor = isActive
+        ? AppColors.darkBlueBase
+        : isHighlighted
+            ? const Color(0xFFD97706)
+            : const Color(0xFF506083);
+    FontWeight fontWeight =
+        isActive || isHighlighted ? FontWeight.w600 : FontWeight.w500;
 
     return Container(
       decoration: BoxDecoration(
@@ -198,7 +232,7 @@ class MenuItem extends StatelessWidget {
           title,
           style: TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontWeight: fontWeight,
             color: textColor,
           ),
         ),

@@ -23,4 +23,13 @@ export const doctors = createQueryKeys('doctors', {
       },
     };
   },
+  detail: (doctorId: UpdatedPaths['/api/v1/doctors/{id}']['get']['parameters']['path']['id']) => ({
+    queryKey: [doctorId],
+    queryFn: async () => {
+      const { data } = await apiClient.GET('/api/v1/doctors/{id}', {
+        params: { path: { id: doctorId } },
+      });
+      return data;
+    },
+  }),
 });

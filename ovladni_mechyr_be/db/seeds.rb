@@ -166,12 +166,362 @@ unless Rails.env.production?
     doctor.specialization = :urologist
   end
 
-  puts "\n✓ Testovací doktoři vytvořeni:"
+  # ============================================================================
+  # DALŠÍ TESTOVACÍ DOKTOŘI PRO STRÁNKOVÁNÍ A VYHLEDÁVÁNÍ
+  # ============================================================================
+
+  # 6. Urogynekolog - Brno
+  doctor6_user = User.find_or_create_by!(email: 'doctor6@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Helena Malá'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor6_user.update!(confirmed_at: Time.current) if doctor6_user.confirmed_at.nil?
+  doctor6_user.add_role(Role::DOCTOR) unless doctor6_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor6_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Helena Malá'
+    doctor.contact_email = 'doctor6@example.com'
+    doctor.contact_phone = '+420 541 123 456'
+    doctor.workplace = 'Urogynekologická klinika Brno'
+    doctor.city = 'Brno'
+    doctor.postal_code = '602 00'
+    doctor.street_and_number = 'Masarykova 25'
+    doctor.full_capacity = false
+    doctor.specialization = :urogynecologist
+  end
+
+  # 7. Urolog - Ostrava
+  doctor7_user = User.find_or_create_by!(email: 'doctor7@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Tomáš Veselý'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor7_user.update!(confirmed_at: Time.current) if doctor7_user.confirmed_at.nil?
+  doctor7_user.add_role(Role::DOCTOR) unless doctor7_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor7_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Tomáš Veselý'
+    doctor.contact_email = 'doctor7@example.com'
+    doctor.contact_phone = '+420 596 123 789'
+    doctor.workplace = 'Urologické centrum Ostrava'
+    doctor.city = 'Ostrava'
+    doctor.postal_code = '702 00'
+    doctor.street_and_number = 'Hlavní 88'
+    doctor.full_capacity = false
+    doctor.specialization = :urologist
+  end
+
+  # 8. Gynekolog - Liberec
+  doctor8_user = User.find_or_create_by!(email: 'doctor8@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Petra Černá'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor8_user.update!(confirmed_at: Time.current) if doctor8_user.confirmed_at.nil?
+  doctor8_user.add_role(Role::DOCTOR) unless doctor8_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor8_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Petra Černá'
+    doctor.contact_email = 'doctor8@example.com'
+    doctor.contact_phone = '+420 485 111 222'
+    doctor.workplace = 'Gynekologická ordinace Liberec'
+    doctor.city = 'Liberec'
+    doctor.postal_code = '460 01'
+    doctor.street_and_number = 'Česká 12'
+    doctor.full_capacity = false
+    doctor.specialization = :gynecologist
+  end
+
+  # 9. Praktický lékař - Hradec Králové
+  doctor9_user = User.find_or_create_by!(email: 'doctor9@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Jan Bílý'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor9_user.update!(confirmed_at: Time.current) if doctor9_user.confirmed_at.nil?
+  doctor9_user.add_role(Role::DOCTOR) unless doctor9_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor9_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Jan Bílý'
+    doctor.contact_email = 'doctor9@example.com'
+    doctor.contact_phone = '+420 495 333 444'
+    doctor.workplace = 'Poliklinika Hradec Králové'
+    doctor.city = 'Hradec Králové'
+    doctor.postal_code = '500 02'
+    doctor.street_and_number = 'Riegrova 45'
+    doctor.full_capacity = false
+    doctor.specialization = :general
+  end
+
+  # 10. Urogynekolog - České Budějovice
+  doctor10_user = User.find_or_create_by!(email: 'doctor10@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Marcela Nová'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor10_user.update!(confirmed_at: Time.current) if doctor10_user.confirmed_at.nil?
+  doctor10_user.add_role(Role::DOCTOR) unless doctor10_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor10_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Marcela Nová'
+    doctor.contact_email = 'doctor10@example.com'
+    doctor.contact_phone = '+420 387 555 666'
+    doctor.workplace = 'Urogynekologie České Budějovice'
+    doctor.city = 'České Budějovice'
+    doctor.postal_code = '370 01'
+    doctor.street_and_number = 'Pražská 78'
+    doctor.full_capacity = false
+    doctor.specialization = :urogynecologist
+  end
+
+  # 11. Urolog - Olomouc
+  doctor11_user = User.find_or_create_by!(email: 'doctor11@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Pavel Zelený'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor11_user.update!(confirmed_at: Time.current) if doctor11_user.confirmed_at.nil?
+  doctor11_user.add_role(Role::DOCTOR) unless doctor11_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor11_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Pavel Zelený'
+    doctor.contact_email = 'doctor11@example.com'
+    doctor.contact_phone = '+420 585 777 888'
+    doctor.workplace = 'Urologická ambulance Olomouc'
+    doctor.city = 'Olomouc'
+    doctor.postal_code = '779 00'
+    doctor.street_and_number = 'Universitní 33'
+    doctor.full_capacity = false
+    doctor.specialization = :urologist
+  end
+
+  # 12. Gynekolog - Zlín
+  doctor12_user = User.find_or_create_by!(email: 'doctor12@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Eva Růžová'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor12_user.update!(confirmed_at: Time.current) if doctor12_user.confirmed_at.nil?
+  doctor12_user.add_role(Role::DOCTOR) unless doctor12_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor12_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Eva Růžová'
+    doctor.contact_email = 'doctor12@example.com'
+    doctor.contact_phone = '+420 577 999 111'
+    doctor.workplace = 'Gynekologie Zlín'
+    doctor.city = 'Zlín'
+    doctor.postal_code = '760 01'
+    doctor.street_and_number = 'Nádražní 56'
+    doctor.full_capacity = false
+    doctor.specialization = :gynecologist
+  end
+
+  # 13. Praktický lékař - Pardubice
+  doctor13_user = User.find_or_create_by!(email: 'doctor13@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Miroslav Modrý'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor13_user.update!(confirmed_at: Time.current) if doctor13_user.confirmed_at.nil?
+  doctor13_user.add_role(Role::DOCTOR) unless doctor13_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor13_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Miroslav Modrý'
+    doctor.contact_email = 'doctor13@example.com'
+    doctor.contact_phone = '+420 466 222 333'
+    doctor.workplace = 'Zdravotní centrum Pardubice'
+    doctor.city = 'Pardubice'
+    doctor.postal_code = '530 02'
+    doctor.street_and_number = 'Sukova 89'
+    doctor.full_capacity = false
+    doctor.specialization = :general
+  end
+
+  # 14. Urogynekolog - Jihlava
+  doctor14_user = User.find_or_create_by!(email: 'doctor14@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Lucie Šedá'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor14_user.update!(confirmed_at: Time.current) if doctor14_user.confirmed_at.nil?
+  doctor14_user.add_role(Role::DOCTOR) unless doctor14_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor14_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Lucie Šedá'
+    doctor.contact_email = 'doctor14@example.com'
+    doctor.contact_phone = '+420 567 444 555'
+    doctor.workplace = 'Urogynekologická poradna Jihlava'
+    doctor.city = 'Jihlava'
+    doctor.postal_code = '586 01'
+    doctor.street_and_number = 'Brněnská 67'
+    doctor.full_capacity = false
+    doctor.specialization = :urogynecologist
+  end
+
+  # 15. Urolog - Karlovy Vary
+  doctor15_user = User.find_or_create_by!(email: 'doctor15@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Robert Hnědý'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor15_user.update!(confirmed_at: Time.current) if doctor15_user.confirmed_at.nil?
+  doctor15_user.add_role(Role::DOCTOR) unless doctor15_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor15_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Robert Hnědý'
+    doctor.contact_email = 'doctor15@example.com'
+    doctor.contact_phone = '+420 353 666 777'
+    doctor.workplace = 'Urologická klinika Karlovy Vary'
+    doctor.city = 'Karlovy Vary'
+    doctor.postal_code = '360 01'
+    doctor.street_and_number = 'Lázeňská 23'
+    doctor.full_capacity = false
+    doctor.specialization = :urologist
+  end
+
+  # 16. Gynekolog - Ústí nad Labem
+  doctor16_user = User.find_or_create_by!(email: 'doctor16@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Alena Fialová'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor16_user.update!(confirmed_at: Time.current) if doctor16_user.confirmed_at.nil?
+  doctor16_user.add_role(Role::DOCTOR) unless doctor16_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor16_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Alena Fialová'
+    doctor.contact_email = 'doctor16@example.com'
+    doctor.contact_phone = '+420 475 888 999'
+    doctor.workplace = 'Gynekologická ordinace Ústí'
+    doctor.city = 'Ústí nad Labem'
+    doctor.postal_code = '400 01'
+    doctor.street_and_number = 'Lidická 44'
+    doctor.full_capacity = false
+    doctor.specialization = :gynecologist
+  end
+
+  # 17. Urogynekolog - Havířov
+  doctor17_user = User.find_or_create_by!(email: 'doctor17@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Daniela Stříbrná'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor17_user.update!(confirmed_at: Time.current) if doctor17_user.confirmed_at.nil?
+  doctor17_user.add_role(Role::DOCTOR) unless doctor17_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor17_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Daniela Stříbrná'
+    doctor.contact_email = 'doctor17@example.com'
+    doctor.contact_phone = '+420 596 111 333'
+    doctor.workplace = 'Poliklinika Havířov'
+    doctor.city = 'Havířov'
+    doctor.postal_code = '736 01'
+    doctor.street_and_number = 'Svornosti 15'
+    doctor.full_capacity = false
+    doctor.specialization = :urogynecologist
+  end
+
+  # 18. Praktický lékař - Most
+  doctor18_user = User.find_or_create_by!(email: 'doctor18@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Jiří Zlatý'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor18_user.update!(confirmed_at: Time.current) if doctor18_user.confirmed_at.nil?
+  doctor18_user.add_role(Role::DOCTOR) unless doctor18_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor18_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Jiří Zlatý'
+    doctor.contact_email = 'doctor18@example.com'
+    doctor.contact_phone = '+420 476 222 555'
+    doctor.workplace = 'Zdravotní středisko Most'
+    doctor.city = 'Most'
+    doctor.postal_code = '434 01'
+    doctor.street_and_number = 'Budovatelů 99'
+    doctor.full_capacity = false
+    doctor.specialization = :general
+  end
+
+  # 19. Urolog - Kladno
+  doctor19_user = User.find_or_create_by!(email: 'doctor19@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Michal Oranžový'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor19_user.update!(confirmed_at: Time.current) if doctor19_user.confirmed_at.nil?
+  doctor19_user.add_role(Role::DOCTOR) unless doctor19_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor19_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Michal Oranžový'
+    doctor.contact_email = 'doctor19@example.com'
+    doctor.contact_phone = '+420 312 333 666'
+    doctor.workplace = 'Urologická ambulance Kladno'
+    doctor.city = 'Kladno'
+    doctor.postal_code = '272 01'
+    doctor.street_and_number = 'Náměstí Svobody 8'
+    doctor.full_capacity = false
+    doctor.specialization = :urologist
+  end
+
+  # 20. Gynekolog - Mladá Boleslav (s plnou kapacitou)
+  doctor20_user = User.find_or_create_by!(email: 'doctor20@example.com') do |user|
+    user.first_name = 'MUDr.'
+    user.last_name = 'Tereza Bronzová'
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+  doctor20_user.update!(confirmed_at: Time.current) if doctor20_user.confirmed_at.nil?
+  doctor20_user.add_role(Role::DOCTOR) unless doctor20_user.has_role?(Role::DOCTOR)
+
+  Doctor.find_or_create_by!(user_id: doctor20_user.id) do |doctor|
+    doctor.full_name = 'MUDr. Tereza Bronzová'
+    doctor.contact_email = 'doctor20@example.com'
+    doctor.contact_phone = '+420 326 777 888'
+    doctor.workplace = 'Gynekologie Mladá Boleslav'
+    doctor.city = 'Mladá Boleslav'
+    doctor.postal_code = '293 01'
+    doctor.street_and_number = 'Jičínská 28'
+    doctor.full_capacity = true
+    doctor.specialization = :gynecologist
+  end
+
+  puts "\n✓ Testovací doktoři vytvořeni (celkem 20):"
   puts '  1. Urogynekolog: doctor.test@example.com (heslo: test123) - pro všechny pacienty'
   puts '  2. Urolog: urologist.test@example.com (heslo: test123) - pouze muži'
   puts '  3. Gynekolog: gynecologist.test@example.com (heslo: test123) - pouze ženy'
   puts '  4. Praktický lékař: general.test@example.com (heslo: test123) - pro všechny'
   puts '  5. Urolog s plnou kapacitou: full.capacity@example.com - NEVIDITELNÝ pro nové pacienty'
+  puts '  6-20. Další doktoři pro testování stránkování a vyhledávání (doctor6@example.com - doctor20@example.com)'
 
   # ============================================================================
   # TESTOVACÍ DATA PRO ÚKOL 1: Datum návštěvy pacienta
@@ -776,4 +1126,237 @@ unless Rails.env.production?
   puts '  - Muž: male.nodoc@example.com (heslo: test123) - uvidí: Urogynekolog, Urolog, Praktický lékař'
   puts '  - Žena: female.nodoc@example.com (heslo: test123) - uvidí: Urogynekolog, Gynekolog, Praktický lékař'
   puts '  - Oba si mohou vybrat lékaře ze seznamu dostupných lékařů'
+
+  # ============================================================================
+  # PACIENTI S HOTOVÝMI FORMULÁŘI A BEZ DEMÍKŮ
+  # ============================================================================
+
+  # 6. PACIENT S HOTOVÝMI FORMULÁŘI - ŽENA
+  complete_forms_female_user = User.find_or_create_by!(email: 'complete.forms.female@example.com') do |user|
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+
+  complete_forms_female_user.update!(confirmed_at: Time.current) if complete_forms_female_user.confirmed_at.nil?
+  complete_forms_female_user.add_role(Role::PATIENT) unless complete_forms_female_user.has_role?(Role::PATIENT)
+
+  complete_forms_female = Patient.find_or_create_by!(user_id: complete_forms_female_user.id) do |patient|
+    patient.full_name = 'Anna Hotová'
+    patient.gender = 'female'
+    patient.doctor_id = nil
+    patient.approved = nil
+    patient.agreed_to_share_info = nil
+  end
+
+  # Vytvoř dotazníky pro pacienta s hotovými formuláři - žena
+  OabForm.find_or_create_by!(patient_id: complete_forms_female.id) do |form|
+    form.daytime_urination_frequency = 4
+    form.unpleasant_urination_urge = 5
+    form.sudden_urination_urge = 5
+    form.occasional_leak = 4
+    form.nighttime_urination = 4
+    form.waking_up_to_urinate = 5
+    form.uncontrollable_urge = 4
+    form.leak_due_to_intense_urge = 4
+    form.total_score = 35
+    form.completed = true
+    form.completion_timestamp = 20.days.ago
+  end
+
+  IciqForm.find_or_create_by!(patient_id: complete_forms_female.id) do |form|
+    form.leakage_frequency = 4
+    form.leakage_assessment = 0
+    form.leakage_severity = 8
+    form.never_leaks = false
+    form.leaks_before_reaching_toilet = true
+    form.leaks_when_coughing_or_sneezing = true
+    form.leaks_during_sleep = false
+    form.leaks_during_physical_activity = true
+    form.leaks_after_urinating_and_dressing = true
+    form.leaks_for_unknown_reasons = false
+    form.constant_leakage = false
+    form.total_score = 12
+    form.completed = true
+    form.completion_timestamp = 19.days.ago
+  end
+
+  AnamnesticForm.find_or_create_by!(patient_id: complete_forms_female.id) do |form|
+    form.completion_timestamp = 18.days.ago
+    form.age = 48
+    form.height = 172
+    form.weight = 68
+    form.on_oab_medication_last_3_months = false
+    form.number_of_births = 2
+    form.post_menopausal = false
+    form.prolapse_diagnosed = false
+    form.hysterectomy = false
+    form.cesarean_section = 1
+    form.surgery_for_benign_prostate_enlargement = false
+    form.surgery_for_prostate_cancer = false
+    form.surgery_for_bladder_tumor = false
+    form.surgery_for_urethral_stricture = false
+    form.surgery_for_urine_leakage = false
+    form.other_surgery = false
+    form.no_surgery = true
+    form.recurrent_infections = false
+    form.neurological_surgery_history = false
+    form.hypertension = false
+    form.hypothyroidism = false
+    form.high_cholesterol = false
+    form.diabetes = false
+    form.back_problems = false
+    form.depression = false
+    form.other_psychiatric_conditions = false
+    form.reduced_immunity = false
+    form.headaches = false
+    form.hip_osteoarthritis = false
+    form.knee_osteoarthritis = false
+    form.no_illness = true
+    form.cancer_treatment_history = false
+    form.cervical_cancer = false
+    form.endometrial_cancer = false
+    form.ovarian_cancer = false
+    form.breast_cancer = false
+    form.intestinal_cancer = false
+    form.other_cancer = false
+    form.drug_allergies = false
+    form.glaucoma_or_eye_pressure_meds = false
+    form.cardiac_conditions = false
+    form.heart_attack = false
+    form.arrhythmia = false
+    form.stroke = false
+    form.digestive_problems = false
+    form.dry_mucous_membranes = false
+    form.current_medications = false
+    form.past_medications = false
+    form.completed = true
+  end
+
+  puts "\n✓ Pacient s hotovými formuláři (žena) vytvořen:"
+  puts '  - Email: complete.forms.female@example.com (heslo: test123)'
+  puts '  - Jméno: Anna Hotová'
+  puts '  - Stav: Všechny formuláře vyplněné, žádný mikční deník, žádný doktor'
+
+  # 7. PACIENT S HOTOVÝMI FORMULÁŘI - MUŽ
+  complete_forms_male_user = User.find_or_create_by!(email: 'complete.forms.male@example.com') do |user|
+    user.password = 'test123'
+    user.password_confirmation = 'test123'
+    user.confirmed_at = Time.current
+  end
+
+  complete_forms_male_user.update!(confirmed_at: Time.current) if complete_forms_male_user.confirmed_at.nil?
+  complete_forms_male_user.add_role(Role::PATIENT) unless complete_forms_male_user.has_role?(Role::PATIENT)
+
+  complete_forms_male = Patient.find_or_create_by!(user_id: complete_forms_male_user.id) do |patient|
+    patient.full_name = 'Pavel Kompletní'
+    patient.gender = 'male'
+    patient.doctor_id = nil
+    patient.approved = nil
+    patient.agreed_to_share_info = nil
+  end
+
+  # Vytvoř dotazníky pro pacienta s hotovými formuláři - muž
+  OabForm.find_or_create_by!(patient_id: complete_forms_male.id) do |form|
+    form.daytime_urination_frequency = 3
+    form.unpleasant_urination_urge = 4
+    form.sudden_urination_urge = 4
+    form.occasional_leak = 2
+    form.nighttime_urination = 5
+    form.waking_up_to_urinate = 4
+    form.uncontrollable_urge = 3
+    form.leak_due_to_intense_urge = 2
+    form.total_score = 27
+    form.completed = true
+    form.completion_timestamp = 22.days.ago
+  end
+
+  IciqForm.find_or_create_by!(patient_id: complete_forms_male.id) do |form|
+    form.leakage_frequency = 3
+    form.leakage_assessment = 0
+    form.leakage_severity = 6
+    form.never_leaks = false
+    form.leaks_before_reaching_toilet = true
+    form.leaks_when_coughing_or_sneezing = false
+    form.leaks_during_sleep = false
+    form.leaks_during_physical_activity = false
+    form.leaks_after_urinating_and_dressing = true
+    form.leaks_for_unknown_reasons = false
+    form.constant_leakage = false
+    form.total_score = 9
+    form.completed = true
+    form.completion_timestamp = 21.days.ago
+  end
+
+  IpssForm.find_or_create_by!(patient_id: complete_forms_male.id) do |form|
+    form.incomplete_emptying = 2
+    form.frequency = 2
+    form.intermittent_urination = 1
+    form.urgency = 2
+    form.weak_stream = 1
+    form.straining = 1
+    form.nocturnal_urination = 2
+    form.total_score = 11
+    form.quality_of_life = 4
+    form.completed = true
+    form.completion_timestamp = 20.days.ago
+  end
+
+  AnamnesticForm.find_or_create_by!(patient_id: complete_forms_male.id) do |form|
+    form.completion_timestamp = 19.days.ago
+    form.age = 62
+    form.height = 180
+    form.weight = 88
+    form.on_oab_medication_last_3_months = false
+    form.number_of_births = 0
+    form.post_menopausal = false
+    form.prolapse_diagnosed = false
+    form.hysterectomy = false
+    form.cesarean_section = 0
+    form.surgery_for_benign_prostate_enlargement = false
+    form.surgery_for_prostate_cancer = false
+    form.surgery_for_bladder_tumor = false
+    form.surgery_for_urethral_stricture = false
+    form.surgery_for_urine_leakage = false
+    form.other_surgery = false
+    form.no_surgery = true
+    form.recurrent_infections = false
+    form.neurological_surgery_history = false
+    form.hypertension = true
+    form.hypothyroidism = false
+    form.high_cholesterol = true
+    form.diabetes = true
+    form.back_problems = false
+    form.depression = false
+    form.other_psychiatric_conditions = false
+    form.reduced_immunity = false
+    form.headaches = false
+    form.hip_osteoarthritis = false
+    form.knee_osteoarthritis = false
+    form.no_illness = false
+    form.cancer_treatment_history = false
+    form.cervical_cancer = false
+    form.endometrial_cancer = false
+    form.ovarian_cancer = false
+    form.breast_cancer = false
+    form.intestinal_cancer = false
+    form.other_cancer = false
+    form.drug_allergies = false
+    form.glaucoma_or_eye_pressure_meds = false
+    form.cardiac_conditions = false
+    form.heart_attack = false
+    form.arrhythmia = false
+    form.stroke = false
+    form.digestive_problems = false
+    form.dry_mucous_membranes = false
+    form.current_medications = true
+    form.current_medications_details = 'Léky na hypertenzi, cholesterol a diabetes'
+    form.past_medications = false
+    form.completed = true
+  end
+
+  puts "\n✓ Pacient s hotovými formuláři (muž) vytvořen:"
+  puts '  - Email: complete.forms.male@example.com (heslo: test123)'
+  puts '  - Jméno: Pavel Kompletní'
+  puts '  - Stav: Všechny formuláře vyplněné (včetně IPSS), žádný mikční deník, žádný doktor'
 end
