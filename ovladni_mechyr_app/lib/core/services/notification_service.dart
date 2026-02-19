@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -9,6 +10,8 @@ class NotificationService {
   final notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
+    // Skip notification initialization on web - not supported
+    if (kIsWeb) return;
     // prepare android
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/launcher_icon');
@@ -56,6 +59,7 @@ class NotificationService {
     String? title,
     String? body,
   }) async {
+    if (kIsWeb) return;
     return notificationsPlugin.show(
       id,
       title,
@@ -70,6 +74,8 @@ class NotificationService {
     required String title,
     String? body,
   }) async {
+    if (kIsWeb) return;
+
     // Don't schedule notifications for dates in the past
     if (selectedTime.isBefore(DateTime.now())) {
       return;
@@ -95,11 +101,13 @@ class NotificationService {
   }
 
   Future<bool> isNotificationScheduled(int id) async {
+    if (kIsWeb) return false;
     final pending = await notificationsPlugin.pendingNotificationRequests();
     return pending.any((notification) => notification.id == id);
   }
 
   Future<void> cancelNotification(int id) async {
+    if (kIsWeb) return;
     await notificationsPlugin.cancel(id);
   }
 }

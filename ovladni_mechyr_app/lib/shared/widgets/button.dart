@@ -9,18 +9,20 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.isDisabled = false,
     this.isLoading = false,
+    this.backgroundColor,
   });
 
   final String text;
   final VoidCallback onPressed;
   final bool isDisabled;
   final bool isLoading;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final bool shouldDisable = isDisabled || isLoading;
-    Color bgColor =
-        shouldDisable ? AppColors.darkBlueBase50 : AppColors.darkBlueBase;
+    Color bgColor = backgroundColor ??
+        (shouldDisable ? AppColors.darkBlueBase50 : AppColors.darkBlueBase);
 
     return TextButton(
       onPressed: shouldDisable ? null : onPressed,

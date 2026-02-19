@@ -11,68 +11,88 @@ class UrlLauncherHelper {
       path: email,
     );
 
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nelze otevřít emailového klienta'),
-          ),
+    try {
+      final bool canLaunch = await canLaunchUrl(emailUri);
+      if (!context.mounted) return;
+
+      if (canLaunch) {
+        await launchUrl(
+          emailUri,
+          mode: LaunchMode.externalApplication,
         );
+      } else {
+        _showError(context, 'Nelze otevřít emailového klienta');
       }
+    } catch (e) {
+      if (!context.mounted) return;
+      _showError(context, 'Chyba při otevírání emailu: ${e.toString()}');
     }
   }
 
+  /// Launch phone dialer with pre-filled phone number
   static Future<void> launchPhone(
     BuildContext context,
     String phone,
   ) async {
+    // Clean phone number (remove spaces, dashes, etc.)
+    final cleanPhone = phone.replaceAll(RegExp(r'[\s\-\(\)]'), '');
+
     final Uri phoneUri = Uri(
       scheme: 'tel',
-      path: phone,
+      path: cleanPhone,
     );
 
-    if (await canLaunchUrl(phoneUri)) {
-      await launchUrl(phoneUri);
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nelze zahájit telefonní hovor'),
-          ),
+    try {
+      final bool canLaunch = await canLaunchUrl(phoneUri);
+      if (!context.mounted) return;
+
+      if (canLaunch) {
+        await launchUrl(
+          phoneUri,
+          mode: LaunchMode.externalApplication,
         );
+      } else {
+        _showError(context, 'Nelze zahájit telefonní hovor');
       }
+    } catch (e) {
+      if (!context.mounted) return;
+      _showError(context, 'Chyba při volání: ${e.toString()}');
     }
   }
 
+  /// Launch website in external browser
   static Future<void> launchWebsite(
     BuildContext context,
     String url,
   ) async {
-    String finalUrl = url;
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      finalUrl = 'https://$url';
+    String finalUrl = url.trim();
+
+    // Add https:// if no protocol is specified
+    if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+      finalUrl = 'https://$finalUrl';
     }
 
     final Uri webUri = Uri.parse(finalUrl);
 
-    if (await canLaunchUrl(webUri)) {
-      await launchUrl(
-        webUri,
-        mode: LaunchMode.externalApplication,
-      );
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nelze otevřít webovou stránku'),
-          ),
+    try {
+      final bool canLaunch = await canLaunchUrl(webUri);
+      if (!context.mounted) return;
+
+      if (canLaunch) {
+        await launchUrl(
+          webUri,
+          mode: LaunchMode.externalApplication,
         );
+      } else {
+        _showError(context, 'Nelze otevřít webovou stránku');
       }
+    } catch (e) {
+      if (!context.mounted) return;
+      _showError(context, 'Chyba při otevírání webu: ${e.toString()}');
     }
   }
 
+  /// Launch Google Maps with coordinates or address
   static Future<void> launchMaps(
     BuildContext context, {
     double? latitude,
@@ -81,39 +101,49 @@ class UrlLauncherHelper {
   }) async {
     Uri mapsUri;
 
-    if (latitude != null && longitude != null) {
-      mapsUri = Uri.parse(
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude',
-      );
-    } else if (address != null && address.isNotEmpty) {
-      final encodedAddress = Uri.encodeComponent(address);
-      mapsUri = Uri.parse(
-        'https://www.google.com/maps/search/?api=1&query=$encodedAddress',
-      );
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nelze otevřít mapy - chybí adresa'),
-          ),
+    try {
+      if (latitude != null && longitude != null) {
+        // Use coordinates for more precise location
+        mapsUri = Uri.parse(
+          'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude',
         );
+      } else if (address != null && address.isNotEmpty) {
+        // Use address as fallback
+        final encodedAddress = Uri.encodeComponent(address);
+        mapsUri = Uri.parse(
+          'https://www.google.com/maps/search/?api=1&query=$encodedAddress',
+        );
+      } else {
+        if (!context.mounted) return;
+        _showError(context, 'Nelze otevřít mapy - chybí adresa');
+        return;
       }
-      return;
-    }
 
-    if (await canLaunchUrl(mapsUri)) {
-      await launchUrl(
-        mapsUri,
-        mode: LaunchMode.externalApplication,
-      );
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nelze otevřít mapy'),
-          ),
+      final bool canLaunch = await canLaunchUrl(mapsUri);
+      if (!context.mounted) return;
+
+      if (canLaunch) {
+        await launchUrl(
+          mapsUri,
+          mode: LaunchMode.externalApplication,
         );
+      } else {
+        _showError(context, 'Nelze otevřít mapy');
       }
+    } catch (e) {
+      if (!context.mounted) return;
+      _showError(context, 'Chyba při otevírání map: ${e.toString()}');
     }
+  }
+
+  /// Show error message using SnackBar
+  static void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 }

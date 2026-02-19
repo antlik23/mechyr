@@ -10,6 +10,11 @@ class CustomSnackbar {
   static void showError(String message) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
+        final context = key.currentContext;
+        final screenHeight = context != null
+            ? MediaQuery.of(context).size.height
+            : 800.0; // fallback height
+
         key.currentState!
           ..hideCurrentSnackBar()
           ..showSnackBar(
@@ -17,7 +22,12 @@ class CustomSnackbar {
               duration: const Duration(seconds: 5),
               backgroundColor: Colors.transparent,
               elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                bottom: screenHeight - 150,
+                left: 10,
+                right: 10,
+              ),
               content: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -64,6 +74,11 @@ class CustomSnackbar {
   static void showSuccess(String message) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
+        final context = key.currentContext;
+        final screenHeight = context != null
+            ? MediaQuery.of(context).size.height
+            : 800.0; // fallback height
+
         key.currentState!
           ..hideCurrentSnackBar()
           ..showSnackBar(
@@ -71,7 +86,12 @@ class CustomSnackbar {
               duration: const Duration(seconds: 5),
               backgroundColor: Colors.transparent,
               elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                bottom: screenHeight - 150,
+                left: 10,
+                right: 10,
+              ),
               content: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -118,6 +138,11 @@ class CustomSnackbar {
   static void showInfo(String message) {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
+        final context = key.currentContext;
+        final screenHeight = context != null
+            ? MediaQuery.of(context).size.height
+            : 800.0; // fallback height
+
         key.currentState!
           ..hideCurrentSnackBar()
           ..showSnackBar(
@@ -125,7 +150,12 @@ class CustomSnackbar {
               duration: const Duration(seconds: 5),
               backgroundColor: Colors.transparent,
               elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                bottom: screenHeight - 150,
+                left: 10,
+                right: 10,
+              ),
               content: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(

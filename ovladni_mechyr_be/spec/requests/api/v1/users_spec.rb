@@ -953,9 +953,11 @@ RSpec.describe 'api/v1/users', type: :request do
                                     type: :object,
                                     properties: {
                                       id: { type: :integer },
-                                      diary_start_date: { type: :string, format: 'date' }
+                                      diary_start_date: { type: :string, format: 'date' },
+                                      completed: { type: :boolean },
+                                      voiding_records_count: { type: :integer }
                                     },
-                                    required: ['id', 'diary_start_date']
+                                    required: ['id', 'diary_start_date', 'completed', 'voiding_records_count']
                                   }
                                 }
                               },

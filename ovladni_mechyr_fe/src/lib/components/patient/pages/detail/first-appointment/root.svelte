@@ -13,6 +13,7 @@
   export let initialAppointmentResponse: InitialAppointmentQueryResponseProperties;
   export let patientId: ComponentProps<Form>['initialData']['patientId'];
   export let gender: ComponentProps<Form>['initialData']['gender'];
+  export let nextAppointment: ComponentProps<Form>['initialData']['nextAppointment'];
   export let context: NonNullable<ComponentProps<Form>['context']>;
   export let breadcrumbs: ComponentProps<Breadcrumbs>['breadcrumbs'];
 </script>
@@ -35,6 +36,7 @@
                 initialAppointment: initialAppointmentResponse.data.appointment_initial,
                 patientId,
                 gender,
+                nextAppointment,
               }}
             />
           {/if}
@@ -53,6 +55,7 @@
                 initialAppointment: initialAppointmentResponse.data.appointment_initial,
                 patientId,
                 gender,
+                nextAppointment,
               }}
             />
           {/if}

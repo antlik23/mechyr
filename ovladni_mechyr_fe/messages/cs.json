@@ -308,5 +308,7 @@
   "dateMustBeMax": "Datum musí být maximálně {maxDate}",
   "firstPersonalVisitDate": "Termín první osobní návštěvy",
   "secondVisitDate": "Termín druhé návštěvy",
-  "nextAppointmentDate": "Termín další návštěvy"
+  "nextAppointmentDate": "Termín další návštěvy",
+  "plannedVisitDate": "Plánované datum návštěvy",
+  "actualVisitDate": "Skutečné datum návštěvy"
 }

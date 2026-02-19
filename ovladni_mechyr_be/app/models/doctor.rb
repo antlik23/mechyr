@@ -24,8 +24,8 @@ class Doctor < ApplicationRecord
     biological_gender = patient.biological_gender
 
     if biological_gender == 'male'
-      # Muži → urolog, general, urogynecolog
-      where(specialization: %i[general urologist urogynecologist])
+      # Muži → urolog, general
+      where(specialization: %i[general urologist])
     elsif biological_gender == 'female'
       # Ženy → gynekolog, general, urogynecolog
       where(specialization: %i[general gynecologist urogynecologist])

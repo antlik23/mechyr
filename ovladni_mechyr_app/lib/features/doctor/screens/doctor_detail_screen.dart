@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:uzis_app/auth_notifier.dart';
 import 'package:uzis_app/core/constants/app_colors.dart';
 import 'package:uzis_app/core/constants/app_styles.dart';
 import 'package:uzis_app/core/utils/url_launcher_helper.dart';
@@ -77,24 +79,31 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
       ),
       body: _buildBody(),
       bottomNavigationBar: _doctor != null && _doctor!.isContactable
-          ? Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.gray400.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, -2),
+          ? Consumer<AuthNotifier>(
+              builder: (context, authNotifier, child) {
+                final hasAssignedDoctor = authNotifier.hasAssignedDoctor;
+
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.gray400.withValues(alpha: 0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, -2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: SafeArea(
-                child: Button(
-                  text: 'Kontaktovat lékaře',
-                  onPressed: _navigateToContact,
-                ),
-              ),
+                  child: SafeArea(
+                    child: Button(
+                      text: 'Kontaktovat lékaře',
+                      onPressed: hasAssignedDoctor ? () {} : _navigateToContact,
+                      isDisabled: hasAssignedDoctor,
+                    ),
+                  ),
+                );
+              },
             )
           : null,
     );

@@ -41,7 +41,8 @@ class AuthNotifier extends ChangeNotifier {
     ) {
       final bool wifi = result.contains(ConnectivityResult.wifi);
       final bool mobile = result.contains(ConnectivityResult.mobile);
-      _isConnected = wifi || mobile;
+      final bool ethernet = result.contains(ConnectivityResult.ethernet);
+      _isConnected = wifi || mobile || ethernet;
 
       notifyListeners();
     });
@@ -67,13 +68,6 @@ class AuthNotifier extends ChangeNotifier {
 
       if (userData.user.roles.contains(UserRole.patient)) {
         if (!isConnected) return;
-
-        // Check assignment status
-        try {
-          _assignmentStatus = await DoctorService().checkAssignmentStatus();
-        } catch (e) {
-          _assignmentStatus = null;
-        }
 
         try {
           VoidingDiary? latestVoidingDiary =
@@ -118,12 +112,10 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<void> refreshAssignmentStatus() async {
-    try {
-      _assignmentStatus = await DoctorService().checkAssignmentStatus();
-      notifyListeners();
-    } catch (e) {
-      _assignmentStatus = null;
-    }
+    // Assignment status is not currently used in the app
+    // If needed in the future, implement proper endpoint on backend
+    _assignmentStatus = null;
+    notifyListeners();
   }
 
   Future<void> setAssignmentStatus(ContactStatus? value) async {
@@ -148,7 +140,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   /// Refreshes user data from API and updates local storage
-  /// This ensures we have the latest doctor assignment info
+  /// This ensures we have the latest doctor assignment info and voiding diary status
   Future<void> refreshUserFromApi() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -164,6 +156,28 @@ class AuthNotifier extends ChangeNotifier {
       // Update assigned doctor info
       _assignedDoctorId = freshUser.doctorId;
       _assignedDoctorName = freshUser.doctorName;
+
+      // Update voiding diary status if user is a patient
+      if (freshUser.roles.contains(UserRole.patient)) {
+        try {
+          VoidingDiary? latestVoidingDiary =
+              await VoidingService().fetchLatestVoidingDiary();
+          if (latestVoidingDiary == null ||
+              latestVoidingDiary.completed == true) {
+            _initialLocation = "/";
+            _uncompletedDiaryId = null;
+            await NotificationService().cancelNotification(
+              NotificationService.endDiaryId,
+            );
+          } else {
+            _initialLocation =
+                "/voiding-diary/${latestVoidingDiary.id.toString()}";
+            _uncompletedDiaryId = latestVoidingDiary.id.toString();
+          }
+        } catch (e) {
+          // Keep existing diary state if fetch fails
+        }
+      }
 
       // Save updated user data to local storage
       final updatedUserData = userData.copyWith(user: freshUser);

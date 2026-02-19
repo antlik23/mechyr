@@ -29,12 +29,15 @@
   import Form from '../list-to-be-approved/form.svelte';
   import type { PatientUnified } from '../list-to-be-approved/types';
   import { currentUser } from '$lib/components/user/data';
+  import type { Writable } from 'svelte/store';
 
   export let detailResponse: DetailQueryResponseProperties;
   export let voidingDiariesResponse: VoidingDiariesQueryResponseProperties;
   export let latestVoidingDiaryResponse: LatestVoidingDiaryQueryResponseProperties;
   export let questionnairesResponse: QuestionnairesQueryResponseProperties;
   export let breadcrumbs: ComponentProps<Breadcrumbs>['breadcrumbs'];
+  export let selectedDiaryId: Writable<number | undefined>;
+  export let onDiarySelect: (diaryId: number) => void;
 
   const EMPTY_VALUE_INDICATOR = '-';
 
@@ -384,8 +387,10 @@
 
           <Card.Content>
             <VoidingDiariesTable
+              {onDiarySelect}
               patientId={patient.id}
               responseData={voidingDiariesResponse.data.voiding_diaries}
+              selectedDiaryId={$selectedDiaryId}
               userContext="doctor"
             >
               <svelte:fragment slot="paginationRow">

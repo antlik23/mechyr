@@ -777,6 +777,7 @@ class _VoidingDiaryScreenState extends State<VoidingDiaryScreen> {
                                     _canCompleteDiary(voidingDiary))
                                   Button(
                                     text: "Ukončit mikční deník",
+                                    backgroundColor: AppColors.green,
                                     onPressed: () {
                                       showEndDialog(voidingDiary);
                                     },

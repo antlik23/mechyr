@@ -83,6 +83,7 @@ RSpec.describe 'api/v1/patients', type: :request do
                                       email: { type: :string },
                                       next_appointment: { type: :string, format: 'date-time', nullable: true },
                                       appointment_first_date: { type: :string, format: 'date', nullable: true },
+                                      appointment_first_follow_up_date: { type: :string, format: 'date-time', nullable: true },
                                       appointment_second_date: { type: :string, format: 'date', nullable: true },
                                       appointment_initial: { type: :boolean, nullable: true },
                                       appointment_initial_id: { type: :integer, nullable: true },

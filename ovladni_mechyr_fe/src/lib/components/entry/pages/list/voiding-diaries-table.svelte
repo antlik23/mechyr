@@ -18,6 +18,8 @@
   >[];
   export let patientId: number | undefined = undefined;
   export let userContext: 'doctor' | 'patient' = 'patient';
+  export let selectedDiaryId: number | undefined = undefined;
+  export let onDiarySelect: ((id: number) => void) | undefined = undefined;
 
   const columnIds = {
     diary_start_date: 'diary_start_date',
@@ -81,9 +83,31 @@
       actions: { width: '20%', showHeaderText: false },
     },
   };
+
+  // Get pageRows for type inference only
+  $: _pageRows = table.createViewModel(columns).pageRows;
+
+  function handleRowClick(row: (typeof $_pageRows)[number]) {
+    if (onDiarySelect && row.isData()) {
+      onDiarySelect(row.original.id);
+    }
+  }
+
+  function getRowClass(row: (typeof $_pageRows)[number]) {
+    if (!row.isData()) return '';
+    return row.original.id === selectedDiaryId ? 'bg-blue-50' : '';
+  }
 </script>
 
-<Table {columns} {extraOptions} itemsCount={responseData.length} {table} on:pagination>
+<Table
+  {columns}
+  {extraOptions}
+  itemsCount={responseData.length}
+  onRowClick={onDiarySelect ? handleRowClick : undefined}
+  rowClass={selectedDiaryId !== undefined ? getRowClass : undefined}
+  {table}
+  on:pagination
+>
   <svelte:fragment slot="paginationRow">
     <slot name="paginationRow" />
   </svelte:fragment>

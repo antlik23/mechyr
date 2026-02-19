@@ -36,11 +36,22 @@
 
   export let initialData: {
     firstAppointment?: FirstAppointment;
-    initialAppointment: InitialAppointment;
+    initialAppointment?: InitialAppointment;
     patientId: number;
     gender: UserGenderWithOther | null | undefined;
+    nextAppointment?: string | null;
   };
   export let context: 'edit' | 'read' | 'new' = 'new';
+
+  // Convert datetime string to date string (YYYY-MM-DD)
+  function toDateString(datetime: string | null | undefined): string | undefined {
+    if (!datetime) return undefined;
+    try {
+      return datetime.split('T')[0];
+    } catch {
+      return undefined;
+    }
+  }
 
   const persistedFormData = persisted<FirstAppointmentFormSchemaTypes | null>(
     `first-appointment-form-data-${initialData.patientId}`,
@@ -51,8 +62,9 @@
     gender: initialData.gender,
     appointment_date:
       $persistedFormData?.appointment_date ??
-      (initialData.firstAppointment?.appointment_date ||
-        initialData.initialAppointment?.assessment_date),
+      initialData.firstAppointment?.appointment_date ??
+      toDateString(initialData.nextAppointment) ??
+      initialData.initialAppointment?.assessment_date,
     consent_signed:
       initialData.firstAppointment?.consent_signed ??
       $persistedFormData?.consent_signed ??
@@ -144,7 +156,9 @@
     notes: initialData.firstAppointment?.notes ?? $persistedFormData?.notes ?? undefined,
   });
 
-  const appointmentMinimumDate = new Date(initialData.initialAppointment.assessment_date);
+  const appointmentMinimumDate = initialData.initialAppointment?.assessment_date
+    ? new Date(initialData.initialAppointment.assessment_date)
+    : new Date();
 
   const form = superForm(defaults(defaultFormData, zod(firstAppointmentFormSchema)), {
     SPA: true,

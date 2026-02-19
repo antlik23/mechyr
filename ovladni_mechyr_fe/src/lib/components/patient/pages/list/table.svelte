@@ -7,12 +7,12 @@
   import { localizeRoute } from '$lib/i18n';
   import { route } from '$lib/ROUTES';
   import * as m from '$paraglide/messages';
-  import { languageTag } from '$paraglide/runtime';
   import { createRender, createTable } from 'svelte-headless-table';
   import { addPagination, addSortBy } from 'svelte-headless-table/plugins';
   import { writable } from 'svelte/store';
   import type { ResponseData } from './types';
   import { currentUser } from '$lib/components/user/data';
+  import AppointmentDateCell from './appointment-date-cell.svelte';
 
   export let responseData: ResponseData;
 
@@ -58,25 +58,29 @@
     }),
     table.column({
       id: columnIds.appointment_first_date,
-      accessor: (item) => item.appointment_first_date,
+      accessor: (item) => ({
+        actualDate: item.appointment_first_date,
+        plannedDate: item.next_appointment,
+      }),
       header: m.firstPersonalVisitDate(),
       cell: ({ value }) => {
-        if (!value) return '-';
-
-        return new Date(value).toLocaleString(languageTag(), {
-          dateStyle: 'medium',
+        return createRender(AppointmentDateCell, {
+          actualDate: value.actualDate,
+          plannedDate: value.plannedDate,
         });
       },
     }),
     table.column({
       id: columnIds.appointment_second_date,
-      accessor: (item) => item.appointment_second_date,
+      accessor: (item) => ({
+        actualDate: item.appointment_second_date,
+        plannedDate: item.appointment_first_follow_up_date,
+      }),
       header: m.secondVisitDate(),
       cell: ({ value }) => {
-        if (!value) return '-';
-
-        return new Date(value).toLocaleString(languageTag(), {
-          dateStyle: 'medium',
+        return createRender(AppointmentDateCell, {
+          actualDate: value.actualDate,
+          plannedDate: value.plannedDate,
         });
       },
     }),

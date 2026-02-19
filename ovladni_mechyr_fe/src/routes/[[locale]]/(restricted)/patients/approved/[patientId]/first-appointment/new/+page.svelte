@@ -27,6 +27,7 @@
       isSuccess: $initialAppointmentQuery.isSuccess,
       isError: $initialAppointmentQuery.isError,
     }}
+    nextAppointment={$userQuery.data.user.next_appointment}
     patientId={pageParams.patientId}
   />
 {/if}

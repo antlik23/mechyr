@@ -105,9 +105,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
       };
     };
@@ -201,9 +199,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
       };
     };
@@ -1633,9 +1629,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
       };
     };
@@ -1671,9 +1665,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
       };
     };
@@ -2054,9 +2046,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
       };
     };
@@ -3280,6 +3270,8 @@ export type paths = {
                 next_appointment?: string | null;
                 /** Format: date */
                 appointment_first_date?: string | null;
+                /** Format: date-time */
+                appointment_first_follow_up_date?: string | null;
                 /** Format: date */
                 appointment_second_date?: string | null;
                 appointment_initial: boolean | null;
@@ -3396,6 +3388,9 @@ export type paths = {
             };
             email: {
               custom_message: string;
+              phone_number?: string;
+              /** @enum {string} */
+              preferred_contact?: 'email' | 'phone';
             };
           };
         };
@@ -3509,9 +3504,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
         /** @description not found */
         404: {
@@ -3758,9 +3751,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
       };
     };
@@ -3991,9 +3982,7 @@ export type paths = {
           headers: {
             [name: string]: unknown;
           };
-          content: {
-            'application/json': unknown;
-          };
+          content?: never;
         };
         /** @description not found */
         404: {
@@ -4192,6 +4181,8 @@ export type paths = {
                 id: number;
                 /** Format: date */
                 diary_start_date: string;
+                completed: boolean;
+                voiding_records_count: number;
               }[];
             };
           };
