@@ -72,7 +72,7 @@
 
   // TODO: move to paraglide messages
   const hasIssuesSignUpOptions: RadioGroupData[] = [
-    { value: 'true', label: 'Mám problém, chci se účastnit projektu' },
+    { value: 'true', label: 'Mám problém, chci se registrovat (pomocí e-mailu).' },
     {
       value: 'false',
       label: 'Mám problém, nechci se účastnit projektu.',
@@ -136,21 +136,26 @@
   {#if issuePresent !== undefined}
     <div transition:slide>
       <Card.Root>
-        <Card.Content>
-          <Questionnaire.Results.Explanations.Description>
-            {#if issuePresent}
-              Na základě Vámi vyplněných otázek se může jednat o Syndrom hyperaktivního močového
-              měchýře (OAB). Prosíme o registraci do projektu. V případě, že se podezření na OAB v
-              následujících dotaznících potvrdí, budete mít možnost se přednostně objednat k lékaři.
-              Prosíme o vyplnění všech těchto dotazníků, které jsou důležité pro případné stanovení
-              diagnózy lékařem.
-            {:else}
-              Na základě Vámi vyplněných otázek zde není podezření na Syndrom hyperaktivního
-              močového měchýře (OAB). V případě jakýchkoliv pochybností konzultujte Váš zdravotní
-              stav s lékařem.
-            {/if}
-          </Questionnaire.Results.Explanations.Description>
-        </Card.Content>
+        <div class="bg-destructive">
+          <Card.Content>
+            <Questionnaire.Results.Explanations.Description>
+              {#if issuePresent}
+                <div class="text-md text-white">
+                  Na základě Vámi vyplněných otázek se může jednat o Syndrom hyperaktivního močového
+                  měchýře (OAB). Registrujte se pomocí e-mailu do projektu. V případě, že se
+                  podezření na OAB v následujících dotaznících potvrdí, budete mít možnost se
+                  přednostně objednat k lékaři.
+                </div>
+              {:else}
+                <div class="text-white">
+                  Na základě Vámi vyplněných otázek zde není podezření na Syndrom hyperaktivního
+                  močového měchýře (OAB). V případě jakýchkoliv pochybností konzultujte Váš
+                  zdravotní stav s lékařem.
+                </div>
+              {/if}
+            </Questionnaire.Results.Explanations.Description>
+          </Card.Content>
+        </div>
       </Card.Root>
     </div>
 
