@@ -1,11 +1,14 @@
 <script lang="ts">
-  import { createQuery } from '@tanstack/svelte-query';
+  import { onMount, tick } from 'svelte';
+  import { createQuery, useQueryClient } from '@tanstack/svelte-query';
   import { queries } from '$lib/api/queries';
   import * as Patient from '$lib/components/patient';
   import { writable } from 'svelte/store';
 
   export let data;
   $: ({ pageParams } = data);
+
+  const queryClient = useQueryClient();
 
   $: detailQuery = createQuery(queries.users.detail(pageParams.patientId));
 
@@ -14,10 +17,31 @@
   // Default to latest (first) diary
   $: latestDiaryId = $diariesQuery.data?.voiding_diaries.at(0)?.id;
 
+  // Prefetch all diary details to prevent layout shifts when clicking
+  $: if ($diariesQuery.data?.voiding_diaries) {
+    $diariesQuery.data.voiding_diaries.forEach((diary) => {
+      queryClient.prefetchQuery(queries.voidingDiaries.detail(diary.id));
+    });
+  }
+
   // Selected diary state - initialized to latest diary
   const selectedDiaryId = writable<number | undefined>(undefined);
-  $: if (latestDiaryId !== undefined && $selectedDiaryId === undefined) {
-    $selectedDiaryId = latestDiaryId;
+
+  // Initialize selected diary after mount to prevent auto-scroll issues
+  onMount(async () => {
+    await tick(); // Wait for DOM to fully render
+    if (latestDiaryId !== undefined) {
+      $selectedDiaryId = latestDiaryId;
+    }
+  });
+
+  // Update selected diary when latest changes (e.g., new diary added)
+  let previousLatestDiaryId: number | undefined = undefined;
+  $: if (latestDiaryId !== undefined && latestDiaryId !== previousLatestDiaryId) {
+    previousLatestDiaryId = latestDiaryId;
+    if ($selectedDiaryId === undefined) {
+      $selectedDiaryId = latestDiaryId;
+    }
   }
 
   // Query for the selected diary

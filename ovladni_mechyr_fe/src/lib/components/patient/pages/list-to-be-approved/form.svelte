@@ -1,6 +1,6 @@
 <script lang="ts">
   import { apiClient } from '$lib/api/api';
-  import { queries, queryClient } from '$lib/api/queries';
+  import { queryClient } from '$lib/api/queries';
   import Button from '$lib/components/common/Button.svelte';
   import { columnsVariants } from '$lib/components/common/Columns.svelte';
   import Title from '$lib/components/common/Title.svelte';
@@ -58,8 +58,14 @@
             },
           });
 
-          if (context === 'new') queryClient.invalidateQueries({ queryKey: queries.patients._def });
-          if (context === 'edit') queryClient.invalidateQueries({ queryKey: queries.users._def });
+          await queryClient.invalidateQueries({
+            predicate: (query) => query.queryKey[0] === 'patients',
+          });
+          if (context === 'edit') {
+            await queryClient.invalidateQueries({
+              predicate: (query) => query.queryKey[0] === 'users',
+            });
+          }
 
           dispatch('success');
         },

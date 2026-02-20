@@ -12,13 +12,14 @@
   import { writable } from 'svelte/store';
   import type { ResponseData } from './types';
   import { currentUser } from '$lib/components/user/data';
-  import AppointmentDateCell from './appointment-date-cell.svelte';
+  import { languageTag } from '$paraglide/runtime';
 
   export let responseData: ResponseData;
 
   const columnIds = {
     patient_id: 'patient_id',
     email: 'email',
+    next_appointment: 'next_appointment',
     appointment_first_date: 'appointment_first_date',
     appointment_second_date: 'appointment_second_date',
     appointment_initial: 'appointment_initial',
@@ -57,31 +58,30 @@
       header: m.email(),
     }),
     table.column({
+      id: columnIds.next_appointment,
+      accessor: (item) => item.next_appointment,
+      header: m.nextAppointmentDate(),
+      cell: ({ value }) => {
+        if (!value) return '-';
+        return new Date(value).toLocaleDateString(languageTag(), { dateStyle: 'medium' });
+      },
+    }),
+    table.column({
       id: columnIds.appointment_first_date,
-      accessor: (item) => ({
-        actualDate: item.appointment_first_date,
-        plannedDate: item.next_appointment,
-      }),
+      accessor: (item) => item.appointment_first_date,
       header: m.firstPersonalVisitDate(),
       cell: ({ value }) => {
-        return createRender(AppointmentDateCell, {
-          actualDate: value.actualDate,
-          plannedDate: value.plannedDate,
-        });
+        if (!value) return '-';
+        return new Date(value).toLocaleDateString(languageTag(), { dateStyle: 'medium' });
       },
     }),
     table.column({
       id: columnIds.appointment_second_date,
-      accessor: (item) => ({
-        actualDate: item.appointment_second_date,
-        plannedDate: item.appointment_first_follow_up_date,
-      }),
+      accessor: (item) => item.appointment_second_date,
       header: m.secondVisitDate(),
       cell: ({ value }) => {
-        return createRender(AppointmentDateCell, {
-          actualDate: value.actualDate,
-          plannedDate: value.plannedDate,
-        });
+        if (!value) return '-';
+        return new Date(value).toLocaleDateString(languageTag(), { dateStyle: 'medium' });
       },
     }),
     table.column({
@@ -178,12 +178,13 @@
   const extraOptions: TableExtraOptions<keyof typeof columnIds> = {
     columns: {
       patient_id: { width: '8%' },
-      email: { width: '18%' },
-      appointment_first_date: { width: '12%' },
-      appointment_second_date: { width: '12%' },
-      appointment_initial: { width: '15%', textAlign: 'center' },
-      appointment_first: { width: '15%', textAlign: 'center' },
-      appointment_second: { width: '15%', textAlign: 'center' },
+      email: { width: '16%' },
+      next_appointment: { width: '11%' },
+      appointment_first_date: { width: '11%' },
+      appointment_second_date: { width: '11%' },
+      appointment_initial: { width: '14%', textAlign: 'center' },
+      appointment_first: { width: '14%', textAlign: 'center' },
+      appointment_second: { width: '14%', textAlign: 'center' },
       actions: { width: '5%', showHeaderText: false },
     },
   };

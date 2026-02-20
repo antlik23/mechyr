@@ -7,10 +7,12 @@ module Api
         return if authorize_action(roles: %i[patient])
 
         patient = current_devise_api_user.patient
-        users_diaries = patient.voiding_diaries
 
-        @allowed_to_create_voiding_diary = patient.allowed_to_create_voiding_diary ? true : false
-        @form = users_diaries.last
+        # Prioritize uncompleted diary, fallback to most recent completed one
+        @form = patient.voiding_diaries.find_by(completed: false)
+        @form ||= patient.voiding_diaries.order(created_at: :desc).first
+
+        @allowed_to_create_voiding_diary = patient.allowed_to_create_voiding_diary
       end
 
       def form_specific_permission_check

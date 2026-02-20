@@ -12,31 +12,31 @@ class PatientsQuery < BaseQuery
   def order_collection(sort_by, direction)
     case sort_by
     when 'email'
-      scope.order!(Arel.sql("users.email #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((users.email)), patients.*'))
+      @scope = scope.select('patients.*, users.email as sort_email')
+      scope.order!(Arel.sql("users.email #{direction} NULLS LAST, patients.id ASC"))
+    when 'next_appointment'
+      scope.order!(Arel.sql("patients.next_appointment #{direction} NULLS LAST, patients.id ASC"))
     when 'appointment_first'
-      scope.order!(Arel.sql("appointment_firsts.id #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((appointment_firsts.id)), patients.*'))
+      @scope = scope.select('patients.*, appointment_firsts.id as sort_appointment_first_id')
+      scope.order!(Arel.sql("appointment_firsts.id #{direction} NULLS LAST, patients.id ASC"))
     when 'appointment_first_date'
-      scope.order!(Arel.sql("appointment_firsts.appointment_date #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((appointment_firsts.appointment_date)), patients.*'))
+      @scope = scope.select('patients.*, appointment_firsts.appointment_date as sort_appointment_first_date')
+      scope.order!(Arel.sql("appointment_firsts.appointment_date #{direction} NULLS LAST, patients.id ASC"))
     when 'appointment_second'
-      scope.order!(Arel.sql("appointment_seconds.id #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((appointment_seconds.id)), patients.*'))
+      @scope = scope.select('patients.*, appointment_seconds.id as sort_appointment_second_id')
+      scope.order!(Arel.sql("appointment_seconds.id #{direction} NULLS LAST, patients.id ASC"))
     when 'appointment_second_date'
-      scope.order!(Arel.sql("appointment_seconds.appointment_date #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((appointment_seconds.appointment_date)), patients.*'))
+      @scope = scope.select('patients.*, appointment_seconds.appointment_date as sort_appointment_second_date')
+      scope.order!(Arel.sql("appointment_seconds.appointment_date #{direction} NULLS LAST, patients.id ASC"))
     when 'appointment_initial'
-      scope.order!(Arel.sql("appointment_initials.id #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((appointment_initials.id)), patients.*'))
+      @scope = scope.select('patients.*, appointment_initials.id as sort_appointment_initial_id')
+      scope.order!(Arel.sql("appointment_initials.id #{direction} NULLS LAST, patients.id ASC"))
     when 'patient_id'
-      scope.order!(Arel.sql("patients.id #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((patients.id)), patients.*'))
+      scope.order!(Arel.sql("patients.id #{direction} NULLS LAST"))
     else
       return unless scope.klass.column_names.include?(sort)
 
-      scope.order!(Arel.sql("patients.#{sort_by} #{direction}"))
-      @scope = scope.select(Arel.sql('distinct((patients.id)), patients.*'))
+      scope.order!(Arel.sql("patients.#{sort_by} #{direction} NULLS LAST, patients.id ASC"))
     end
   end
 
@@ -58,5 +58,6 @@ class PatientsQuery < BaseQuery
 
   def build_joins
     scope.left_outer_joins!(:user, :appointment_first, :appointment_second, :appointment_initial)
+    scope.distinct!
   end
 end

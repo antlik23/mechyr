@@ -36,7 +36,8 @@
     dispatch('remove', { id });
   }
 
-  function handleButtonClick() {
+  function handleButtonClick(event: MouseEvent) {
+    event.stopPropagation();
     dispatch('buttonClick', { id });
   }
 </script>
